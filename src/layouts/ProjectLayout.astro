@@ -194,7 +194,7 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
                   target="_blank"
                   rel="noopener noreferrer"
                   class="inline-flex items-center justify-center px-2 py-2 text-sm text-primary-600 dark:text-primary-300 bg-primary-50 dark:bg-primary-800 rounded-lg border border-primary-200 dark:border-primary-700 hover:bg-highlight-100 dark:hover:bg-highlight-800 hover:text-highlight-700 dark:hover:text-highlight-300 transition-all duration-200 hover:shadow-md"
-                  title="View Repository"
+                  title="查看仓库"
                 >
                   <Icon name={getRepositoryIcon(project.data.repositoryUrl)} class="w-4 h-4" />
                 </a>
@@ -206,10 +206,10 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
                   rel="noopener noreferrer"
                   class="inline-flex items-center gap-1.5 px-3 py-2 text-sm bg-highlight-600 dark:bg-highlight-400 text-white border-highlight-600 dark:border-highlight-400 rounded-lg hover:opacity-90 transition-all duration-200"
                   style="color: white !important;"
-                  title="View Project"
+                  title="查看项目"
                 >
-                  <span class="hidden sm:inline">View</span>
-                  <span class="sm:hidden">View</span>
+                  <span class="hidden sm:inline">查看</span>
+                  <span class="sm:hidden">查看</span>
                   <Icon name="external-link" class="w-4 h-4" />
                 </a>
               )}
@@ -242,7 +242,7 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
 
             </div>
 
-            <!-- Categories -->
+            <!-- 分类 -->
             {projectsHaveCategories && project.data.categories && project.data.categories.length > 0 && (
               <div class="flex flex-wrap gap-2 mb-8">
                 {project.data.categories.map(category => (
