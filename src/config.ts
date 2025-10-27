@@ -183,11 +183,11 @@ export const siteConfig: SiteConfig = {
   // [CONFIG:SITE_URL]
   site: "https://astro-modular.netlify.app",
   // [CONFIG:SITE_TITLE]
-  title: "Astro Modular",
+  title: "Sai 的测试网站'",
   // [CONFIG:SITE_DESCRIPTION]
   description: "A flexible blog theme designed for Obsidian users.",
   // [CONFIG:SITE_AUTHOR]
-  author: "David V. Kimball",
+  author: "Sai",
   // [CONFIG:SITE_LANGUAGE]
   language: "en",
 
@@ -311,22 +311,22 @@ export const siteConfig: SiteConfig = {
     showMobileMenu: true,
     // [CONFIG:NAVIGATION_PAGES]
     pages: [
-      { title: "Posts", url: "/posts" },
-      { title: "Projects", url: "/projects" },
-      { title: "Docs", url: "/docs" },
-      { title: "About", url: "/about" },
+      { title: "帖子", url: "/posts" },
+      { title: "项目", url: "/projects" },
+      { title: "文档", url: "/docs" },
+      { title: "关于", url: "/about" },
       { title: "GitHub", url: "https://github.com/davidvkimball/astro-modular" },
     ],
     // [CONFIG:NAVIGATION_SOCIAL]
     social: [
       {
         title: "X",
-        url: "https://x.com/davidvkimball",
+        url: "https://x.com/oniyt1980",
         icon: "x-twitter",
       },
       {
         title: "GitHub",
-        url: "https://github.com/davidvkimball",
+        url: "https://github.com/lx521603",
         icon: "github",
       },
     ],
