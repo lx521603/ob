@@ -181,9 +181,9 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
   // Site Information
   // [CONFIG:SITE_URL]
-  site: "https://astro-modular.netlify.app",
+  site: "https://mai.yt",
   // [CONFIG:SITE_TITLE]
-  title: "Sai 的测试网站'",
+  title: "Sai 的测试网站",
   // [CONFIG:SITE_DESCRIPTION]
   description: "A flexible blog theme designed for Obsidian users.",
   // [CONFIG:SITE_AUTHOR]
@@ -226,7 +226,7 @@ export const siteConfig: SiteConfig = {
     // [CONFIG:FOOTER_ENABLED]
     enabled: true,
     // [CONFIG:FOOTER_CONTENT]
-    content: `© 2025 {author}. Built with the <a href="https://github.com/davidvkimball/astro-modular" target="_blank">Astro Modular</a> theme.`,
+    content: `© 2025 {author}. Built with the <a href="https://github.com/lx521603/ob" target="_blank">Astro </a> theme.`,
     // [CONFIG:FOOTER_SHOW_SOCIAL_ICONS]
     showSocialIconsInFooter: true,
   },
@@ -252,7 +252,7 @@ export const siteConfig: SiteConfig = {
     // [CONFIG:COMMAND_PALETTE_SHORTCUT]
     shortcut: "ctrl+K",
     // [CONFIG:COMMAND_PALETTE_PLACEHOLDER]
-    placeholder: "Search posts",
+    placeholder: "搜索文章",
     search: {
       // [CONFIG:COMMAND_PALETTE_SEARCH_POSTS]
       posts: true,

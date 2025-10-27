@@ -146,7 +146,7 @@ const pagination = {
             class="inline-flex items-center text-sm text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 transition-colors"
           >
             <Icon name="arrow-left" class="w-4 h-4 mr-1" />
-            Show all posts
+            查看所有帖子
           </a>
         </div>
       </header>
@@ -171,18 +171,18 @@ const pagination = {
             <div class="text-center py-16">
               <Icon name="search-x" class="w-16 h-16 text-primary-400 dark:text-primary-500 mx-auto mb-6" />
               <h2 class="text-2xl font-semibold text-primary-900 dark:text-primary-50 mb-4">
-                No posts found on this page
+                这个页面没有找到帖子
               </h2>
               <p class="text-primary-600 dark:text-primary-300 mb-8">
                 Try going back to an earlier page or removing filters.
               </p>
               <div class="space-x-4">
                 <a href="/posts" class="btn-secondary">
-                  View All Posts
+                  查看所有帖子
                 </a>
                 {currentPage > 1 && (
                   <a href={pagination.prevUrl} class="btn-outline">
-                    Previous Page
+                    上一页
                   </a>
                 )}
               </div>
