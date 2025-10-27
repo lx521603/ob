@@ -61,7 +61,7 @@ try {
 
 // Generate SEO data
 const seoData = generatePostsListSEO(Astro.site?.toString() || '', undefined);
-seoData.title = projectsPageContent?.data.title ? `${projectsPageContent.data.title} | ${siteConfig.title}` : `Projects | ${siteConfig.title}`;
+seoData.title = projectsPageContent?.data.title ? `${projectsPageContent.data.title} | ${siteConfig.title}` : `项目 | ${siteConfig.title}`;
 seoData.description = projectsPageContent?.data.description || `Browse all projects on ${siteConfig.title}`;
 seoData.noIndex = (projectsPageContent?.data as any)?.noIndex || false;
 ---
