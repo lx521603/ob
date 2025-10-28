@@ -104,7 +104,7 @@ const pagination = {
             {selectedTag ? (
               <>Posts tagged "{selectedTag}"</>
             ) : (
-              <>所有帖子</>
+              <>所有文章</>
             )}
           </h1>
           <div class="flex items-center space-x-2">
@@ -136,7 +136,7 @@ const pagination = {
               #{selectedTag}
             </span></>
           ) : (
-            <>总贴数</>
+            <>总文章数</>
           )}
         </p>
 
@@ -146,7 +146,7 @@ const pagination = {
             class="inline-flex items-center text-sm text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 transition-colors"
           >
             <Icon name="arrow-left" class="w-4 h-4 mr-1" />
-            查看所有帖子
+            查看所有文章
           </a>
         </div>
       </header>
@@ -171,14 +171,14 @@ const pagination = {
             <div class="text-center py-16">
               <Icon name="search-x" class="w-16 h-16 text-primary-400 dark:text-primary-500 mx-auto mb-6" />
               <h2 class="text-2xl font-semibold text-primary-900 dark:text-primary-50 mb-4">
-                这个页面没有找到帖子
+                这个页面没有找到文章
               </h2>
               <p class="text-primary-600 dark:text-primary-300 mb-8">
                 Try going back to an earlier page or removing filters.
               </p>
               <div class="space-x-4">
                 <a href="/posts" class="btn-secondary">
-                  查看所有帖子
+                  查看所有文章
                 </a>
                 {currentPage > 1 && (
                   <a href={pagination.prevUrl} class="btn-outline">
