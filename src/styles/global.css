@@ -1373,38 +1373,50 @@ svg:has(text:contains("mermaid version")) {
   }
 }
 
-/* Post Image Styles - Added for responsive image handling */
-.post-image-container {
+/* 智能图片容器 */
+.image-container {
   overflow: hidden;
   border-radius: 0.75rem;
   margin-bottom: 2rem;
   display: flex;
   justify-content: center;
-  background: rgba(248, 250, 252, 0.5); /* primary-50 with opacity */
+  align-items: center;
+  background: rgba(248, 250, 252, 0.5);
+  min-height: 200px; /* 确保容器有最小高度 */
+  max-height: 600px; /* 限制最大高度 */
 }
 
-.post-image {
-  width: 100%;
+.responsive-image {
+  width: auto;
   height: auto;
   max-width: 100%;
-  max-height: 500px;
-  object-fit: contain;
+  max-height: 100%;
+  object-fit: contain; /* 关键：保持比例，不裁剪 */
 }
 
 /* 深色模式 */
-.dark .post-image-container {
-  background: rgba(30, 41, 59, 0.3); /* primary-800 with opacity */
+.dark .image-container {
+  background: rgba(30, 41, 59, 0.3);
 }
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .post-image {
+/* 桌面端优化 */
+@media (min-width: 1024px) {
+  .image-container {
+    max-height: 500px;
+  }
+}
+
+/* 平板端 */
+@media (max-width: 1024px) {
+  .image-container {
     max-height: 400px;
   }
 }
 
-@media (max-width: 640px) {
-  .post-image {
+/* 手机端 */
+@media (max-width: 768px) {
+  .image-container {
     max-height: 300px;
+    min-height: 150px;
   }
 }
