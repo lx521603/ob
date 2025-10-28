@@ -2,34 +2,29 @@ name: Deploy to VPS (npm + ssh-deploy)
 
 on:
   push:
-    branches: ["main"]   # 推送 main 分支触发
-  workflow_dispatch:      # 支持手动触发
+    branches: ["main"]
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ 拉取仓库代码
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ 安装 Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      # 3️⃣ 安装依赖
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
-      # 4️⃣ 构建项目
       - name: Build project
         run: npm run build
 
-      # 5️⃣ 自动检测输出目录（dist / out / build）
       - name: Detect output directory
         id: detect-dir
         run: |
@@ -43,11 +38,9 @@ jobs:
             echo "No build output directory found."
             exit 1
 
-      # 6️⃣ 显示检测到的目录（可选）
       - name: Show detected directory
         run: echo "Detected build directory: ${{ steps.detect-dir.outputs.dir }}"
 
-      # 7️⃣ 部署到 VPS，通过 rsync 自动覆盖并清理旧文件
       - name: Deploy to VPS via rsync
         uses: easingthemes/ssh-deploy@main
         with:
@@ -56,8 +49,7 @@ jobs:
           REMOTE_USER: ${{ secrets.VPS_USER }}
           TARGET: ${{ secrets.VPS_SITE_PATH }}
           SOURCE: ${{ steps.detect-dir.outputs.dir }}/
-          ARGS: -avz --delete
+          ARGS: "-avz --delete"
 
-      # 8️⃣ 可选：部署完成提示
       - name: Deployment completed
         run: echo "✅ Deployment to ${{ secrets.VPS_HOST }}:${{ secrets.VPS_SITE_PATH }} completed!"
