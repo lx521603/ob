@@ -52,4 +52,4 @@ jobs:
           ARGS: "-avz --delete"
 
       - name: Deployment completed
-        run: echo "✅ Deployment to ${{ secrets.VPS_HOST }}:${{ secrets.VPS_SITE_PATH }} completed!"
+        run: echo "Deployment to ${{ secrets.VPS_HOST }}:${{ secrets.VPS_SITE_PATH }} completed!"
