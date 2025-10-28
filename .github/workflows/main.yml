@@ -1,4 +1,4 @@
-name: Deploy Astro Site to GitHub Pages
+name: Deploy Astro Site to GitHub Pages (npm)
 
 on:
   push:
@@ -25,19 +25,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: 'npm'
 
-      # ✅ 必须加这一段，否则找不到 pnpm
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9 # 你可以改成 8 或最新版本，根据 package.json
+      - name: Verify npm & node
+        run: |
+          node -v
+          npm -v
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile=false
+      - name: Allow non-strict engines (avoid EBADENGINE fatal)
+        run: npm config set engine-strict false
 
-      - name: Build Astro site
-        run: pnpm build
+      - name: Install dependencies (npm)
+        # 用 npm install 而不是 npm ci，避免 lockfile 不一致中断流程
+        run: npm install --no-audit --no-fund
+
+      - name: Build site
+        run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
@@ -45,7 +48,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./dist # ✅ Astro 默认输出目录是 dist
+          path: ./dist
 
   deploy:
     environment:
