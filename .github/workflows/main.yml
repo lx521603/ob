@@ -25,22 +25,6 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Detect output directory
-        id: detect-dir
-        run: |
-          if [ -d "dist" ]; then
-            echo "dir=dist" >> $GITHUB_OUTPUT
-          elif [ -d "out" ]; then
-            echo "dir=out" >> $GITHUB_OUTPUT
-          elif [ -d "build" ]; then
-            echo "dir=build" >> $GITHUB_OUTPUT
-          else
-            echo "No build output directory found."
-            exit 1
-
-      - name: Show detected directory
-        run: echo "Detected build directory: ${{ steps.detect-dir.outputs.dir }}"
-
       - name: Deploy to VPS via rsync
         uses: easingthemes/ssh-deploy@main
         with:
@@ -48,7 +32,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.VPS_HOST }}
           REMOTE_USER: ${{ secrets.VPS_USER }}
           TARGET: ${{ secrets.VPS_SITE_PATH }}
-          SOURCE: ${{ steps.detect-dir.outputs.dir }}/
+          SOURCE: dist/
           ARGS: "-avz --delete"
 
       - name: Deployment completed
