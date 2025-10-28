@@ -1,31 +1,34 @@
-name: Deploy to VPS (npm + ssh-deploy)
+name: Deploy Next.js to VPS
 
 on:
   push:
-    branches: ["main"]
-  workflow_dispatch:
+    branches: ["main"]  # 当推送到 main 分支时触发
+  workflow_dispatch:    # 允许手动触发
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20  # 推荐 Node.js 20
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: npm install
 
       - name: Build project
         run: npm run build
 
-      - name: Deploy to VPS via rsync
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to VPS
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_KEY }}
@@ -34,6 +37,3 @@ jobs:
           TARGET: ${{ secrets.VPS_SITE_PATH }}
           SOURCE: dist/
           ARGS: "-avz --delete"
-
-      - name: Deployment completed
-        run: echo "Deployment to ${{ secrets.VPS_HOST }}:${{ secrets.VPS_SITE_PATH }} completed!"
