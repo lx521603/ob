@@ -2,8 +2,8 @@ name: Deploy Next.js to VPS
 
 on:
   push:
-    branches: ["main"]  # 当推送到 main 分支时触发
-  workflow_dispatch:    # 允许手动触发
+    branches: ["main"]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20  # 推荐 Node.js 20
+          node-version: 20
           cache: 'npm'
 
       - name: Install dependencies
@@ -24,10 +24,26 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: |
+            .next
+            out
+            public
+            package.json
+          retention-days: 1
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+
       - name: Deploy to VPS
         uses: easingthemes/ssh-deploy@main
         with:
@@ -35,5 +51,5 @@ jobs:
           REMOTE_HOST: ${{ secrets.VPS_HOST }}
           REMOTE_USER: ${{ secrets.VPS_USER }}
           TARGET: ${{ secrets.VPS_SITE_PATH }}
-          SOURCE: dist/
+          SOURCE: "./"
           ARGS: "-avz --delete"
