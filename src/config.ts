@@ -189,7 +189,7 @@ export const siteConfig: SiteConfig = {
   // [CONFIG:SITE_AUTHOR]
   author: "Sai",
   // [CONFIG:SITE_LANGUAGE]
-  language: "zh_CN",
+  language: "en",
 
   // Global Settings
   // [CONFIG:THEME]
