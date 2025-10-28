@@ -1,9 +1,9 @@
-name: Deploy Next.js to GitHub Pages
+name: Deploy Astro Site to GitHub Pages
 
 on:
   push:
-    branches: ["main"] # 当推送到main分支时触发
-  workflow_dispatch: # 允许手动触发
+    branches: ["main"]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -24,14 +24,19 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18 # 使用Node.js 18，Next.js 18建议的版本
-          cache: 'npm'
+          node-version: 20 # ✅ Node 20+
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9 # ✅ 或 8，根据 package.json 指定的版本
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile=false # ✅ 避免 lock 冲突
 
-      - name: Build with Next.js
-        run: npm run build
+      - name: Build Astro site
+        run: pnpm build
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
@@ -39,7 +44,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./out # 静态导出文件默认在out目录[citation:2]
+          path: ./dist # ✅ Astro 默认输出目录是 dist，不是 out！
 
   deploy:
     environment:
