@@ -1,0 +1,43 @@
+name: Deploy to 1Panel VPS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install and build
+      run: |
+        npm install
+        npm run build
+
+    - name: Deploy to 1Panel site
+      uses: appleboy/scp-action@v0.1.3
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        password: ${{ secrets.VPS_PASSWORD }}
+        source: "dist/*"
+        target: ${{ secrets.VPS_SITE_PATH }}
+        strip_components: 1
+
+    - name: Fix permissions
+      uses: appleboy/ssh-action@v0.1.3
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        password: ${{ secrets.VPS_PASSWORD }}
+        script: |
+          chown -R www:www ${{ secrets.VPS_SITE_PATH }}
+          echo "Deployment completed successfully!"
