@@ -1,5 +1,5 @@
 ---
-title: Documentation
+title: 文档
 description: Comprehensive guides, tutorials, and reference materials to help you get the most out of this project.
 hideTOC: false
 ---

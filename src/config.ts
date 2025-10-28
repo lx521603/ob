@@ -185,11 +185,11 @@ export const siteConfig: SiteConfig = {
   // [CONFIG:SITE_TITLE]
   title: "Sai 的测试网站",
   // [CONFIG:SITE_DESCRIPTION]
-  description: "A flexible blog theme designed for Obsidian users.",
+  description: "一个为 Obsidian 用户设计的灵活博客主题。",
   // [CONFIG:SITE_AUTHOR]
   author: "Sai",
   // [CONFIG:SITE_LANGUAGE]
-  language: "en",
+  language: "zh_CN",
 
   // Global Settings
   // [CONFIG:THEME]
@@ -226,7 +226,7 @@ export const siteConfig: SiteConfig = {
     // [CONFIG:FOOTER_ENABLED]
     enabled: true,
     // [CONFIG:FOOTER_CONTENT]
-    content: `© 2025 {author}. Built with the <a href="https://github.com/lx521603/ob" target="_blank">Astro </a> theme.`,
+    content: `© 2025 {author}. 使用 <a href="https://github.com/lx521603/ob" target="_blank">Astro </a> 构建.`,
     // [CONFIG:FOOTER_SHOW_SOCIAL_ICONS]
     showSocialIconsInFooter: true,
   },

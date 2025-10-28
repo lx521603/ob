@@ -1,5 +1,5 @@
 ---
-title: Homepage
+title: 首页
 description: Welcome to the homepage
 ---
 ## Thanks for Reading
