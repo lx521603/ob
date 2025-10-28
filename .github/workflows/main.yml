@@ -24,16 +24,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20 # ✅ Node 20+
+          node-version: 20
           cache: 'pnpm'
 
+      # ✅ 必须加这一段，否则找不到 pnpm
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9 # ✅ 或 8，根据 package.json 指定的版本
+          version: 9 # 你可以改成 8 或最新版本，根据 package.json
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile=false # ✅ 避免 lock 冲突
+        run: pnpm install --frozen-lockfile=false
 
       - name: Build Astro site
         run: pnpm build
@@ -44,7 +45,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./dist # ✅ Astro 默认输出目录是 dist，不是 out！
+          path: ./dist # ✅ Astro 默认输出目录是 dist
 
   deploy:
     environment:
