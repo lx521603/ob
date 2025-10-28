@@ -1,7 +1,6 @@
 ---
 title: 首页
-description: Welcome to the homepage
+description: 欢迎页
 ---
-## Thanks for Reading
-
-If you're looking for more, check out the [posts](/posts) page.
+## 欢迎访问
+点击 [posts](/posts) 页，查看更多文章

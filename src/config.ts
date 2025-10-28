@@ -181,7 +181,7 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
   // Site Information
   // [CONFIG:SITE_URL]
-  site: "https://mai.yt",
+  site: "https://sai.st",
   // [CONFIG:SITE_TITLE]
   title: "Sai 的测试网站",
   // [CONFIG:SITE_DESCRIPTION]
