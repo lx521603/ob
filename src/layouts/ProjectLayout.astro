@@ -133,7 +133,7 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
       <article class={`bg-primary-50 dark:bg-primary-900 rounded-lg border border-primary-200 dark:border-primary-700 shadow-sm ${project.data.image && project.data.hideCoverImage !== true ? 'overflow-hidden' : ''}`}>
         {/* Cover image - shown if global config allows and not hidden by frontmatter */}
         {project.data.image && project.data.hideCoverImage !== true && (
-          <div class="h-40 sm:h-48 md:h-56 lg:h-64 overflow-hidden rounded-t-lg bg-primary-100 dark:bg-primary-800">
+          <div class="overflow-hidden rounded-t-lg bg-primary-100 dark:bg-primary-800">
             <ImageWrapper
               src={project.data.image}
               basePath={(() => {
@@ -167,12 +167,14 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
                 return "/projects/attachments/";
               })()}
               alt={project.data.imageAlt || `Featured image for project: ${project.data.title}`}
-              class="w-full h-full object-cover"
+              class="w-full h-full"
               width={800}
-              height={256}
+              height={undefined}
+              aspectRatio="auto"
               format="webp"
               quality={85}
               loading="eager"
+              decoding="async"
               fetchpriority="high"
             />
           </div>
