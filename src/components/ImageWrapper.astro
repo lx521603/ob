@@ -54,16 +54,26 @@ if (cleanSrc.startsWith('[[') && cleanSrc.endsWith(']]')) {
   cleanSrc = cleanSrc.slice(2, -2);
 }
 
-// Determine image type using cleaned src
+// --- 核心修正区域开始 ---
+
+const isExternal = cleanSrc.startsWith("http") || cleanSrc.startsWith("https");
+
 // For folder-based content, if basePath indicates a synced folder, treat as local for optimization
 const isSyncedFolder = basePath && basePath.includes('/') && !basePath.endsWith('/attachments/');
-const isLocal = !(
-  cleanSrc.startsWith("/") ||
-  cleanSrc.startsWith("http") ||
-  cleanSrc.startsWith("https") ||
-  cleanSrc.startsWith("data:")
-) || isSyncedFolder; // Treat synced folders as local for Astro Image optimization
-const isPublic = cleanSrc.startsWith("/") && !isSyncedFolder;
+
+// Determine image type using cleaned src
+// 修正逻辑：只有当它不是外部链接时，才去判断是否为相对路径或同步文件夹内的路径
+const isLocal = !isExternal && (
+  !(
+    cleanSrc.startsWith("/") ||
+    cleanSrc.startsWith("data:")
+  ) || isSyncedFolder
+); 
+
+// isPublic 应该在确定 isLocal 之后检查，通常指 /public 根目录下的文件
+const isPublic = cleanSrc.startsWith("/") && !isLocal && !isExternal;
+
+// --- 核心修正区域结束 ---
 
 // Dynamic import for local images
 let img: any = null;
@@ -193,7 +203,8 @@ const imageStyle = `object-position: ${position}`;
 ---
 
 <div id={id} class:list={[className, containerClass]}>
-  {isLocal && img ? (
+  {(isLocal && img) ? (
+    // 1. 本地图片 (使用 Astro Image 优化)
     <Image 
       src={img} 
       alt={alt} 
@@ -208,9 +219,10 @@ const imageStyle = `object-position: ${position}`;
       fetchpriority={fetchpriority}
       densities={densities}
     />
-  ) : isPublic ? (
+  ) : (isPublic || isExternal) ? (
+    // 2. 公共图片 (以 '/' 开头) 或外部图片 (以 'http' 开头)
     <img 
-      src={isSyncedFolder ? `${basePath}${cleanSrc}` : cleanSrc} 
+      src={cleanSrc} 
       alt={alt} 
       class={imageClass} 
       style={imageStyle}
@@ -221,9 +233,10 @@ const imageStyle = `object-position: ${position}`;
       height={finalHeight}
     />
   ) : isImageMissing ? (
-    // Don't render anything for missing local images
+    // 3. 缺失的本地图片
     null
   ) : (
+    // 4. Fallback（通常是外部图片，但未被 isExternal 捕获，虽然现在 isExternal 已经很全面）
     <img 
       src={cleanSrc} 
       alt={alt} 
