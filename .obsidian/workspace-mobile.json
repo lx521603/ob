@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/docs/installing-obsidian.md",
+                "file": "src/content/docs/api.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "installing-obsidian"
+              "title": "api"
             }
           }
         ],
@@ -185,8 +185,9 @@
   },
   "active": "b8d6db9a0209a8b1",
   "lastOpenFiles": [
-    "src/content/posts/测试插入图片.md",
     "src/content/docs/插入图片用法.md",
+    "src/content/posts/测试插入图片.md",
+    "src/content/docs/installing-obsidian.md",
     "src/content/docs/configuration.md",
     "src/content/docs/api.md",
     "src/content/posts/formatting-reference.md",
@@ -195,7 +196,6 @@
     "src/content/special/posts.md",
     "src/content/special/home.md",
     "测试.md",
-    "src/content/docs/installing-obsidian.md",
     "src/pages/posts/tag/[...tag]/[page].astro",
     "src/pages/posts/tag/[...tag].astro",
     "src/pages/posts/tag/[...tag]",
