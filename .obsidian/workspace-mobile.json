@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/posts/测试插入图片.md",
+                "file": "src/content/docs/installing-obsidian.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "测试插入图片"
+              "title": "installing-obsidian"
             }
           }
         ],
@@ -185,14 +185,15 @@
   },
   "active": "b8d6db9a0209a8b1",
   "lastOpenFiles": [
-    "src/content/posts/formatting-reference.md",
     "src/content/posts/测试插入图片.md",
-    "src/content/docs/测试 1.md",
+    "src/content/docs/插入图片用法.md",
+    "src/content/docs/configuration.md",
+    "src/content/docs/api.md",
+    "src/content/posts/formatting-reference.md",
     "src/content/special/404.md",
     "src/content/special/docs.md",
     "src/content/special/posts.md",
     "src/content/special/home.md",
-    "src/content/docs/api.md",
     "测试.md",
     "src/content/docs/installing-obsidian.md",
     "src/pages/posts/tag/[...tag]/[page].astro",
@@ -224,7 +225,6 @@
     "src/content/pages/privacy-policy.md",
     "src/content/pages/thank-you.md",
     "src/content/special/projects.md",
-    "src/content/docs/configuration.md",
     "src/content/projects/astro-composer.md",
     "src/content/posts/obsidian-vault-guide.md",
     "src/content/posts/getting-started.md",
