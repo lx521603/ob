@@ -1356,31 +1356,3 @@ svg:has(text:contains("mermaid version")) {
 .aspect-3-4 { aspect-ratio: 3/4; }
 .aspect-1-1 { aspect-ratio: 1/1; }
 
-/* 修复文章正文图片描述位置问题 - 只针对正文内容，不影响 cover */
-.prose:not(.prose img:only-child) img {
-  display: block !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-/* 只针对包含图片的段落进行居中，不影响其他内容 */
-.prose p:has(> img) {
-  text-align: center !important;
-}
-
-/* 修复图片描述样式 - 只针对紧跟在图片后面的描述 */
-.prose img + em,
-.prose p:has(> img) em {
-  display: block !important;
-  text-align: center !important;
-  font-style: italic;
-  font-size: 0.875rem;
-  color: rgb(75 85 99);
-  margin-top: 0.5rem;
-  width: 100%;
-}
-
-.dark .prose img + em,
-.dark .prose p:has(> img) em {
-  color: rgb(156 163 175);
-}
