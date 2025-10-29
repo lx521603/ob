@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/docs/configuration.md",
+                "file": "src/content/docs/插入图片用法.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "configuration"
+              "title": "插入图片用法"
             }
           }
         ],
@@ -187,9 +187,9 @@
   "lastOpenFiles": [
     "src/content/posts/测试插入图片.md",
     "src/content/docs/插入图片用法.md",
+    "src/content/docs/configuration.md",
     "src/content/docs/api.md",
     "src/content/docs/installing-obsidian.md",
-    "src/content/docs/configuration.md",
     "src/content/posts/formatting-reference.md",
     "src/content/special/404.md",
     "src/content/special/docs.md",
