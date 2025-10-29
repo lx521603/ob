@@ -69,24 +69,38 @@ const structuredData = {
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     
     <!-- Preload documentation image if exists -->
-    {documentation.data.image && documentation.data.hideCoverImage !== true && (
-  <div class="overflow-hidden rounded-t-lg bg-primary-100 dark:bg-primary-800">
-    <ImageWrapper
-      src={documentation.data.image}
-      alt={documentation.data.imageAlt || `Featured image for documentation: ${documentation.data.title}`}
-      basePath="/docs/attachments/"
-      class="w-full h-full"
-      width={800}
-      height={undefined}
-      aspectRatio="auto"
-      format="webp"
-      quality={85}
-      loading="eager"
-      decoding="async"
-      fetchpriority="high"
-    />
-  </div>
-)}
+    {documentation.data.image && documentation.data.hideCoverImage !== true && typeof documentation.data.image === 'string' && !documentation.data.image.startsWith('http') && (
+      <link 
+        rel="preload" 
+        as="image" 
+        href={optimizeContentImagePath(documentation.data.image, 'documentation', documentation.slug, documentation.id)}
+        fetchpriority="high"
+      />
+    )}
+  </Fragment>
+
+  <div class="py-8 relative">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8 relative" style={`max-width: ${siteConfig.layout.contentWidth}`}>
+      <!-- Documentation content -->
+      <article class={`bg-primary-50 dark:bg-primary-900 rounded-lg border border-primary-200 dark:border-primary-700 shadow-sm ${documentation.data.image && documentation.data.hideCoverImage !== true ? 'overflow-hidden' : ''}`}>
+        {documentation.data.image && documentation.data.hideCoverImage !== true && (
+          <div class="overflow-hidden rounded-t-lg bg-primary-100 dark:bg-primary-800">
+            <ImageWrapper
+              src={documentation.data.image}
+              alt={documentation.data.imageAlt || `Featured image for documentation: ${documentation.data.title}`}
+              basePath="/docs/attachments/"
+              class="w-full h-full"
+              width={800}
+              height={undefined}
+              aspectRatio="auto"
+              format="webp"
+              quality={85}
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </div>
+        )}
 
         <!-- Documentation content wrapper -->
         <div class={`p-6 ${documentation.data.image && documentation.data.hideCoverImage !== true ? 'rounded-b-lg' : 'rounded-lg'}`}>
