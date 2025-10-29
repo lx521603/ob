@@ -1,4 +1,5 @@
 // src/scripts/docs-client-script.js
+// 修正：移除 TypeScript 类型断言 (table as HTMLElement)
 
 document.addEventListener('DOMContentLoaded', () => {
     // Lightbox initialization
@@ -39,7 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
             wrapper.className = 'table-wrapper';
             table.parentNode?.insertBefore(wrapper, table);
             wrapper.appendChild(table);
-            (table as HTMLElement).style.margin = '0';
+            // 修正后的行：移除 TypeScript 语法
+            table.style.margin = '0';
         }
     });
 });
