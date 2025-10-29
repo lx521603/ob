@@ -1,6 +1,7 @@
 ---
 import path from "node:path";
 import { Image } from "astro:assets";
+// 假设这些配置和类型来自您的项目，保持不变
 import { devConfig, isDev } from "@/config/dev";
 
 interface Props {
@@ -54,111 +55,97 @@ if (cleanSrc.startsWith('[[') && cleanSrc.endsWith(']]')) {
   cleanSrc = cleanSrc.slice(2, -2);
 }
 
-// --- 核心修正区域开始 ---
+// --- 核心修正区域开始：确保外部 URL 优先级最高 ---
 
-const isExternal = cleanSrc.startsWith("http") || cleanSrc.startsWith("https");
+// 1. 检查是否为外部 URL 或 Data URI
+const isExternal = cleanSrc.startsWith("http") || cleanSrc.startsWith("https") || cleanSrc.startsWith("data:");
 
-// For folder-based content, if basePath indicates a synced folder, treat as local for optimization
+// 2. 检查是否为同步文件夹（内容附件）内的相对路径
+// isSyncedFolder 检查是否处于一个内容文件夹内，而不是全局附件文件夹
 const isSyncedFolder = basePath && basePath.includes('/') && !basePath.endsWith('/attachments/');
 
-// Determine image type using cleaned src
-// 修正逻辑：只有当它不是外部链接时，才去判断是否为相对路径或同步文件夹内的路径
+// 3. 确定是否为需要 Astro 优化的本地图片 (相对路径)
+// 只有当它不是外部链接，并且：
+//    - 它不以 '/' 开头 (不是 /public 根目录下的公共图片) 
+//    - 或者它是一个同步文件夹内的相对路径
 const isLocal = !isExternal && (
-  !(
-    cleanSrc.startsWith("/") ||
-    cleanSrc.startsWith("data:")
-  ) || isSyncedFolder
+  !cleanSrc.startsWith("/") || isSyncedFolder
 ); 
 
-// isPublic 应该在确定 isLocal 之后检查，通常指 /public 根目录下的文件
+// 4. 确定是否为 /public 根目录下的公共图片 (以 '/' 开头, 但不需要优化)
 const isPublic = cleanSrc.startsWith("/") && !isLocal && !isExternal;
 
 // --- 核心修正区域结束 ---
 
 // Dynamic import for local images
 let img: any = null;
-let fallbackSrc: string | null = null;
 let isImageMissing = false;
 let originalWidth: number | undefined = width;
 let originalHeight: number | undefined = height;
 
 if (isLocal) {
   try {
+    // 使用 import.meta.glob 导入本地图片进行优化
     const files = import.meta.glob<ImageMetadata>("/public/**", {
       import: "default",
     });
     
-    // Remove leading "./" if present for folder-based posts
+    // --- 路径规范化逻辑 (保持不变) ---
     if (cleanSrc.startsWith('./')) {
       cleanSrc = cleanSrc.slice(2);
     }
     
-    // Remove leading "images/" if present since basePath already includes it
-    // But only for global images, not folder-based images
     if (cleanSrc.startsWith('images/') && (basePath === '/posts/attachments/' || basePath === '/projects/attachments/' || basePath === '/docs/attachments/')) {
       cleanSrc = cleanSrc.slice(7);
     }
     
-    // For folder-based content, if basePath already includes 'images/' and cleanSrc starts with 'images/',
-    // remove the prefix from cleanSrc to avoid double 'images/'
     if (cleanSrc.startsWith('images/') && basePath.includes('/attachments/') && basePath !== '/posts/attachments/' && basePath !== '/projects/attachments/' && basePath !== '/docs/attachments/') {
       cleanSrc = cleanSrc.slice(7);
     }
     
-    // For content with attachments/ prefix, remove it since the sync script already handles this
     if (cleanSrc.startsWith('attachments/') && basePath.includes('/projects/') && !basePath.includes('/attachments/')) {
-      cleanSrc = cleanSrc.slice(12); // Remove 'attachments/' prefix
+      cleanSrc = cleanSrc.slice(12);
     }
     
-    // For single-file projects, also remove attachments/ prefix when using global attachments directory
     if (cleanSrc.startsWith('attachments/') && basePath === '/projects/attachments/') {
-      cleanSrc = cleanSrc.slice(12); // Remove 'attachments/' prefix
+      cleanSrc = cleanSrc.slice(12);
     }
     
-    // Normalize the path for the glob pattern
+    // 规范化路径用于 glob 查找
     let normalizedPath = path
       .normalize(path.join("/public", basePath, cleanSrc))
       .replace(/\\/g, "/");
     
-    // Ensure the path starts with /public
     if (!normalizedPath.startsWith("/public")) {
       normalizedPath = `/public${normalizedPath}`;
     }
-    
-    // Debug logging
-    if (isDev && devConfig.images.logMissingImages) {
-      // Debug logging removed for production
-    }
+    // --- 路径规范化逻辑 (结束) ---
     
     const file = files[normalizedPath];
     if (file) {
       img = await file();
-      // 获取图片原始尺寸用于比例计算
       if (!originalWidth) originalWidth = img.width;
       if (!originalHeight) originalHeight = img.height;
     } else {
       isImageMissing = true;
-      // No fallback images - just mark as missing
     }
   } catch (error) {
     isImageMissing = true;
-    // No fallback images - just mark as missing
   }
 }
 
-// 计算最终宽高和样式
+// 计算最终宽高和样式 (保持不变)
 let finalWidth = originalWidth;
 let finalHeight = originalHeight;
 let containerClass = "overflow-hidden relative";
 let imageClass = "w-full h-auto";
 
-// 根据选择的宽高比设置容器样式
 if (aspectRatio !== "auto") {
   imageClass = "w-full h-full object-cover";
   
   switch (aspectRatio) {
     case "16:9":
-      containerClass += " aspect-video"; // Tailwind 的 16:9
+      containerClass += " aspect-video";
       break;
     case "9:16":
       containerClass += " aspect-[9/16]";
@@ -174,27 +161,21 @@ if (aspectRatio !== "auto") {
       break;
   }
 } else {
-  // 自动模式：根据图片原始比例决定是 contain 还是 cover
   if (originalWidth && originalHeight) {
     const ratio = originalWidth / originalHeight;
     if (ratio > 1.5) {
-      // 横图使用 contain 保持完整
       imageClass = "w-full h-auto object-contain max-w-full";
     } else if (ratio < 0.67) {
-      // 竖图使用 contain 保持完整
       imageClass = "h-full w-auto object-contain max-h-full mx-auto";
     } else {
-      // 接近方形的图使用 cover 填充
       imageClass = "w-full h-full object-cover";
       containerClass += " aspect-square";
     }
   } else {
-    // 没有尺寸信息时使用 contain
     imageClass = "w-full h-auto object-contain";
   }
 }
 
-// 如果有最大宽度限制，添加对应样式
 if (maxWidth) {
   containerClass += ` max-w-[${maxWidth}px] mx-auto`;
 }
@@ -204,7 +185,6 @@ const imageStyle = `object-position: ${position}`;
 
 <div id={id} class:list={[className, containerClass]}>
   {(isLocal && img) ? (
-    // 1. 本地图片 (使用 Astro Image 优化)
     <Image 
       src={img} 
       alt={alt} 
@@ -220,7 +200,6 @@ const imageStyle = `object-position: ${position}`;
       densities={densities}
     />
   ) : (isPublic || isExternal) ? (
-    // 2. 公共图片 (以 '/' 开头) 或外部图片 (以 'http' 开头)
     <img 
       src={cleanSrc} 
       alt={alt} 
@@ -231,12 +210,10 @@ const imageStyle = `object-position: ${position}`;
       fetchpriority={fetchpriority}
       width={finalWidth}
       height={finalHeight}
-    />
+      {...isPublic ? {} : {referrerpolicy: 'no-referrer'}} />
   ) : isImageMissing ? (
-    // 3. 缺失的本地图片
     null
   ) : (
-    // 4. Fallback（通常是外部图片，但未被 isExternal 捕获，虽然现在 isExternal 已经很全面）
     <img 
       src={cleanSrc} 
       alt={alt} 
@@ -247,6 +224,7 @@ const imageStyle = `object-position: ${position}`;
       fetchpriority={fetchpriority}
       width={finalWidth}
       height={finalHeight}
+      referrerpolicy="no-referrer"
     />
   )}
   
