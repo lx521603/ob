@@ -67,24 +67,25 @@ const processedImage = (() => {
   return imageValue;
 })();
 
-// Determine if we should show the cover image
-// Documentation should always show images when available (not controlled by postOptions)
-const shouldShowCoverImage = true;
+// 在处理图片时先判断是否为外部图片
+const isExternalImage = typeof processedImage === 'string' && 
+                       (processedImage.startsWith('http') || processedImage.startsWith('https'));
 
-// Hide images for docs on homepage for cleaner look
+// Determine if we should show the cover image
+const shouldShowCoverImage = true;
 const showCoverImage = shouldShowCoverImage && processedImage && context !== 'home';
 ---
 
 <div class="group relative bg-white dark:bg-primary-800 rounded-lg border border-primary-200 dark:border-primary-700 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
   <a href={`/docs/${documentation.slug}`} class="block" aria-label={`View documentation: ${title}`}>
-    <!-- Cover Image (if exists) - 放在最上面，和 posts 卡片保持一致 -->
+    <!-- Cover Image (if exists) -->
     {showCoverImage && (
       <div class="overflow-hidden rounded-t-lg bg-primary-100 dark:bg-primary-800">
         <ImageWrapper
           src={processedImage}
           basePath={(() => {
-            // 1. External URLs - no basePath needed
-            if (typeof processedImage === 'string' && processedImage.startsWith('http')) {
+            // 如果是外部图片，不需要 basePath
+            if (isExternalImage) {
               return '';
             }
             
