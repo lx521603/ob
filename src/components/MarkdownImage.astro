@@ -6,9 +6,20 @@ interface Props {
   alt?: string;
   title?: string;
   class?: string;
+  width?: number;      // 新增：可选宽度
+  height?: number;     // 新增：可选高度
+  aspectRatio?: string; // 新增：可选比例
 }
 
-const { src, alt = '', title, class: className } = Astro.props;
+const { 
+  src, 
+  alt = '', 
+  title, 
+  class: className,
+  width,              // 不传默认值
+  height,             // 不传默认值  
+  aspectRatio = "auto" // 默认自动比例
+} = Astro.props;
 
 // Extract caption from title attribute or data-caption
 const caption = title || Astro.props['data-caption'] || '';
@@ -19,8 +30,9 @@ const caption = title || Astro.props['data-caption'] || '';
   alt={alt}
   caption={caption}
   class={className}
-  width={800}
-  height={450}
+  width={width}        <!-- 使用可选宽度 -->
+  height={height}      <!-- 使用可选高度 -->
+  aspectRatio={aspectRatio} <!-- 传递比例设置 -->
   format="webp"
   quality={85}
   loading="lazy"
