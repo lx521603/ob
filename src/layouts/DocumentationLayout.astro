@@ -1,4 +1,5 @@
-import type { Docs } from '@/types';
+---
+Import type { Docs } from '@/types';
 import { siteConfig } from '@/config';
 import { generateDocumentationSEO } from '@/utils/seo';
 import { isValidDate } from '@/utils/markdown';
@@ -9,6 +10,9 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import TableOfContents from '@/components/TableOfContents.astro';
 import Lightbox from '@/components/Lightbox.astro';
 import ImageWrapper from '@/components/ImageWrapper.astro';
+
+// 导入外部客户端脚本文件，解决编译器崩溃问题
+import '@/scripts/docs-client-script.js';
 
 export interface Props {
   documentation: Docs;
@@ -70,10 +74,8 @@ if (documentation.data.image && typeof documentation.data.image === 'string' && 
 
 <BaseLayout seoData={seoData}>
   <Fragment slot="head">
-    <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     
-    <!-- Preload documentation image if it's local -->
     {optimizedImage && documentation.data.hideCoverImage !== true && (
       <link 
         rel="preload" 
@@ -86,7 +88,6 @@ if (documentation.data.image && typeof documentation.data.image === 'string' && 
 
   <div class="py-8 relative">
     <div class="mx-auto px-4 sm:px-6 lg:px-8 relative" style={`max-width: ${siteConfig.layout.contentWidth}`}>
-      <!-- Documentation content -->
       <article class={`bg-primary-50 dark:bg-primary-900 rounded-lg border border-primary-200 dark:border-primary-700 shadow-sm ${optimizedImage && documentation.data.hideCoverImage !== true ? 'overflow-hidden' : ''}`}>
         {optimizedImage && documentation.data.hideCoverImage !== true && (
           <div class="overflow-hidden rounded-t-lg bg-primary-100 dark:bg-primary-800">
@@ -148,50 +149,6 @@ if (documentation.data.image && typeof documentation.data.image === 'string' && 
   </div>
 
   <Fragment slot="scripts">
-    <script>
-      // Lightbox initialization
-      document.addEventListener('DOMContentLoaded', () => {
-        function initializeLightbox() {
-          const images = document.querySelectorAll('img');
-          images.forEach((img, index) => {
-            if (img.closest('a') || img.closest('.image-grid')) return;
-            img.style.cursor = 'pointer';
-            img.addEventListener('click', () => {
-              window.dispatchEvent(new CustomEvent('openLightbox', { detail: { index } }));
-            });
-          });
-        }
-        setTimeout(initializeLightbox, 200);
-
-        // Remove duplicate H1
-        const documentationContent = document.getElementById('documentation-content');
-        if (documentationContent) {
-          const firstH1 = documentationContent.querySelector('h1');
-          if (firstH1) firstH1.remove();
-        }
-
-        // Process external links
-        const allLinks = document.querySelectorAll('.prose a[href]');
-        allLinks.forEach(link => {
-          const href = link.getAttribute('href');
-          if (href && (href.startsWith('http://') || href.startsWith('https://')) && !link.hasAttribute('target')) {
-            link.setAttribute('target', '_blank');
-            link.setAttribute('rel', 'noopener noreferrer');
-          }
-        });
-
-        // Wrap tables
-        const tables = document.querySelectorAll('.prose table');
-        tables.forEach((table) => {
-          if (table.parentElement && !table.parentElement.classList.contains('table-wrapper')) {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'table-wrapper';
-            table.parentNode?.insertBefore(wrapper, table);
-            wrapper.appendChild(table);
-            (table as HTMLElement).style.margin = '0';
-          }
-        });
-      });
-    </script>
+    <script type="module" src="@/scripts/docs-client-script.js"></script>
   </Fragment>
 </BaseLayout>
