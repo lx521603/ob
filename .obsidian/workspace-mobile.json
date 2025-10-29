@@ -41,6 +41,20 @@
             "state": {
               "type": "markdown",
               "state": {
+                "file": "src/content/posts/测试插入图片.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "测试插入图片"
+            }
+          },
+          {
+            "id": "29a401ef134ba923",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
                 "file": "src/content/docs/configuration.md",
                 "mode": "source",
                 "source": true
@@ -50,7 +64,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -183,8 +197,9 @@
       "bases:创建新数据库": false
     }
   },
-  "active": "b8d6db9a0209a8b1",
+  "active": "33a2bdef06401e28",
   "lastOpenFiles": [
+    "src/content/docs/文档图片.md",
     "src/content/posts/测试插入图片.md",
     "src/content/docs/插入图片用法.md",
     "src/content/docs/configuration.md",
@@ -229,7 +244,6 @@
     "src/content/posts/obsidian-vault-guide.md",
     "src/content/posts/getting-started.md",
     "src/content/posts/mermaid-diagrams.md",
-    "AGENTS.md",
-    "README.md"
+    "AGENTS.md"
   ]
 }
