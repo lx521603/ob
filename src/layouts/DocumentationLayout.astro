@@ -88,7 +88,14 @@ const structuredData = {
             <ImageWrapper
               src={documentation.data.image}
               alt={documentation.data.imageAlt || `Featured image for documentation: ${documentation.data.title}`}
-              basePath="/docs/attachments/"
+              basePath={(() => {
+                // 如果是外部图片，不需要 basePath
+                if (typeof documentation.data.image === 'string' && documentation.data.image.startsWith('http')) {
+                  return '';
+                }
+                // 本地图片使用 docs 的附件目录
+                return "/docs/attachments/";
+              })()}
               class="w-full h-full"
               width={800}
               height={undefined}
