@@ -1,4 +1,3 @@
-
 /* KaTeX Math Rendering - Must be first */
 @import 'katex/dist/katex.css';
 
@@ -48,7 +47,6 @@
   display: inline-block !important;
 }
 
-
 .katex-display {
   margin: 1.5rem 0;
   text-align: center;
@@ -80,9 +78,6 @@ p:has(.katex-display) {
 .dark .katex {
   color: rgb(var(--color-foreground));
 }
-
-
-
 
 /* KaTeX error styling */
 .katex-error {
@@ -125,8 +120,6 @@ p:has(.katex-display) {
 .callout p .katex {
   margin: 0 0.25rem;
 }
-
-
 
 /* CSS Custom Properties - Essential globals only */
 :root {
@@ -196,7 +189,6 @@ body {
 .show-scrollbars ::-webkit-scrollbar,
 body.show-scrollbars ::-webkit-scrollbar {
   display: block !important;
-  /* Remove all custom width, colors, and styling - use browser defaults */
 }
 
 /* Override the global scrollbar hiding for show-scrollbars */
@@ -210,26 +202,11 @@ body.show-scrollbars ::-webkit-scrollbar {
 body.show-scrollbars,
 html.show-scrollbars {
   scrollbar-width: auto !important;
-  /* Remove custom colors to use browser default */
 }
 
 /* Force scrollbars to appear in Firefox - but don't interfere with sticky positioning */
 .show-scrollbars {
-  /* Use min-height instead of overflow to force scrollbars without breaking sticky positioning */
   min-height: 100vh;
-  /* Don't set overflow as it can interfere with sticky positioning */
-  /* overflow: auto !important; */
-}
-
-/* Ensure body and html have scrollbars when needed - but don't interfere with sticky positioning */
-body.show-scrollbars {
-  /* Don't set overflow on body element as it can interfere with sticky positioning */
-  /* overflow: auto !important; */
-}
-
-html.show-scrollbars {
-  /* Don't set overflow on html element as it can interfere with sticky positioning */
-  /* overflow: auto !important; */
 }
 
 /* Selection Colors */
@@ -319,7 +296,6 @@ pre.astro-code {
   overflow-x: auto !important;
   font-size: 0.875rem !important;
 }
-
 
 .astro-code code,
 pre.astro-code code {
@@ -629,19 +605,19 @@ textarea {
 .prose .image-grid picture {
   width: 100%;
   height: auto;
-  object-fit: cover;
+  object-fit: contain; /* 改为 contain 保持比例 */
   border-radius: 0.5rem;
   margin: 0;
   display: block;
   max-width: 100%;
-  min-width: 0; /* Allow images to shrink below their natural size */
+  min-width: 0;
 }
 
-/* Ensure images in grids are properly sized */
-.prose .image-grid img {
-  aspect-ratio: 16/9; /* Maintain consistent aspect ratio */
+/* 删除强制 16:9 比例的规则 */
+/* .prose .image-grid img {
+  aspect-ratio: 16/9;
   object-fit: cover;
-}
+} */
 
 /* Image gallery items and buttons */
 .prose .image-grid .image-item {
@@ -669,7 +645,7 @@ textarea {
 .prose .image-grid .image-button img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* 改为 contain 保持比例 */
   border-radius: 0.5rem;
   transition: all 0.3s ease;
 }
@@ -715,7 +691,6 @@ textarea {
   @apply text-highlight-700 dark:text-highlight-300 no-underline;  
 } 
 
-
 .prose strong {
   @apply text-primary-900 dark:text-primary-200 font-semibold;
 }
@@ -726,6 +701,9 @@ textarea {
 
 .prose img {
   @apply rounded-lg shadow-sm;
+  object-fit: contain !important; /* 确保文章内图片不被裁剪 */
+  height: auto !important;
+  max-width: 100% !important;
 }
 
 .prose mark {
@@ -763,7 +741,7 @@ textarea {
   margin: 1.5rem 0 !important;
   border-radius: 0.75rem !important;
   @apply border border-primary-300 dark:border-primary-600 bg-white dark:bg-primary-800;
-  overflow: hidden !important; /* Ensures rounded corners work properly */
+  overflow: hidden !important;
 }
 
 .table-wrapper table {
@@ -796,12 +774,12 @@ textarea {
   z-index: 10;
   font-size: 0.875rem;
   letter-spacing: 0.025em;
-  border-right: none !important; /* No vertical lines between header cells */
-  @apply border-b-2 border-primary-300 dark:border-primary-600; /* Use theme colors for border */
+  border-right: none !important;
+  @apply border-b-2 border-primary-300 dark:border-primary-600;
 }
 
 .dark .prose th {
-  border-right: none !important; /* No vertical lines between header cells in dark mode */
+  border-right: none !important;
 }
 
 /* Alternating rows using dynamic theme colors */
@@ -912,13 +890,9 @@ html.is-ready .transition-swup-fade {
 
 /* Smooth transitions for main content */
 main {
-  min-height: calc(100vh - 4rem); /* Account for header height */
+  min-height: calc(100vh - 4rem);
   position: relative;
 }
-
-/* Smooth page transitions */
-/* Keep default scroll-behavior; Swup Scroll Plugin manages smooth scrolling */
-/* html { scroll-behavior: smooth; } */
 
 /* Prevent flash of unstyled content */
 body {
@@ -939,20 +913,9 @@ body {
   }
 }
 
-/* Simple page transitions */
-/* Removed global overflow hidden on html during transitions to prevent scroll bugs */
-
-/* Lock scroll during transitions to prevent unwanted movement */
-/* Avoid global scroll locking during transitions; let Swup handle scroll */
-
 /* Keep footer and nav stable during transitions */
 footer, nav {
   transform: translateZ(0);
-}
-
-/* Header needs special handling to maintain sticky positioning */
-header {
-  /* Don't apply transform to header as it interferes with sticky positioning */
 }
 
 /* Ensure smooth transitions for interactive elements only */
@@ -964,7 +927,6 @@ a, button, .btn, .card, .callout, nav a {
 html {
   scroll-behavior: auto;
 }
-
 
 /* Navigation active states - more subtle */
 nav a.active,
@@ -1010,7 +972,6 @@ main {
 .featured-post {
   @apply bg-primary-50 dark:bg-primary-900 rounded-lg border border-primary-200 dark:border-primary-700 shadow-sm hover:shadow-md transition-shadow duration-200;
 }
-
 
 /* Smooth transitions for all interactive elements */
 a, button, .btn, .card, .callout {
@@ -1128,11 +1089,7 @@ img + p em {
 }
 
 /* Enhanced theme-aware Mermaid styling */
-/* Use CSS variables for better theme integration without re-rendering */
-
-/* Light mode: Enhanced contrast for flat elements */
 :root:not(.dark) .mermaid-diagram svg {
-  /* Override text and line variables for better contrast */
   --mermaid-primary-text-color: #111827 !important;
   --mermaid-text-color: #111827 !important;
   --mermaid-line-color: #374151 !important;
@@ -1140,7 +1097,6 @@ img + p em {
   --mermaid-secondary-color: #6b7280 !important;
 }
 
-/* Dark mode: Enhanced contrast for flat elements */
 .dark .mermaid-diagram svg {
   --mermaid-primary-text-color: #f9fafb !important;
   --mermaid-text-color: #f9fafb !important;
@@ -1162,9 +1118,6 @@ img + p em {
 }
 
 /* Mermaid theme overrides - only apply dark mode corrective measures */
-
-/* Dark mode corrective measures - ONLY for non-colorful diagrams */
-/* Only target specific text elements that need contrast fixes */
 .dark .mermaid-diagram svg:not(.pie):not(.gitgraph) .nodeLabel text,
 .dark .mermaid-diagram svg:not(.pie):not(.gitgraph) .edgeLabel text,
 .dark .mermaid-diagram svg:not(.pie):not(.gitgraph) .actor text,
@@ -1215,9 +1168,6 @@ img + p em {
 .mermaid-diagram svg.gitgraph {
   /* No overrides - let Mermaid handle colors naturally */
 }
-
-/* Handle specific edge cases as they come up */
-/* TODO: Add specific overrides for problematic elements */
 
 /* Print Styles */
 @media print {
@@ -1394,17 +1344,9 @@ svg:has(text:contains("mermaid version")) {
   object-fit: contain; /* 保持比例 */
 }
 
-/* 修改图片网格，移除强制比例 */
-.prose .image-grid img,
-.prose .image-grid picture {
-  width: 100%;
-  height: auto; /* 改为 auto */
-  object-fit: contain; /* 改为 contain 保持比例 */
-  border-radius: 0.5rem;
-  margin: 0;
-  display: block;
-  max-width: 100%;
-  min-width: 0;
+/* 深色模式 */
+.dark .image-container {
+  background: rgba(30, 41, 59, 0.3);
 }
 
 /* 自定义比例类 */
@@ -1413,3 +1355,21 @@ svg:has(text:contains("mermaid version")) {
 .aspect-4-3 { aspect-ratio: 4/3; }
 .aspect-3-4 { aspect-ratio: 3/4; }
 .aspect-1-1 { aspect-ratio: 1/1; }
+
+/* 修复文章正文图片裁剪 - 新增 */
+.prose img {
+  object-fit: contain !important;
+  height: auto !important;
+  max-width: 100% !important;
+}
+
+/* 确保图片网格中的图片不被裁剪 */
+.prose .image-grid img {
+  object-fit: contain !important;
+  aspect-ratio: unset !important;
+}
+
+/* 智能图片容器优化 */
+.image-container img {
+  object-fit: contain !important;
+}
