@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/docs/插入图片用法.md",
+                "file": "src/content/docs/configuration.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "插入图片用法"
+              "title": "configuration"
             }
           }
         ],
