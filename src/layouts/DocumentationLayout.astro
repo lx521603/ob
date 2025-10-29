@@ -22,7 +22,8 @@ const allDocs = await getCollection('docs');
 const docsHaveCategories = hasDocCategories(allDocs);
 
 // Render the documentation content
-const { Content, headings } = await documentation.render();
+const { render } = await import('astro:content');
+const { Content, headings } = await render(documentation);
 
 // Generate SEO data
 const seoData = generateDocumentationSEO(documentation, Astro.url.href);
@@ -31,7 +32,7 @@ const seoData = generateDocumentationSEO(documentation, Astro.url.href);
 const maxDepth = siteConfig.tableOfContents.depth;
 const toc = headings.filter(h => h.depth >= 2 && h.depth <= maxDepth);
 
-// Check if TOC should be shown - global setting, then hideTOC frontmatter, then showTOC frontmatter (default true for docs)
+// Check if TOC should be shown
 const hideTOC = documentation.data.hideTOC === true;
 const showTOC = documentation.data.showTOC !== undefined ? documentation.data.showTOC : true;
 const shouldShowTOC = siteConfig.tableOfContents.enabled && !hideTOC && showTOC && toc.length > 0;
@@ -55,9 +56,9 @@ const structuredData = {
   dateCreated: documentation.data.lastModified?.toISOString() || new Date().toISOString(),
   dateModified: documentation.data.lastModified?.toISOString() || new Date().toISOString(),
   version: documentation.data.version || '1.0',
-  articleSection: docsHaveCategories 
-    ? (documentation.data.category && documentation.data.category.trim() !== '' && documentation.data.category !== 'General' 
-        ? documentation.data.category 
+  articleSection: docsHaveCategories
+    ? (documentation.data.category && documentation.data.category.trim() !== '' && documentation.data.category !== 'General'
+        ? documentation.data.category
         : 'Unsorted')
     : undefined
 };
@@ -65,15 +66,13 @@ const structuredData = {
 
 <BaseLayout seoData={seoData}>
   <Fragment slot="head">
-    <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-    
-    <!-- Preload documentation image if exists -->
-    {siteConfig.postOptions.showPostCardCoverImages !== 'none' && documentation.data.image && documentation.data.hideCoverImage !== true && typeof documentation.data.image === 'string' && !documentation.data.image.startsWith('http') && (
-      <link 
-        rel="preload" 
-        as="image" 
-        href={optimizeContentImagePath(documentation.data.image, 'documentation', documentation.slug, documentation.id)}
+
+    {documentation.data.image && documentation.data.hideCoverImage !== true && typeof documentation.data.image === 'string' && !documentation.data.image.startsWith('http') && (
+      <link
+        rel="preload"
+        as="image"
+        href={optimizeContentImagePath(documentation.data.image, 'documentation', documentation.id, documentation.id)}
         fetchpriority="high"
       />
     )}
@@ -81,30 +80,25 @@ const structuredData = {
 
   <div class="py-8 relative">
     <div class="mx-auto px-4 sm:px-6 lg:px-8 relative" style={`max-width: ${siteConfig.layout.contentWidth}`}>
-      <!-- Documentation content -->
-      <article class={`bg-primary-50 dark:bg-primary-900 rounded-lg border border-primary-200 dark:border-primary-700 shadow-sm ${siteConfig.postOptions.showPostCardCoverImages !== 'none' && documentation.data.image && documentation.data.hideCoverImage !== true ? 'overflow-hidden' : ''}`}>
-        {siteConfig.postOptions.showPostCardCoverImages !== 'none' && documentation.data.image && documentation.data.hideCoverImage !== true && (
-          <div class="overflow-hidden rounded-t-lg bg-primary-100 dark:bg-primary-800">
+      <article class={`bg-primary-50 dark:bg-primary-900 rounded-lg border border-primary-200 dark:border-primary-700 shadow-sm ${documentation.data.image && documentation.data.hideCoverImage !== true ? 'overflow-hidden' : ''}`}>
+        {/* Cover image - 横图/竖图自适应，不裁剪 */}
+        {documentation.data.image && documentation.data.hideCoverImage !== true && (
+          <div class="w-full overflow-hidden rounded-t-lg bg-primary-100 dark:bg-primary-800">
             <ImageWrapper
-              src={documentation.data.image}
+              src={optimizeContentImagePath(documentation.data.image, 'documentation', documentation.id, documentation.id)}
               alt={documentation.data.imageAlt || `Featured image for documentation: ${documentation.data.title}`}
-              basePath="/docs/attachments/"
-              class="w-full h-full"
+              class="w-full h-auto max-h-[80vh] object-contain"
               width={800}
-              height={undefined}
-              aspectRatio="auto"
+              height={450}
               format="webp"
               quality={85}
               loading="eager"
-              decoding="async"
               fetchpriority="high"
             />
           </div>
         )}
 
-        <!-- Documentation content wrapper -->
-        <div class={`p-6 ${siteConfig.postOptions.showPostCardCoverImages !== 'none' && documentation.data.image && documentation.data.hideCoverImage !== true ? 'rounded-b-lg' : 'rounded-lg'}`}>
-          <!-- Documentation header -->
+        <div class={`p-6 ${documentation.data.image && documentation.data.hideCoverImage !== true ? 'rounded-b-lg' : 'rounded-lg'}`}>
           <header class="mb-4">
             <h1 class="text-xl font-bold text-primary-900 dark:text-primary-50 mb-6 leading-tight">
               {documentation.data.title}
@@ -113,8 +107,8 @@ const structuredData = {
             <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-primary-600 dark:text-primary-300 mb-6">
               {docsHaveCategories && (
                 <span class="px-2 py-1 bg-primary-100 dark:bg-primary-800 text-primary-700 dark:text-primary-300 rounded-full text-xs font-medium">
-                  {documentation.data.category && documentation.data.category.trim() !== '' && documentation.data.category !== 'General' 
-                    ? documentation.data.category 
+                  {documentation.data.category && documentation.data.category.trim() !== '' && documentation.data.category !== 'General'
+                    ? documentation.data.category
                     : 'Unsorted'}
                 </span>
               )}
@@ -127,9 +121,7 @@ const structuredData = {
                       <span class="text-primary-300 dark:text-primary-600 sm:hidden">•</span>
                     </>
                   )}
-                  <span class="text-xs">
-                    Version {documentation.data.version}
-                  </span>
+                  <span class="text-xs">Version {documentation.data.version}</span>
                 </>
               )}
 
@@ -162,14 +154,12 @@ const structuredData = {
             </div>
           </header>
 
-          <!-- Documentation content -->
           <div class="prose dark:prose-dark max-w-none" id="documentation-content">
             <Content />
           </div>
         </div>
       </article>
 
-      <!-- Desktop TOC - floats to the right of the content container -->
       {shouldShowTOC && (
         <div class="hidden xl:block absolute top-0 left-full ml-1 w-64">
           <div class="sticky top-24" id="toc">
@@ -180,119 +170,51 @@ const structuredData = {
     </div>
   </div>
 
-  <!-- Lightbox is handled globally by BaseLayout -->
-
   <Fragment slot="scripts">
     <script>
-      // Initialize lightbox functionality for images
       document.addEventListener('DOMContentLoaded', () => {
         function initializeLightbox() {
           const images = document.querySelectorAll('img');
           images.forEach((img, index) => {
-            // Skip images that are already clickable (like in galleries)
-            if (img.closest('a') || img.closest('.image-grid')) {
-              return;
-            }
-
-            // Make image clickable
+            if (img.closest('a') || img.closest('.image-grid')) return;
             img.style.cursor = 'pointer';
             img.addEventListener('click', () => {
-              // Dispatch custom event to open lightbox
-              window.dispatchEvent(new CustomEvent('openLightbox', {
-                detail: { index }
-              }));
+              window.dispatchEvent(new CustomEvent('openLightbox', { detail: { index } }));
             });
           });
         }
-
-        // Initialize lightbox after a short delay to ensure images are loaded
         setTimeout(initializeLightbox, 200);
-      });
-      
-      // Remove duplicate H1 from documentation content (since we render it in header)
-      document.addEventListener('DOMContentLoaded', function() {
+
         const documentationContent = document.getElementById('documentation-content');
         if (documentationContent) {
           const firstH1 = documentationContent.querySelector('h1');
-          if (firstH1) {
-            firstH1.remove();
-          }
+          if (firstH1) firstH1.remove();
         }
-      });
 
-      // Process content after DOM loads
-      document.addEventListener('DOMContentLoaded', function() {
-        // Initialize image grid layouts (fallback for browsers without :has() support)
-        function initializeImageGrids() {
-          // Check if browser supports :has() selector
-          const supportsHas = CSS.supports('selector(:has(img))');
-          
-          if (supportsHas) {
-            // Browser supports :has(), CSS will handle it automatically
-            return;
-          }
-
-          // Fallback for browsers without :has() support
-          const paragraphs = document.querySelectorAll('.prose p');
-          
-          paragraphs.forEach(p => {
-            const images = p.querySelectorAll('img, picture');
-            const textNodes = Array.from(p.childNodes).filter((node) => {
-              return node.nodeType === Node.TEXT_NODE && (node.textContent || '').trim() !== '';
-            });
-            const otherElements = Array.from(p.childNodes).filter((node) => {
-              return node.nodeType === Node.ELEMENT_NODE && !['IMG', 'PICTURE', 'BR'].includes(((node as Element).tagName || ''));
-            });
-            
-            // Only process if paragraph contains 2+ images and no other meaningful content
-            if (images.length >= 2 && textNodes.length === 0 && otherElements.length === 0) {
-              // Remove any existing image-grid classes first
-              p.classList.remove('image-grid', 'image-grid-2', 'image-grid-3', 'image-grid-4', 'image-grid-5', 'image-grid-6');
-              
-              // Add the appropriate grid class
-              const gridClass = `image-grid-${Math.min(images.length, 6)}`;
-              p.classList.add('image-grid', gridClass);
-            }
-          });
-        }
-        
-        // Initialize image grids
-        initializeImageGrids();
-        
-        // Process all external links in content to open in new tabs (including reference links)
+        // Process external links
         const allLinks = document.querySelectorAll('.prose a[href]');
         allLinks.forEach(link => {
           const href = link.getAttribute('href');
           if (href && (href.startsWith('http://') || href.startsWith('https://'))) {
-            // Skip if already has target attribute (e.g., manually set)
             if (!link.hasAttribute('target')) {
               link.setAttribute('target', '_blank');
               link.setAttribute('rel', 'noopener noreferrer');
             }
           }
         });
-        
-        // Wrap tables in responsive containers for better mobile experience
+
+        // Wrap tables
         const tables = document.querySelectorAll('.prose table');
         tables.forEach((table) => {
           if (table.parentElement && !table.parentElement.classList.contains('table-wrapper')) {
             const wrapper = document.createElement('div');
             wrapper.className = 'table-wrapper';
-            // Let CSS handle the styling instead of inline styles
-            
-            if (table.parentNode) {
-              (table.parentNode as Node & ParentNode).insertBefore(wrapper, table);
-            }
+            table.parentNode.insertBefore(wrapper, table);
             wrapper.appendChild(table);
-            
-            // Reset table margin since wrapper handles it
-            (table as unknown as HTMLElement).style.margin = '0';
+            table.style.margin = '0';
           }
         });
-
-        
       });
-
     </script>
   </Fragment>
 </BaseLayout>
