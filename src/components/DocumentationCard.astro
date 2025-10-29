@@ -124,7 +124,8 @@ const showCoverImage = shouldShowCoverImage && processedImage && context !== 'ho
             })()}
             alt={imageAlt}
             width={400}
-            height={200}
+            height={undefined}
+            aspectRatio="auto"
             loading={eager ? 'eager' : 'lazy'}
             fetchpriority={eager ? 'high' : 'auto'}
             class="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300"
