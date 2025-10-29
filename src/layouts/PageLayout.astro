@@ -1,231 +1,242 @@
-
 ---
-import type { Page } from '@/types';
-import { siteConfig } from '@/config';
-import { generatePageSEO } from '@/utils/seo';
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import TableOfContents from '@/components/TableOfContents.astro';
-import Lightbox from '@/components/Lightbox.astro';
-import ImageWrapper from '@/components/ImageWrapper.astro';
+import path from "node:path";
+import { Image } from "astro:assets";
+import { devConfig, isDev } from "@/config/dev";
 
-export interface Props {
-  page: Page;
+interface Props {
+  id?: string;
+  src: string;
+  class?: string;
+  alt?: string;
+  caption?: string;
+  position?: string;
+  basePath?: string;
+  width?: number;
+  height?: number;
+  format?: "webp" | "avif" | "png" | "jpg" | "jpeg" | "svg";
+  quality?: number;
+  loading?: "lazy" | "eager";
+  decoding?: "async" | "sync" | "auto";
+  fetchpriority?: "high" | "low" | "auto";
+  densities?: number[];
+  aspectRatio?: "auto" | "16:9" | "9:16" | "4:3" | "3:4" | "1:1"; // 新增比例选项
+  maxWidth?: number; // 新增最大宽度限制
 }
 
-const { page } = Astro.props;
+const { 
+  id, 
+  src, 
+  alt = "", 
+  caption,
+  position = "center", 
+  basePath = "/",
+  width,
+  height,
+  format = "webp",
+  quality = 85,
+  loading = "lazy",
+  decoding = "async",
+  fetchpriority = "auto",
+  densities = [1, 2],
+  aspectRatio = "auto", // 默认自动检测比例
+  maxWidth = 1200 // 默认最大宽度
+} = Astro.props;
 
-// No need for dynamic image import - ImageWrapper handles this
+const className = Astro.props.class;
 
-// Render the page content
-const { Content, headings } = await page.render();
+// Clean the src path first - remove Obsidian brackets if present
+let cleanSrc = src;
+if (!cleanSrc) {
+  console.warn('ImageWrapper: src is undefined');
+  cleanSrc = '';
+}
+if (cleanSrc.startsWith('[[') && cleanSrc.endsWith(']]')) {
+  cleanSrc = cleanSrc.slice(2, -2);
+}
 
-// Generate SEO data
-const seoData = generatePageSEO(page, Astro.url.href);
+// Determine image type using cleaned src
+// For folder-based content, if basePath indicates a synced folder, treat as local for optimization
+const isSyncedFolder = basePath && basePath.includes('/') && !basePath.endsWith('/attachments/');
+const isLocal = !(
+  cleanSrc.startsWith("/") ||
+  cleanSrc.startsWith("http") ||
+  cleanSrc.startsWith("https") ||
+  cleanSrc.startsWith("data:")
+) || isSyncedFolder; // Treat synced folders as local for Astro Image optimization
+const isPublic = cleanSrc.startsWith("/") && !isSyncedFolder;
 
-// Generate table of contents from headings using configurable depth
-const maxDepth = siteConfig.tableOfContents.depth;
-const toc = headings.filter(h => h.depth >= 2 && h.depth <= maxDepth);
+// Dynamic import for local images
+let img: any = null;
+let fallbackSrc: string | null = null;
+let isImageMissing = false;
+let originalWidth: number | undefined = width;
+let originalHeight: number | undefined = height;
 
-// Check if TOC should be shown - global setting, then hideTOC frontmatter, then showTOC frontmatter (default true for pages)
-const hideTOC = page.data.hideTOC === true;
-const showTOC = page.data.showTOC !== undefined ? page.data.showTOC : true;
-const shouldShowTOC = siteConfig.tableOfContents.enabled && !hideTOC && showTOC && toc.length > 0;
-
-// Generate structured data
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: page.data.title,
-  description: page.data.description,
-  url: Astro.url.href,
-  isPartOf: {
-    '@type': 'WebSite',
-    name: siteConfig.title,
-    url: siteConfig.site
-  },
-  author: {
-    '@type': 'Person',
-    name: siteConfig.author
+if (isLocal) {
+  try {
+    const files = import.meta.glob<ImageMetadata>("/public/**", {
+      import: "default",
+    });
+    
+    // Remove leading "./" if present for folder-based posts
+    if (cleanSrc.startsWith('./')) {
+      cleanSrc = cleanSrc.slice(2);
+    }
+    
+    // Remove leading "images/" if present since basePath already includes it
+    // But only for global images, not folder-based images
+    if (cleanSrc.startsWith('images/') && (basePath === '/posts/attachments/' || basePath === '/projects/attachments/' || basePath === '/docs/attachments/')) {
+      cleanSrc = cleanSrc.slice(7);
+    }
+    
+    // For folder-based content, if basePath already includes 'images/' and cleanSrc starts with 'images/',
+    // remove the prefix from cleanSrc to avoid double 'images/'
+    if (cleanSrc.startsWith('images/') && basePath.includes('/attachments/') && basePath !== '/posts/attachments/' && basePath !== '/projects/attachments/' && basePath !== '/docs/attachments/')) {
+      cleanSrc = cleanSrc.slice(7);
+    }
+    
+    // For content with attachments/ prefix, remove it since the sync script already handles this
+    if (cleanSrc.startsWith('attachments/') && basePath.includes('/projects/') && !basePath.includes('/attachments/')) {
+      cleanSrc = cleanSrc.slice(12); // Remove 'attachments/' prefix
+    }
+    
+    // For single-file projects, also remove attachments/ prefix when using global attachments directory
+    if (cleanSrc.startsWith('attachments/') && basePath === '/projects/attachments/') {
+      cleanSrc = cleanSrc.slice(12); // Remove 'attachments/' prefix
+    }
+    
+    // Normalize the path for the glob pattern
+    let normalizedPath = path
+      .normalize(path.join("/public", basePath, cleanSrc))
+      .replace(/\\/g, "/");
+    
+    // Ensure the path starts with /public
+    if (!normalizedPath.startsWith("/public")) {
+      normalizedPath = `/public${normalizedPath}`;
+    }
+    
+    // Debug logging
+    if (isDev && devConfig.images.logMissingImages) {
+      // Debug logging removed for production
+    }
+    
+    const file = files[normalizedPath];
+    if (file) {
+      img = await file();
+      // 获取图片原始尺寸用于比例计算
+      if (!originalWidth) originalWidth = img.width;
+      if (!originalHeight) originalHeight = img.height;
+    } else {
+      isImageMissing = true;
+      // No fallback images - just mark as missing
+    }
+  } catch (error) {
+    isImageMissing = true;
+    // No fallback images - just mark as missing
   }
-};
+}
+
+// 计算最终宽高和样式
+let finalWidth = originalWidth;
+let finalHeight = originalHeight;
+let containerClass = "overflow-hidden relative";
+let imageClass = "w-full h-auto";
+
+// 根据选择的宽高比设置容器样式
+if (aspectRatio !== "auto") {
+  imageClass = "w-full h-full object-cover";
+  
+  switch (aspectRatio) {
+    case "16:9":
+      containerClass += " aspect-video"; // Tailwind 的 16:9
+      break;
+    case "9:16":
+      containerClass += " aspect-[9/16]";
+      break;
+    case "4:3":
+      containerClass += " aspect-[4/3]";
+      break;
+    case "3:4":
+      containerClass += " aspect-[3/4]";
+      break;
+    case "1:1":
+      containerClass += " aspect-square";
+      break;
+  }
+} else {
+  // 自动模式：统一使用 contain 保持图片完整
+  imageClass = "w-full h-auto object-contain max-w-full";
+}
+
+// 如果有最大宽度限制，添加对应样式
+if (maxWidth) {
+  containerClass += ` max-w-[${maxWidth}px] mx-auto`;
+}
+
+const imageStyle = `object-position: ${position}`;
 ---
 
-<BaseLayout seoData={seoData}>
-  <Fragment slot="head">
-    <!-- Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-    
-    <!-- Preload page image if exists -->
-    {page.data.image && typeof page.data.image === 'string' && !page.data.image.startsWith('http') && (
-      <link 
-        rel="preload" 
-        as="image" 
-        href={`/pages/attachments/${page.data.image}`}
-        fetchpriority="high"
-      />
-    )}
-  </Fragment>
+<div id={id} class:list={[className, containerClass]}>
+  {isLocal && img ? (
+    <Image 
+      src={img} 
+      alt={alt} 
+      width={finalWidth}
+      height={finalHeight}
+      format={format}
+      quality={quality}
+      class={imageClass} 
+      style={imageStyle}
+      loading={loading}
+      decoding={decoding}
+      fetchpriority={fetchpriority}
+      densities={densities}
+    />
+  ) : isPublic ? (
+    <img 
+      src={isSyncedFolder ? `${basePath}${cleanSrc}` : cleanSrc} 
+      alt={alt} 
+      class={imageClass} 
+      style={imageStyle}
+      loading={loading}
+      decoding={decoding}
+      fetchpriority={fetchpriority}
+      width={finalWidth}
+      height={finalHeight}
+    />
+  ) : isImageMissing ? (
+    // Don't render anything for missing local images
+    null
+  ) : (
+    <img 
+      src={cleanSrc} 
+      alt={alt} 
+      class={imageClass} 
+      style={imageStyle}
+      loading={loading}
+      decoding={decoding}
+      fetchpriority={fetchpriority}
+      width={finalWidth}
+      height={finalHeight}
+    />
+  )}
+  
+  {caption && (
+    <figcaption class="mt-2 text-sm text-primary-600 dark:text-primary-400 text-center italic">
+      {caption}
+    </figcaption>
+  )}
+</div>
 
-  <div class="py-8 relative">
-    <div class="mx-auto px-4 sm:px-6 lg:px-8 relative" style={`max-width: ${siteConfig.layout.contentWidth}`}>
-      <!-- Page content -->
-      <article class={`bg-primary-50 dark:bg-primary-900 rounded-lg border border-primary-200 dark:border-primary-700 shadow-sm ${page.data.image ? 'overflow-hidden' : ''}`}>
-        {page.data.image && (
-          <div class="h-40 sm:h-48 md:h-56 lg:h-64 overflow-hidden rounded-t-lg bg-primary-100 dark:bg-primary-800">
-            <ImageWrapper
-              src={page.data.image}
-              basePath="/pages/attachments/"
-              alt={page.data.imageAlt || `Featured image for page: ${page.data.title}`}
-              class="w-full h-full object-cover"
-              width={800}
-              height={450}
-              format="webp"
-              quality={85}
-              loading="eager"
-              fetchpriority="high"
-            />
-          </div>
-        )}
-
-        <!-- Page content wrapper -->
-        <div class={`p-6 ${page.data.image ? 'rounded-b-lg' : 'rounded-lg'}`}>
-          <!-- Page header -->
-          <header class="mb-4">
-            <h1 class="text-xl font-bold text-primary-900 dark:text-primary-50 mb-6 leading-tight">
-              {page.data.title}
-            </h1>
-          </header>
-
-          <!-- Page content -->
-          <div class="prose dark:prose-dark max-w-none" id="page-content">
-            <Content />
-          </div>
-        </div>
-      </article>
-
-      <!-- Desktop TOC - floats to the right of the content container -->
-      {shouldShowTOC && (
-        <div class="hidden xl:block absolute top-0 left-full ml-1 w-64">
-          <div class="sticky top-24" id="toc">
-            <TableOfContents headings={toc} />
-          </div>
-        </div>
-      )}
-    </div>
-  </div>
-
-  <!-- Lightbox is handled globally by BaseLayout -->
-
-  <Fragment slot="scripts">
-    <script>
-      // Initialize lightbox functionality for images
-      document.addEventListener('DOMContentLoaded', () => {
-        function initializeLightbox() {
-          const images = document.querySelectorAll('img');
-          images.forEach((img, index) => {
-            // Skip images that are already clickable (like in galleries)
-            if (img.closest('a') || img.closest('.image-grid')) {
-              return;
-            }
-
-            // Make image clickable
-            img.style.cursor = 'pointer';
-            img.addEventListener('click', () => {
-              // Dispatch custom event to open lightbox
-              window.dispatchEvent(new CustomEvent('openLightbox', {
-                detail: { index }
-              }));
-            });
-          });
-        }
-
-        // Initialize lightbox after a short delay to ensure images are loaded
-        setTimeout(initializeLightbox, 200);
-      });
-      // Remove duplicate H1 from page content (since we render it in header)
-      document.addEventListener('DOMContentLoaded', function() {
-        const pageContent = document.getElementById('page-content');
-        if (pageContent) {
-          const firstH1 = pageContent.querySelector('h1');
-          if (firstH1) {
-            firstH1.remove();
-          }
-        }
-      });
-
-      // Process content after DOM loads
-      document.addEventListener('DOMContentLoaded', function() {
-        // Initialize image grid layouts (fallback for browsers without :has() support)
-        function initializeImageGrids() {
-          // Check if browser supports :has() selector
-          const supportsHas = CSS.supports('selector(:has(img))');
-          
-          if (supportsHas) {
-            // Browser supports :has(), CSS will handle it automatically
-            return;
-          }
-
-          // Fallback for browsers without :has() support
-          const paragraphs = document.querySelectorAll('.prose p');
-          
-          paragraphs.forEach(p => {
-            const images = p.querySelectorAll('img, picture');
-            const textNodes = Array.from(p.childNodes).filter((node) => {
-              return node.nodeType === Node.TEXT_NODE && (node.textContent || '').trim() !== '';
-            });
-            const otherElements = Array.from(p.childNodes).filter((node) => {
-              return node.nodeType === Node.ELEMENT_NODE && !['IMG', 'PICTURE', 'BR'].includes(((node as Element).tagName || ''));
-            });
-            
-            // Only process if paragraph contains 2+ images and no other meaningful content
-            if (images.length >= 2 && textNodes.length === 0 && otherElements.length === 0) {
-              // Remove any existing image-grid classes first
-              p.classList.remove('image-grid', 'image-grid-2', 'image-grid-3', 'image-grid-4', 'image-grid-5', 'image-grid-6');
-              
-              // Add the appropriate grid class
-              const gridClass = `image-grid-${Math.min(images.length, 6)}`;
-              p.classList.add('image-grid', gridClass);
-            }
-          });
-        }
-        
-        // Initialize image grids
-        initializeImageGrids();
-        
-        // Process all external links in content to open in new tabs (including reference links)
-        const allLinks = document.querySelectorAll('.prose a[href]');
-        allLinks.forEach(link => {
-          const href = link.getAttribute('href');
-          if (href && (href.startsWith('http://') || href.startsWith('https://'))) {
-            // Skip if already has target attribute (e.g., manually set)
-            if (!link.hasAttribute('target')) {
-              link.setAttribute('target', '_blank');
-              link.setAttribute('rel', 'noopener noreferrer');
-            }
-          }
-        });
-        
-        // Wrap tables in responsive containers for better mobile experience
-        const tables = document.querySelectorAll('.prose table');
-        tables.forEach((table) => {
-          if (table.parentElement && !table.parentElement.classList.contains('table-wrapper')) {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'table-wrapper';
-            // Let CSS handle the styling instead of inline styles
-            
-            if (table.parentNode) {
-              (table.parentNode as Node & ParentNode).insertBefore(wrapper, table);
-            }
-            wrapper.appendChild(table);
-            
-            // Reset table margin since wrapper handles it
-            (table as unknown as HTMLElement).style.margin = '0';
-          }
-        });
-
-        
-      });
-    </script>
-  </Fragment>
-</BaseLayout>
-
+<style>
+/* 确保自定义宽高比样式生效 */
+.aspect-\[9\/16\] {
+  aspect-ratio: 9/16;
+}
+.aspect-\[4\/3\] {
+  aspect-ratio: 4/3;
+}
+.aspect-\[3\/4\] {
+  aspect-ratio: 3/4;
+}
+</style>
