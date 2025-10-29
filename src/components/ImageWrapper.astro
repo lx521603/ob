@@ -19,6 +19,8 @@ interface Props {
   decoding?: "async" | "sync" | "auto";
   fetchpriority?: "high" | "low" | "auto";
   densities?: number[];
+  aspectRatio?: "auto" | "16:9" | "9:16" | "4:3" | "3:4" | "1:1"; // 新增比例选项
+  maxWidth?: number; // 新增最大宽度限制
 }
 
 const { 
@@ -28,14 +30,16 @@ const {
   caption,
   position = "center", 
   basePath = "/",
-  width = 800,
-  height = 450,
+  width,
+  height,
   format = "webp",
   quality = 85,
   loading = "lazy",
   decoding = "async",
   fetchpriority = "auto",
-  densities = [1, 2]
+  densities = [1, 2],
+  aspectRatio = "auto", // 默认自动检测比例
+  maxWidth = 1200 // 默认最大宽度
 } = Astro.props;
 
 const className = Astro.props.class;
@@ -65,6 +69,8 @@ const isPublic = cleanSrc.startsWith("/") && !isSyncedFolder;
 let img: any = null;
 let fallbackSrc: string | null = null;
 let isImageMissing = false;
+let originalWidth: number | undefined = width;
+let originalHeight: number | undefined = height;
 
 if (isLocal) {
   try {
@@ -117,6 +123,9 @@ if (isLocal) {
     const file = files[normalizedPath];
     if (file) {
       img = await file();
+      // 获取图片原始尺寸用于比例计算
+      if (!originalWidth) originalWidth = img.width;
+      if (!originalHeight) originalHeight = img.height;
     } else {
       isImageMissing = true;
       // No fallback images - just mark as missing
@@ -127,17 +136,69 @@ if (isLocal) {
   }
 }
 
-const imageClass = "w-full h-full object-cover";
+// 计算最终宽高和样式
+let finalWidth = originalWidth;
+let finalHeight = originalHeight;
+let containerClass = "overflow-hidden relative";
+let imageClass = "w-full h-auto";
+
+// 根据选择的宽高比设置容器样式
+if (aspectRatio !== "auto") {
+  imageClass = "w-full h-full object-cover";
+  
+  switch (aspectRatio) {
+    case "16:9":
+      containerClass += " aspect-video"; // Tailwind 的 16:9
+      break;
+    case "9:16":
+      containerClass += " aspect-[9/16]";
+      break;
+    case "4:3":
+      containerClass += " aspect-[4/3]";
+      break;
+    case "3:4":
+      containerClass += " aspect-[3/4]";
+      break;
+    case "1:1":
+      containerClass += " aspect-square";
+      break;
+  }
+} else {
+  // 自动模式：根据图片原始比例决定是 contain 还是 cover
+  if (originalWidth && originalHeight) {
+    const ratio = originalWidth / originalHeight;
+    if (ratio > 1.5) {
+      // 横图使用 contain 保持完整
+      imageClass = "w-full h-auto object-contain max-w-full";
+    } else if (ratio < 0.67) {
+      // 竖图使用 contain 保持完整
+      imageClass = "h-full w-auto object-contain max-h-full mx-auto";
+    } else {
+      // 接近方形的图使用 cover 填充
+      imageClass = "w-full h-full object-cover";
+      containerClass += " aspect-square";
+    }
+  } else {
+    // 没有尺寸信息时使用 contain
+    imageClass = "w-full h-auto object-contain";
+  }
+}
+
+// 如果有最大宽度限制，添加对应样式
+if (maxWidth) {
+  containerClass += ` max-w-[${maxWidth}px] mx-auto`;
+}
+
 const imageStyle = `object-position: ${position}`;
 ---
 
-<div id={id} class:list={[className, 'overflow-hidden relative']}>
+<div id={id} class:list={[className, containerClass]}>
   {isLocal && img ? (
     <Image 
       src={img} 
       alt={alt} 
-      width={width}
-      height={height}
+      width={finalWidth}
+      height={finalHeight}
       format={format}
       quality={quality}
       class={imageClass} 
@@ -156,8 +217,8 @@ const imageStyle = `object-position: ${position}`;
       loading={loading}
       decoding={decoding}
       fetchpriority={fetchpriority}
-      width={width}
-      height={height}
+      width={finalWidth}
+      height={finalHeight}
     />
   ) : isImageMissing ? (
     // Don't render anything for missing local images
@@ -171,8 +232,8 @@ const imageStyle = `object-position: ${position}`;
       loading={loading}
       decoding={decoding}
       fetchpriority={fetchpriority}
-      width={width}
-      height={height}
+      width={finalWidth}
+      height={finalHeight}
     />
   )}
   
@@ -182,3 +243,16 @@ const imageStyle = `object-position: ${position}`;
     </figcaption>
   )}
 </div>
+
+<style>
+/* 确保自定义宽高比样式生效 */
+.aspect-\[9\/16\] {
+  aspect-ratio: 9/16;
+}
+.aspect-\[4\/3\] {
+  aspect-ratio: 4/3;
+}
+.aspect-\[3\/4\] {
+  aspect-ratio: 3/4;
+}
+</style>
