@@ -91,7 +91,7 @@ if (isLocal) {
     
     // For folder-based content, if basePath already includes 'images/' and cleanSrc starts with 'images/',
     // remove the prefix from cleanSrc to avoid double 'images/'
-    if (cleanSrc.startsWith('images/') && basePath.includes('/attachments/') && basePath !== '/posts/attachments/' && basePath !== '/projects/attachments/' && basePath !== '/docs/attachments/')) {
+    if (cleanSrc.startsWith('images/') && basePath.includes('/attachments/') && basePath !== '/posts/attachments/' && basePath !== '/projects/attachments/' && basePath !== '/docs/attachments/') {
       cleanSrc = cleanSrc.slice(7);
     }
     
