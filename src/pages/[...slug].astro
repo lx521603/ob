@@ -14,11 +14,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
   // Filter out special pages that are handled by dedicated routes
   // Note: 'projects' and 'docs' are NOT filtered out here because they can be fallback pages
   const specialPageSlugs = ['home', '404'];
-  const visiblePages = pages.filter(page => !specialPageSlugs.includes(page.id));
+  const visiblePages = pages.filter(page => !specialPageSlugs.includes(page.slug));
 
   // Generate paths for regular pages
   const pagePaths = visiblePages.map(page => ({
-    params: { slug: page.id },
+    params: { slug: page.slug },
     props: { page }
   }));
 
@@ -27,7 +27,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const specialPaths = specialPages
     .filter(page => {
       // Always exclude home and 404
-      if (['home', '404'].includes(page.id)) {
+      if (['home', '404'].includes(page.slug)) {
         return false;
       }
 
@@ -44,7 +44,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       return true;
     })
     .map(page => ({
-      params: { slug: page.id },
+      params: { slug: page.slug },
       props: { page }
     }));
 
