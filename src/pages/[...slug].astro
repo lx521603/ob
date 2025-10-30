@@ -1,4 +1,19 @@
 ---
+// 添加调试
+console.log('=== 关于页面调试 ===');
+console.log('当前路径:', Astro.url.pathname);
+console.log('路由参数:', Astro.params);
+
+const { page } = Astro.props;
+console.log('页面数据:', page);
+
+// 如果页面为空，先不重定向，看看是什么情况
+if (!page) {
+  console.error('页面未找到!', Astro.params.slug);
+  // 暂时注释掉重定向
+  // return Astro.redirect('/404');
+}
+
 import type { GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 import { siteConfig } from '@/config';
