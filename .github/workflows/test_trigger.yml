@@ -1,0 +1,12 @@
+name: Test Workflow Trigger
+
+on:
+  push:
+    branches: [ "main" ] # 请确保此处是您的目标分支
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if workflow runs
+        run: echo "✅ 恭喜！推送代码成功触发了工作流！"
