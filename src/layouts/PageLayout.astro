@@ -2,24 +2,42 @@
 import type { GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 import { siteConfig } from '@/config';
+import PageLayout from '@/layouts/PageLayout.astro';
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  // Get all pages
   const pages = await getCollection('pages');
+  
+  // Get all special pages
   const specialPages = await getCollection('special');
 
+  // Filter out special pages that are handled by dedicated routes
   const specialPageSlugs = ['home', '404'];
   const visiblePages = pages.filter(page => !specialPageSlugs.includes(page.slug));
 
+  // Generate paths for regular pages
   const pagePaths = visiblePages.map(page => ({
     params: { slug: page.slug },
     props: { page }
   }));
 
+  // Generate paths for special pages (excluding home and 404 which have special handling)
   const specialPaths = specialPages
     .filter(page => {
-      if (['home', '404'].includes(page.slug)) return false;
-      if (page.slug === 'projects') return !siteConfig.optionalContentTypes.projects;
-      if (page.slug === 'docs') return !siteConfig.optionalContentTypes.docs;
+      // Always exclude home and 404
+      if (['home', '404'].includes(page.slug)) {
+        return false;
+      }
+      
+      // For projects and docs: only include if their features are disabled
+      if (page.slug === 'projects') {
+        return !siteConfig.optionalContentTypes.projects;
+      }
+      
+      if (page.slug === 'docs') {
+        return !siteConfig.optionalContentTypes.docs;
+      }
+      
       return true;
     })
     .map(page => ({
@@ -30,25 +48,30 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return [...pagePaths, ...specialPaths];
 };
 
+export interface Props {
+  page: any;
+}
+
 const { page } = Astro.props;
+
+// Validate page data
+if (!page) {
+  return Astro.redirect('/404');
+}
+
+// Check if page is draft (only in production)
+const isDev = import.meta.env.DEV;
+if (!isDev && page.data.draft) {
+  return Astro.redirect('/404');
+}
 ---
 
 <html>
   <head>
-    <title>{page?.data?.title || '页面'}</title>
-    <!-- 添加字符编码 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
-  <body style="padding: 20px; font-family: sans-serif;">
-    <h1>页面测试 - 直接渲染</h1>
-    <div style="background: #f0f0f0; padding: 15px; margin: 10px 0;">
-      <p><strong>调试信息:</strong></p>
-      <p>页面存在: <strong>{page ? '✅ 是' : '❌ 否'}</strong></p>
-      <p>页面slug: <code>{page?.slug || '未找到'}</code></p>
-      <p>页面标题: {page?.data?.title || '无标题'}</p>
-      <p>当前路径: {Astro.url.pathname}</p>
-    </div>
-    <a href="/" style="color: blue;">返回首页</a>
+  <body>
+    <PageLayout page={page} />
   </body>
 </html>
