@@ -1,6 +1,6 @@
 ---
 title: 文档
-description: Comprehensive guides, tutorials, and reference materials to help you get the most out of this project.
+description: 这里提供了全面的指南、教程和参考资料，旨在帮助您充分发挥本项目的潜力。
 hideTOC: false
 ---
-Find everything you need to understand, use, and contribute to this project. 
+为您提供理解、使用和贡献本项目所需的所有资源。
