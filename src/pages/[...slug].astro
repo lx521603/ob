@@ -11,39 +11,37 @@ export const getStaticPaths: GetStaticPaths = async () => {
   // Get all special pages
   const specialPages = await getCollection('special');
 
-  // 添加这一行：排除已存在的路由避免冲突
-  const existingRoutes = ['posts', 'projects', 'docs'];
-  const specialPageSlugs = ['home', '404', ...existingRoutes]; // 修改这里
-  
-  const visiblePages = pages.filter(page => !specialPageSlugs.includes(page.slug));
+  // Filter out special pages that are handled by dedicated routes
+  const specialPageSlugs = ['home', '404'];
+  const visiblePages = pages.filter(page => !specialPageSlugs.includes(page.slug)); // 改为 page.slug
 
   // Generate paths for regular pages
   const pagePaths = visiblePages.map(page => ({
-    params: { slug: page.slug },
+    params: { slug: page.slug }, // 改为 page.slug
     props: { page }
   }));
 
   // Generate paths for special pages (excluding home and 404 which have special handling)
   const specialPaths = specialPages
     .filter(page => {
-      // 修改这里：也排除 existingRoutes
-      if (['home', '404', ...existingRoutes].includes(page.slug)) {
+      // Always exclude home and 404
+      if (['home', '404'].includes(page.slug)) { // 改为 page.slug
         return false;
       }
       
       // For projects and docs: only include if their features are disabled
-      if (page.slug === 'projects') {
+      if (page.slug === 'projects') { // 改为 page.slug
         return !siteConfig.optionalContentTypes.projects;
       }
       
-      if (page.slug === 'docs') {
+      if (page.slug === 'docs') { // 改为 page.slug
         return !siteConfig.optionalContentTypes.docs;
       }
       
       return true;
     })
     .map(page => ({
-      params: { slug: page.slug },
+      params: { slug: page.slug }, // 改为 page.slug
       props: { page }
     }));
 
