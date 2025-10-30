@@ -166,14 +166,14 @@ export function formatDate(date: Date): string {
   if (date.getUTCHours() === 0 && date.getUTCMinutes() === 0 && date.getUTCSeconds() === 0) {
     // Create a new date in local timezone using the UTC date components
     const localDate = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-    return localDate.toLocaleDateString('en-US', {
+    return localDate.toLocaleDateString('zh-CN', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
     });
   }
   
-  return date.toLocaleDateString('en-US', {
+  return date.toLocaleDateString('zh-CN', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -187,14 +187,14 @@ export function formatDateMobile(date: Date): string {
   if (date.getUTCHours() === 0 && date.getUTCMinutes() === 0 && date.getUTCSeconds() === 0) {
     // Create a new date in local timezone using the UTC date components
     const localDate = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-    return localDate.toLocaleDateString('en-US', {
+    return localDate.toLocaleDateString('zh-CN', {
       year: 'numeric',
       month: 'short',
       day: 'numeric'
     });
   }
   
-  return date.toLocaleDateString('en-US', {
+  return date.toLocaleDateString('zh-CN', {
     year: 'numeric',
     month: 'short',
     day: 'numeric'
