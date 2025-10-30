@@ -1,7 +1,0 @@
-name: Minimal Viable Test
-on: [push] # 监听所有分支的所有推送，没有任何限制
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "This is the minimal test. If this doesn't run, the issue is fundamental."
