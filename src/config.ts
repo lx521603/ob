@@ -183,7 +183,7 @@ export const siteConfig: SiteConfig = {
   // [CONFIG:SITE_URL]
   site: "https://sai.st",
   // [CONFIG:SITE_TITLE]
-  title: "Sai 的测试网站",
+  title: "Sai",
   // [CONFIG:SITE_DESCRIPTION]
   description: "一个为 Obsidian 用户设计的灵活博客主题。",
   // [CONFIG:SITE_AUTHOR]
@@ -311,7 +311,7 @@ export const siteConfig: SiteConfig = {
     showMobileMenu: true,
     // [CONFIG:NAVIGATION_PAGES]
     pages: [
-      { title: "帖子", url: "/posts" },
+      { title: "博客", url: "/posts" },
       { title: "项目", url: "/projects" },
       { title: "文档", url: "/docs" },
       { title: "关于", url: "/about" },
