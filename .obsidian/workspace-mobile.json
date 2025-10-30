@@ -55,16 +55,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/posts/测试插入图片.md",
+                "file": "src/content/docs/文档图片.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "测试插入图片"
+              "title": "文档图片"
+            }
+          },
+          {
+            "id": "68751bb52de8b511",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "测试图片.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "测试图片"
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -188,6 +202,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "obsidian-git:Open Git source control": false,
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
       "canvas:新建白板": false,
@@ -197,13 +212,23 @@
       "bases:创建新数据库": false
     }
   },
-  "active": "29a401ef134ba923",
+  "active": "68751bb52de8b511",
   "lastOpenFiles": [
     "src/content/docs/文档图片.md",
-    "src/content/docs/configuration.md",
-    "src/content/posts/测试插入图片.md",
-    "src/content/docs/插入图片用法.md",
+    "测试图片.md",
     "src/content/docs/api.md",
+    "/src/layouts/DocumentationLayout.astro",
+    "/src/layouts",
+    "/src/pages/docs/[slug].astro",
+    "/src/pages/docs",
+    "/src/pages",
+    "/src/components/ImageWrapper.astro",
+    "/src/components",
+    "/src",
+    "().md",
+    "src/content/posts/测试插入图片.md",
+    "src/content/docs/configuration.md",
+    "src/content/docs/插入图片用法.md",
     "src/content/docs/installing-obsidian.md",
     "src/content/posts/formatting-reference.md",
     "src/content/special/404.md",
@@ -213,7 +238,6 @@
     "测试.md",
     "src/pages/posts/tag/[...tag]/[page].astro",
     "src/pages/posts/tag/[...tag].astro",
-    "src/pages/posts/tag/[...tag]",
     "src/content/pages/attachments/water.png",
     "src/content/docs/attachments/astro-modular-configuration.png",
     "src/content/docs/attachments/obsidian-cover.png",
@@ -225,16 +249,9 @@
     "src/content/posts/attachments/sunset.jpg",
     "src/content/posts/attachments/astro-composer-suite-for-obsidian.png",
     "src/content/posts/attachments/mountains.png",
-    "src/content/posts/attachments/video.mp4",
     "src/content/posts/attachments/mountains-clouds.png",
-    "src/content/posts/attachments/sound.wav",
-    "src/content/posts/attachments/document.pdf",
     "src/content/posts/sample-folder-based-post/index.md",
-    "src/themes/custom/custom.ts",
     "src/themes/custom/README.md",
-    "src/pages/api/projects.json.ts",
-    "src/pages/api/documentation.json.ts",
-    "src/pages/api/posts.json.ts",
     "src/content/pages/about.md",
     "src/content/pages/contact.md",
     "src/content/pages/privacy-policy.md",
@@ -242,8 +259,6 @@
     "src/content/special/projects.md",
     "src/content/projects/astro-composer.md",
     "src/content/posts/obsidian-vault-guide.md",
-    "src/content/posts/getting-started.md",
-    "src/content/posts/mermaid-diagrams.md",
-    "AGENTS.md"
+    "src/content/posts/getting-started.md"
   ]
 }
