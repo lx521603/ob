@@ -36,6 +36,9 @@ const { page } = Astro.props;
 <html>
   <head>
     <title>{page?.data?.title || '页面'}</title>
+    <!-- 添加字符编码 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body style="padding: 20px; font-family: sans-serif;">
     <h1>页面测试 - 直接渲染</h1>
