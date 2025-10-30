@@ -50,6 +50,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return [...pagePaths, ...specialPaths];
 };
+
+export interface Props {
+  page: any;
+}
+
+const { page } = Astro.props;
 // 添加调试
 console.log('=== 关于页面调试 ===');
 console.log('当前路径:', Astro.url.pathname);
@@ -64,12 +70,6 @@ if (!page) {
   // 暂时注释掉重定向
   // return Astro.redirect('/404');
 }
-export interface Props {
-  page: any;
-}
-
-const { page } = Astro.props;
-
 // Validate page data
 if (!page) {
   return Astro.redirect('/404');
