@@ -56,12 +56,11 @@ export interface Props {
 }
 
 const { page } = Astro.props;
-// 添加调试
+
+// 添加调试 - 注意：不要重复声明 page！
 console.log('=== 关于页面调试 ===');
 console.log('当前路径:', Astro.url.pathname);
 console.log('路由参数:', Astro.params);
-
-const { page } = Astro.props;
 console.log('页面数据:', page);
 
 // 如果页面为空，先不重定向，看看是什么情况
@@ -69,10 +68,6 @@ if (!page) {
   console.error('页面未找到!', Astro.params.slug);
   // 暂时注释掉重定向
   // return Astro.redirect('/404');
-}
-// Validate page data
-if (!page) {
-  return Astro.redirect('/404');
 }
 
 // Check if page is draft (only in production)
