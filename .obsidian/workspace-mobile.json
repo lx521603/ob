@@ -69,7 +69,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "测试图片.md",
+                "file": "src/content/posts/测试图片.md",
                 "mode": "source",
                 "source": true
               },
@@ -214,8 +214,9 @@
   },
   "active": "68751bb52de8b511",
   "lastOpenFiles": [
+    "().md",
+    "src/content/posts/测试图片.md",
     "src/content/docs/文档图片.md",
-    "测试图片.md",
     "src/content/docs/api.md",
     "/src/layouts/DocumentationLayout.astro",
     "/src/layouts",
@@ -225,7 +226,6 @@
     "/src/components/ImageWrapper.astro",
     "/src/components",
     "/src",
-    "().md",
     "src/content/posts/测试插入图片.md",
     "src/content/docs/configuration.md",
     "src/content/docs/插入图片用法.md",
