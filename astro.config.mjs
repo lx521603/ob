@@ -63,12 +63,7 @@ export default defineConfig({
     tailwind(),
     sitemap(),
     react(),
-    mdx({
-      // 添加这一行 - 为 MDX 文件自动导入 Location 组件
-      components: {
-        Location: '@/components/MDXComponents.jsx?Location'
-      }
-    }),
+    mdx(),
     swup({
       theme: false,
       animationClass: 'transition-swup-',
