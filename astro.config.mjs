@@ -66,7 +66,7 @@ export default defineConfig({
     mdx({
       // 添加这一行 - 为 MDX 文件自动导入 Location 组件
       components: {
-        Location: '@/components/Location.jsx',
+        Location: '/src/components/Location.jsx',
       }
     }),
     swup({
