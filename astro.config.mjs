@@ -7,6 +7,7 @@ import remarkCallouts from './src/utils/remark-callouts.ts';
 import remarkImageGrids from './src/utils/remark-image-grids.ts';
 import remarkMermaid from './src/utils/remark-mermaid.ts';
 import { remarkObsidianEmbeds } from './src/utils/remark-obsidian-embeds.ts';
+import remarkBases from './src/utils/remark-bases.ts';
 import remarkMath from 'remark-math';
 import remarkReadingTime from 'remark-reading-time';
 import remarkToc from 'remark-toc';
@@ -35,7 +36,9 @@ export default defineConfig({
   '/contact-me': '/contact',
   '/contact-us': '/contact',
   '/privacy': '/privacy-policy',
-  '/posts/mermaid-test': '/posts/mermaid-diagram-test',
+  '/posts/mermaid-test': '/posts/obsidian-embeds-demo',
+  '/posts/mermaid-diagram-test': '/posts/obsidian-embeds-demo',
+  '/posts/mermaid-diagrams': '/posts/obsidian-embeds-demo',
   '/posts/astro-suite-vault-modular-guide': '/posts/obsidian-vault-guide',
   '/posts/astro-suite-obsidian-vault-guide-astro-modular': '/posts/obsidian-vault-guide',
   '/projects/obsidian-astro-composer': '/projects/astro-composer',
@@ -84,6 +87,8 @@ export default defineConfig({
           remarkInternalLinks,
       remarkFolderImages,
       remarkObsidianEmbeds,
+      // Bases directive (table-only v1)
+      remarkBases,
       remarkImageCaptions,
       remarkMath,
       remarkCallouts,
