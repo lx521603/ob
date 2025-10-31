@@ -4,85 +4,19 @@ interface Props {
 }
 
 const { address } = Astro.props;
-
-const getStoreName = (addr: string) => {
-  const cleanName = addr.split('•')[0].split(' ')[0];
-  return cleanName.length > 10 ? cleanName.substring(0, 10) + '...' : cleanName;
-};
-
-const storeName = getStoreName(address);
-const isServer = typeof window === 'undefined';
 ---
 
-<div class="location-wrapper" data-address={address}>
+<a 
+  href={`https://maps.google.com/?q=${encodeURIComponent(address)}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="location-wrapper"
+>
   <div class="location-icon">
     <span>📍</span>
   </div>
-  <span class="location-text">{storeName}</span>
-</div>
-
-{!isServer && (
-  <script>
-    // 客户端脚本移到这里，确保只在浏览器执行
-    document.addEventListener('DOMContentLoaded', () => {
-      const locationElements = document.querySelectorAll('.location-wrapper');
-      
-      locationElements.forEach(element => {
-        const address = element.dataset.address;
-        
-        element.addEventListener('click', () => {
-          const encodedAddress = encodeURIComponent(address);
-          const userAgent = navigator.userAgent;
-          
-          let mapUrl;
-          if (/iPad|iPhone|iPod/.test(userAgent)) {
-            mapUrl = `https://maps.apple.com/?q=${encodedAddress}`;
-          } else if (navigator.platform.includes('Mac')) {
-            mapUrl = `https://maps.apple.com/?q=${encodedAddress}`;
-          } else {
-            const mapUrls = [
-              `amapuri://route/plan/?dname=${encodedAddress}`,
-              `baidumap://map/geocoder?address=${encodedAddress}`,
-              `qqmap://map/routeplan?type=drive&to=${encodedAddress}`,
-              `https://map.baidu.com/mobile/webapp/search/search/qt=s&wd=${encodedAddress}`
-            ];
-            
-            let opened = false;
-            for (let i = 0; i < mapUrls.length - 1; i++) {
-              const newWindow = window.open(mapUrls[i], '_blank');
-              if (newWindow && !newWindow.closed) {
-                opened = true;
-                break;
-              }
-            }
-            
-            if (!opened) {
-              mapUrl = mapUrls[mapUrls.length - 1];
-            }
-          }
-          
-          if (mapUrl) {
-            window.open(mapUrl, '_blank');
-          }
-        });
-        
-        element.addEventListener('mouseenter', () => {
-          element.style.backgroundColor = '#f0f9ff';
-          element.style.borderColor = '#3b82f6';
-          element.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-          element.style.transform = 'translateY(-1px)';
-        });
-        
-        element.addEventListener('mouseleave', () => {
-          element.style.backgroundColor = 'white';
-          element.style.borderColor = '#d1d5db';
-          element.style.boxShadow = '0 1px 3px rgba(0,0,0,0.05)';
-          element.style.transform = 'none';
-        });
-      });
-    });
-  </script>
-)}
+  <span class="location-text">{address}</span>
+</a>
 
 <style>
   .location-wrapper {
@@ -96,11 +30,15 @@ const isServer = typeof window === 'undefined';
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     cursor: pointer;
     max-width: 200px;
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    text-decoration: none;
     transition: all 0.2s ease-in-out;
+  }
+
+  .location-wrapper:hover {
+    background-color: #f0f9ff;
+    border-color: #3b82f6;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
   }
 
   .location-icon {
@@ -112,7 +50,6 @@ const isServer = typeof window === 'undefined';
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    transition: all 0.2s ease-in-out;
   }
 
   .location-text {
@@ -124,6 +61,5 @@ const isServer = typeof window === 'undefined';
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    transition: color 0.2s ease-in-out;
   }
 </style>
