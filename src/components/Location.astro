@@ -1,0 +1,131 @@
+---
+// src/components/Location.astro
+interface Props {
+  address: string;
+}
+
+const { address } = Astro.props;
+
+// 在构建时处理的工具函数
+const getStoreName = (addr: string) => {
+  const cleanName = addr.split('•')[0].split(' ')[0];
+  return cleanName.length > 10 ? cleanName.substring(0, 10) + '...' : cleanName;
+};
+
+const storeName = getStoreName(address);
+---
+
+<div class="location-wrapper" data-address={address}>
+  <div class="location-icon">
+    <span>📍</span>
+  </div>
+  <span class="location-text">{storeName}</span>
+</div>
+
+<script>
+  // 轻量级的客户端脚本
+  document.addEventListener('DOMContentLoaded', () => {
+    const locationElements = document.querySelectorAll('.location-wrapper');
+    
+    locationElements.forEach(element => {
+      const address = element.dataset.address;
+      
+      element.addEventListener('click', () => {
+        const encodedAddress = encodeURIComponent(address);
+        const userAgent = navigator.userAgent;
+        
+        let mapUrl;
+        if (/iPad|iPhone|iPod/.test(userAgent)) {
+          mapUrl = `https://maps.apple.com/?q=${encodedAddress}`;
+        } else if (navigator.platform.includes('Mac')) {
+          mapUrl = `https://maps.apple.com/?q=${encodedAddress}`;
+        } else {
+          // Android 和其他设备 - 尝试多个地图应用
+          const mapUrls = [
+            `amapuri://route/plan/?dname=${encodedAddress}`,
+            `baidumap://map/geocoder?address=${encodedAddress}`,
+            `qqmap://map/routeplan?type=drive&to=${encodedAddress}`,
+            `https://map.baidu.com/mobile/webapp/search/search/qt=s&wd=${encodedAddress}`
+          ];
+          
+          // 尝试打开原生应用，失败则用网页版
+          let opened = false;
+          for (let i = 0; i < mapUrls.length - 1; i++) {
+            const newWindow = window.open(mapUrls[i], '_blank');
+            if (newWindow && !newWindow.closed) {
+              opened = true;
+              break;
+            }
+          }
+          
+          if (!opened) {
+            mapUrl = mapUrls[mapUrls.length - 1];
+          }
+        }
+        
+        if (mapUrl) {
+          window.open(mapUrl, '_blank');
+        }
+      });
+      
+      // 悬停效果
+      element.addEventListener('mouseenter', () => {
+        element.style.backgroundColor = '#f0f9ff';
+        element.style.borderColor = '#3b82f6';
+        element.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+        element.style.transform = 'translateY(-1px)';
+      });
+      
+      element.addEventListener('mouseleave', () => {
+        element.style.backgroundColor = 'white';
+        element.style.borderColor = '#d1d5db';
+        element.style.boxShadow = '0 1px 3px rgba(0,0,0,0.05)';
+        element.style.transform = 'none';
+      });
+    });
+  });
+</script>
+
+<style>
+  .location-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background-color: white;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    cursor: pointer;
+    max-width: 200px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .location-icon {
+    width: 32px;
+    height: 32px;
+    background-color: #dbeafe;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .location-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.2s ease-in-out;
+  }
+</style>
