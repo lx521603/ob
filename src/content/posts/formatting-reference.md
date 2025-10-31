@@ -1,311 +1,315 @@
 ---
-title: Formatting Reference
+title: 格式化参考
 date: 2025-09-08
-description: Explore all the markdown, extended markdown, and other embed features available in this blog theme.
+description: 探索此博客主题中可用的所有 Markdown、扩展 Markdown 和其他嵌入功能。
 tags:
-  - markdown
-  - formatting
-  - tutorial
-  - reference
-  - meta
-  - blog
+ - markdown
+ - formatting
+ - tutorial
+ - reference
+ - meta
+ - blog
 image: "[[attachments/mountains.png]]"
-imageAlt: Mountains and water.
+imageAlt: 山脉和水域。
 imageOG: false
 hideCoverImage: false
 hideTOC: false
 targetKeyword:
 draft: false
 ---
-This post demonstrates all the markdown, extended markdown, and other embed features available in Astro Modular. Use this as both a reference guide and a showcase of what's possible.
 
-## Basic Formatting
+本文展示了 Astro Modular 中可用的所有 Markdown、扩展 Markdown 和其他嵌入功能。请将此作为参考指南和功能展示。
 
-### Text Emphasis
+基础格式化
 
-- **Bold text** using `**bold**` or `__bold__`
-- *Italic text* using `*italic*` or `_italic_`
-- ***Bold and italic*** using `***text***`
-- ~~Strikethrough~~ using `~~text~~`
-- ==Highlighted text== using `==text==`
-- `Inline code` using backticks
+文本强调
 
-### Headings
+· 粗体文本 使用 **粗体** 或 __粗体__
+· 斜体文本 使用 *斜体* 或 _斜体_
+· 粗体和斜体 使用 ***文本***
+· ~~删除线~~ 使用 ~~文本~~
+· ==高亮文本== 使用 ==文本==
+· 行内代码 使用反引号
 
-# Heading 1
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+标题
 
-```markdown
-# Heading 1
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-```
+标题 1
 
-## Callouts and Admonitions
+标题 2
 
-Our theme supports Obsidian-style callouts with proper icons and styling. Each callout type has its own color scheme and matching Lucide icon.
+标题 3
 
-### Basic Callouts
+标题 4
 
-> [!note] Note
-> This is a note callout. Use it for general information that readers should be aware of.
+标题 5
 
-> [!tip] Tip
-> This is a tip callout. Perfect for helpful suggestions and best practices.
-
-> [!important] Important
-> This is an important callout. Use it to highlight critical information.
-
-> [!warning] Warning
-> This is a warning callout. Use it to alert readers about potential issues.
-
-> [!caution] Caution
-> This is a caution callout. Use it for dangerous or risky situations.
-
-### Custom Titles
-
-> [!note] Custom Note Title
-> You can customize the title of any callout by adding text after the callout type.
-
-> [!tip] Pro Tip
-> Custom titles help you provide more context for your callouts.
-
-### Collapsible Callouts
-
-You can make callouts collapsible by adding `+` (expanded by default) or `-` (collapsed by default) after the callout type:
-
-> [!note]+ Expanded by Default
-> This callout starts expanded and can be collapsed by clicking the toggle button or the title.
-
-> [!warning]- Collapsed by Default
-> This callout starts collapsed and can be expanded by clicking the toggle button or the title.
-
-> [!tip]+ Collapsible with Custom Title
-> You can combine collapsible functionality with custom titles for more control over your content organization.
-
-### Extended Callout Types
-
-> [!info] Info
-> Info callouts provide additional context or details.
-
-> [!success] Success
-> Success callouts highlight positive outcomes or achievements.
-
-> [!question] Question
-> Question callouts can be used to pose questions or highlight areas of uncertainty.
-
-> [!example] Example
-> Example callouts are perfect for showcasing code examples or demonstrations.
-
-> [!quote] Quote
-> Quote callouts can be used to highlight important quotes or references.
-
-## Media Content
-
-### Images
-
-#### Single Image With Caption
-
-![Mountains](/posts/attachments/mountains.png)
-*Photo by [Antoine Rault](https://unsplash.com/@antoinerault?utm_source=Obsidian%20Image%20Inserter%20Plugin&utm_medium=referral) on [Unsplash](https://unsplash.com/?utm_source=Obsidian%20Image%20Inserter%20Plugin&utm_medium=referral)*
-
-#### Multiple Image Layouts
-
-This theme automatically arranges consecutive images in responsive grid layouts based on the number of images. Images can be placed together without empty lines between them to create these layouts.
-
-**Two Images Side by Side**
-
-![Mountain landscape](https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop)
-![Ocean view](https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=600&fit=crop)
-
-**Three Images in a Row**
-
-![Forest path](https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop)
-![Desert sunset](https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop)
-![City skyline](https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop)
-
-**Four Images in a Row**
-
-![Winter landscape](https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=800&h=600&fit=crop)
-![Spring flowers](https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=800&h=600&fit=crop)
-![Summer beach](https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop)
-![Autumn leaves](https://images.unsplash.com/photo-1441260038675-7329ab4cc264?w=800&h=600&fit=crop)
-
-**How to Use Multiple Images / Gallery**
-
-Simply place multiple images together without empty lines between them:
+标题 6
 
 ```markdown
-![Image 1](image1.jpg)
-![Image 2](image2.jpg)
-![Image 3](image3.jpg)
+# 标题 1
+## 标题 2
+### 标题 3
+#### 标题 4
+##### 标题 5
+###### 标题 6
 ```
 
-On mobile devices, all layouts switch to a single column for better readability.
+标注和提示
 
-### Video Files
+我们的主题支持 Obsidian 风格的标注，带有适当的图标和样式。每种标注类型都有其自己的配色方案和匹配的 Lucide 图标。
 
-![[attachments/video.mp4|Eye drop video]]
+基础标注
 
-Video files are embedded as HTML5 video players with controls and responsive design.
+[!note] 注意
+这是一个注意标注。用于读者应该了解的一般信息。
 
-### YouTube Videos
+[!tip] 提示
+这是一个提示标注。非常适合有用的建议和最佳实践。
 
-![Astro Suite for Obsidian](https://www.youtube.com/watch?v=ZhizarvwLnU)
+[!important] 重要
+这是一个重要标注。用于突出显示关键信息。
 
-YouTube videos are automatically embedded with responsive design and optimized settings.
+[!warning] 警告
+这是一个警告标注。用于提醒读者注意潜在问题。
 
-### Audio Files
+[!caution] 谨慎
+这是一个谨慎标注。用于危险或有风险的情况。
+
+自定义标题
+
+[!note] 自定义注意标题
+您可以通过在标注类型后添加文本来自定义任何标注的标题。
+
+[!tip] 专业提示
+自定义标题帮助您为标注提供更多上下文。
+
+可折叠标注
+
+您可以通过在标注类型后添加 +（默认展开）或 -（默认折叠）来使标注可折叠：
+
+[!note]+ 默认展开
+此标注开始时展开，可以通过点击切换按钮或标题来折叠。
+
+[!warning]- 默认折叠
+此标注开始时折叠，可以通过点击切换按钮或标题来展开。
+
+[!tip]+ 带自定义标题的可折叠标注
+您可以将可折叠功能与自定义标题结合使用，以更好地控制内容组织。
+
+扩展标注类型
+
+[!info] 信息
+信息标注提供额外的上下文或详细信息。
+
+[!success] 成功
+成功标注突出显示积极结果或成就。
+
+[!question] 问题
+问题标注可用于提出问题或突出显示不确定的领域。
+
+[!example] 示例
+示例标注非常适合展示代码示例或演示。
+
+[!quote] 引用
+引用标注可用于突出显示重要引用或参考文献。
+
+媒体内容
+
+图片
+
+带标题的单张图片
+
+/posts/attachments/mountains.png
+照片由 Antoine Rault 拍摄，发布于 Unsplash
+
+多图片布局
+
+此主题根据图片数量自动将连续的图片排列在响应式网格布局中。图片可以放置在一起，中间没有空行，以创建这些布局。
+
+两张图片并排
+
+https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop
+https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=600&fit=crop
+
+三张图片排成一行
+
+https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop
+https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop
+https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop
+
+四张图片排成一行
+
+https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=800&h=600&fit=crop
+https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=800&h=600&fit=crop
+https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop
+https://images.unsplash.com/photo-1441260038675-7329ab4cc264?w=800&h=600&fit=crop
+
+如何使用多图片/画廊
+
+只需将多张图片放在一起，中间没有空行：
+
+```markdown
+![图片 1](image1.jpg)
+![图片 2](image2.jpg)
+![图片 3](image3.jpg)
+```
+
+在移动设备上，所有布局都会切换到单列以获得更好的可读性。
+
+视频文件
+
+![[attachments/video.mp4|滴眼药水视频]]
+
+视频文件嵌入为 HTML5 视频播放器，带有控件和响应式设计。
+
+YouTube 视频
+
+https://www.youtube.com/watch?v=ZhizarvwLnU
+
+YouTube 视频自动嵌入，具有响应式设计和优化设置。
+
+音频文件
 
 ![[attachments/sound.wav|sound.wav]]
 
-Audio files are embedded as HTML5 audio players with controls and filename display.
+音频文件嵌入为 HTML5 音频播放器，带有控件和文件名显示。
 
-### PDF Documents
+PDF 文档
 
 ![[attachments/document.pdf|document.pdf]]
 
-PDFs are embedded as inline viewers with download links. 
+PDF 嵌入为内联查看器，带有下载链接。
 
-Use `![[attachments/document.pdf#page=3]]` to select a specific PDF page to display.
+使用 ![[attachments/document.pdf#page=3]] 选择要显示的特定 PDF 页面。
 
-### Twitter/X Posts
+Twitter/X 帖子
 
-![Why doesn't everyone use Astro? Writing blog posts in markdown is beautiful.](https://x.com/davidvkimball/status/1933196479801536736)
+https://x.com/davidvkimball/status/1933196479801536736
 
-Twitter posts are embedded with theme-aware styling that matches your site's light/dark mode.
+Twitter 帖子嵌入时具有主题感知样式，与您网站的亮色/暗色模式匹配。
 
-## Buttons
+按钮
 
-These buttons use your existing color palette and adapt perfectly to light/dark themes. Wrap them in internal or external links if you prefer:
+这些按钮使用您现有的调色板，并完美适应亮色/暗色主题。如果您愿意，可以将它们包装在内部或外部链接中：
 
 <div class="btn-group my-8">
-  <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-primary">Primary Action</button></a>
-  <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-secondary">Secondary</button></a>
-    <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-outline">Outlined</button></a>
-      <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-ghost">Subtle</button></a>
-</div>
-
-```html
+  <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-primary">主要操作</button></a>
+  <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-secondary">次要</button></a>
+    <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-outline">轮廓</button></a>
+      <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-ghost">微妙</button></a>
+</div>```html
 <div class="btn-group-center my-8">
-  <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-primary">Primary Action</button></a>
-  <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-secondary">Secondary</button></a>
-    <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-outline">Outlined</button></a>
-      <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-ghost">Subtle</button></a>
+  <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-primary">主要操作</button></a>
+  <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-secondary">次要</button></a>
+    <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-outline">轮廓</button></a>
+      <a href="https://google.com" class="no-styling no-underline" target="_blank"><button class="btn btn-ghost">微妙</button></a>
 </div>
 ```
 
-## Lists
+列表
 
-### Unordered Lists
+无序列表
 
-- First item
-- Second item
-  - Nested item
-  - Another nested item
-    - Deeply nested item
-- Third item
+· 第一项
+· 第二项
+  · 嵌套项
+  · 另一个嵌套项
+    · 深层嵌套项
+· 第三项
 
-### Ordered Lists
+有序列表
 
-1. First step
-2. Second step
-   1. Sub-step A
-   2. Sub-step B
-      1. Sub-sub-step
-3. Third step
+1. 第一步
+2. 第二步
+   1. 子步骤 A
+   2. 子步骤 B
+      1. 子子步骤
+3. 第三步
 
-### Task Lists
+任务列表
 
-- [x] Completed task
-- [ ] Incomplete task
-- [x] Another completed task
-  - [ ] Nested incomplete task
-  - [x] Nested completed task
-- [ ] Final incomplete task
+· 已完成任务
+· 未完成任务
+· 另一个已完成任务
+  · 嵌套未完成任务
+  · 嵌套已完成任务
+· 最终未完成任务
 
-## Links and References
+链接和引用
 
-### External Links
+外部链接
 
-Here's an [external link](https://obsidian.md).
+这是一个外部链接。
 
-### Internal Links
+内部链接
 
-You can create internal links using double brackets (wikilinks) or with standard markdown. 
+您可以使用双括号（维基链接）或标准 markdown 创建内部链接。
 
-For example: [[getting-started|Getting Started]] or [Astro Suite Obsidian Vault Guide (Astro Modular)](obsidian-vault-guide.md).
+例如：[[快速开始|快速开始]] 或 Astro Suite Obsidian 知识库指南 (Astro Modular)。
 
 ```markdown
-For example: [[getting-started|Getting Started]] or [Astro Suite Vault (Modular) Guide](astro-suite-vault-modular-guide).
+例如：[[快速开始|快速开始]] 或 [Astro Suite 知识库 (Modular) 指南](astro-suite-vault-modular-guide)。
 ```
 
-Here's an internal link with an anchor: [[sample-folder-based-post/index#Benefits of Folder-Based Approach|Benefits of Folder-Based Approach]]
+这是一个带锚点的内部链接：[[sample-folder-based-post/index#文件夹方法的优势|文件夹方法的优势]]
 
-Here's a relative link: [Mermaid Diagram Test](mermaid-diagrams.md) 
-### Reference Links
+这是一个相对链接：Mermaid 图表测试
 
-This is a [reference link][1] and this is another [reference link][markdown].
+引用链接
+
+这是一个[引用链接][1]，这是另一个[引用链接][markdown]。
 
 [1]: https://example.com
 [markdown]: https://daringfireball.net/projects/markdown/
 
-### Linked Images
+链接图片
 
-[![Mountains](/posts/attachments/mountains.png)](https://obsidian.md)
+/posts/attachments/mountains.png
 
 ```
-[![Mountains](/posts/attachments/mountains.png)](https://obsidian.md)
+[![山脉](/posts/attachments/mountains.png)](https://obsidian.md)
 ```
 
-## Mathematical Notation
+数学符号
 
-This theme includes comprehensive LaTeX math support using KaTeX for fast, client-side rendering. All math works seamlessly in both light and dark themes.
+此主题包含全面的 LaTeX 数学支持，使用 KaTeX 进行快速、客户端渲染。所有数学在亮色和暗色主题中都能无缝工作。
 
-### Inline Math
+行内数学
 
-Use single dollar signs for inline math: $E = mc^2$ or $\int_0^{2\pi} d\theta x+e^{-i\theta}$.
+使用单美元符号表示行内数学：$E = mc^2$ 或 $\int_0^{2\pi} d\theta x+e^{-i\theta}$。
 
-### Display Math
+显示数学
 
-Use double dollar signs for centered display math:
+使用双美元符号表示居中对齐的显示数学：
 
-$$
 \begin{vmatrix}a & b\\
 c & d
 \end{vmatrix}=ad-bc
-$$
 
-$$
 f(x) = x^2 + 3x + 2
-$$
 
-### Common Mathematical Notation
+常见数学符号
 
-#### Fractions and Superscripts
-- Fractions: $\frac{a}{b}$, $\frac{x^2 + 1}{x - 1}$
-- Superscripts: $x^2$, $e^{i\pi} + 1 = 0$
-- Subscripts: $x_1$, $H_2O$
+分数和上标
 
-#### Greek Letters
-- $\alpha, \beta, \gamma, \delta, \epsilon, \theta, \lambda, \mu, \pi, \sigma, \phi, \omega$
-- $\Gamma, \Delta, \Theta, \Lambda, \Pi, \Sigma, \Phi, \Omega$
+· 分数：$\frac{a}{b}$, $\frac{x^2 + 1}{x - 1}$
+· 上标：$x^2$, $e^{i\pi} + 1 = 0$
+· 下标：$x_1$, $H_2O$
 
-#### Mathematical Symbols
-- Summation: $\sum_{i=1}^{n} x_i$
-- Product: $\prod_{i=1}^{n} x_i$
-- Integral: $\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}$
-- Limit: $\lim_{x \to 0} \frac{\sin x}{x} = 1$
+希腊字母
 
-#### Matrices and Vectors
-$$
+· $\alpha, \beta, \gamma, \delta, \epsilon, \theta, \lambda, \mu, \pi, \sigma, \phi, \omega$
+· $\Gamma, \Delta, \Theta, \Lambda, \Pi, \Sigma, \Phi, \Omega$
+
+数学符号
+
+· 求和：$\sum_{i=1}^{n} x_i$
+· 乘积：$\prod_{i=1}^{n} x_i$
+· 积分：$\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}$
+· 极限：$\lim_{x \to 0} \frac{\sin x}{x} = 1$
+
+矩阵和向量
+
 \begin{pmatrix}
 a & b \\
 c & d
@@ -319,81 +323,78 @@ y
 ax + by \\
 cx + dy
 \end{pmatrix}
-$$
 
-#### Complex Equations
-$$
+复杂方程
+
 \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}
-$$
 
-$$
 i\hbar\frac{\partial}{\partial t}\Psi(\vec{r},t) = \hat{H}\Psi(\vec{r},t)
-$$
 
-### Math in Callouts
+标注中的数学
 
-Math works perfectly within callouts:
+数学在标注中完美工作：
 
-> [!note] Mathematical Proof
-> The Pythagorean theorem states that for a right triangle:
-> $$a^2 + b^2 = c^2$$
-> 
-> Where $c$ is the hypotenuse and $a$ and $b$ are the other two sides.
+[!note] 数学证明
+勾股定理指出，对于直角三角形：
 
-> [!tip] Integration by Parts
-> The formula for integration by parts is:
-> $$\int u \, dv = uv - \int v \, du$$
-> 
-> This is particularly useful for integrals involving products of functions.
+a^2 + b^2 = c^2
 
-### Advanced Mathematical Typesetting
+其中 $c$ 是斜边，$a$ 和 $b$ 是其他两条边。
 
-#### Aligned Equations
-$$
+[!tip] 分部积分法
+分部积分法的公式是：
+
+\int u \, dv = uv - \int v \, du
+
+这对于涉及函数乘积的积分特别有用。
+
+高级数学排版
+
+对齐方程
+
 \begin{align}
 f(x) &= ax^2 + bx + c \\
 f'(x) &= 2ax + b \\
 f''(x) &= 2a
 \end{align}
-$$
 
-#### Cases and Piecewise Functions
-$$
+分段函数
+
 f(x) = \begin{cases}
-x^2 & \text{if } x \geq 0 \\
--x^2 & \text{if } x < 0
+x^2 & \text{如果 } x \geq 0 \\
+-x^2 & \text{如果 } x < 0
 \end{cases}
-$$
 
-#### Set Notation
-- Natural numbers: $\mathbb{N} = \{1, 2, 3, \ldots\}$
-- Real numbers: $\mathbb{R}$
-- Complex numbers: $\mathbb{C}$
-- Set union: $A \cup B$
-- Set intersection: $A \cap B$
-- Subset: $A \subseteq B$
+集合符号
 
-### Math with Text
+· 自然数：$\mathbb{N} = {1, 2, 3, \ldots}$
+· 实数：$\mathbb{R}$
+· 复数：$\mathbb{C}$
+· 集合并：$A \cup B$
+· 集合交：$A \cap B$
+· 子集：$A \subseteq B$
 
-You can mix math with regular text seamlessly. For example, the quadratic formula is $x = \frac{1}{2}$, which gives us the roots of any quadratic equation $ax^2 + bx + c = 0$.
+带文本的数学
 
-### Obsidian Compatibility
+您可以无缝地将数学与常规文本混合。例如，二次公式是 $x = \frac{1}{2}$，这给出了任何二次方程 $ax^2 + bx + c = 0$ 的根。
 
-All math notation works identically in Obsidian and your published blog:
+Obsidian 兼容性
 
-- **Inline math**: `$...$` syntax
-- **Display math**: `$$...$$` syntax  
-- **LaTeX commands**: Full support for standard LaTeX math commands
-- **Greek letters**: Use `\alpha`, `\beta`, etc.
-- **Symbols**: Use `\sum`, `\int`, `\infty`, etc. 
+所有数学符号在 Obsidian 和您发布的博客中工作方式相同：
 
-## Code Blocks
+· 行内数学：$...$ 语法
+· 显示数学：$$...$$ 语法
+· LaTeX 命令：完全支持标准 LaTeX 数学命令
+· 希腊字母：使用 \alpha, \beta 等
+· 符号：使用 \sum, \int, \infty 等
 
-### Inline Code
+代码块
 
-Use `const variable = 'value'` for inline code snippets.
+行内代码
 
-### JavaScript
+使用 const variable = 'value' 表示行内代码片段。
+
+JavaScript
 
 ```javascript
 function greetUser(name) {
@@ -405,21 +406,21 @@ const user = "Developer";
 greetUser(user);
 ```
 
-### Python
+Python
 
 ```python
 def calculate_fibonacci(n):
-    """Calculate the nth Fibonacci number."""
+    """计算第 n 个斐波那契数。"""
     if n <= 1:
         return n
     return calculate_fibonacci(n-1) + calculate_fibonacci(n-2)
 
-# Example usage
+# 示例用法
 for i in range(10):
     print(f"F({i}) = {calculate_fibonacci(i)}")
 ```
 
-### CSS
+CSS
 
 ```css
 .button {
@@ -436,119 +437,112 @@ for i in range(10):
 }
 ```
 
-### Bash/Shell
+Bash/Shell
 
 ```bash
 #!/bin/bash
-echo "Setting up development environment..."
+echo "设置开发环境..."
 
-# Install dependencies
+# 安装依赖
 npm install
 
-# Start development server
+# 启动开发服务器
 npm run dev
 
-echo "Development server started on http://localhost:3000"
+echo "开发服务器已启动在 http://localhost:3000"
 ```
 
-## Tables
+表格
 
-### Basic Tables
+基础表格
 
-| Feature   | Supported | Notes                           |
-| --------- | --------- | ------------------------------- |
-| Markdown  | ✅         | Full CommonMark support         |
-| Wikilinks | ✅         | Obsidian-style double brackets  |
-| Callouts  | ✅         | Multiple types with icons       |
-| Math      | ✅         | LaTeX math with KaTeX rendering |
-| Diagrams  | ✅         | Mermaid diagram support         |
+功能 支持 备注
+Markdown ✅ 完整 CommonMark 支持
+维基链接 ✅ Obsidian 风格双括号
+标注 ✅ 多种类型带图标
+数学 ✅ 使用 KaTeX 渲染的 LaTeX 数学
+图表 ✅ Mermaid 图表支持
 
-### Advanced Tables
+高级表格
 
-| Language | Use Case | Performance | Learning Curve |
-|----------|----------|-------------|----------------|
-| JavaScript | Web Development | ⭐⭐⭐⭐ | Easy |
-| Python | Data Science | ⭐⭐⭐ | Easy |
-| Rust | Systems Programming | ⭐⭐⭐⭐⭐ | Hard |
-| Go | Backend Services | ⭐⭐⭐⭐ | Medium |
+语言 用例 性能 学习曲线
+JavaScript Web 开发 ⭐⭐⭐⭐ 简单
+Python 数据科学 ⭐⭐⭐ 简单
+Rust 系统编程 ⭐⭐⭐⭐⭐ 困难
+Go 后端服务 ⭐⭐⭐⭐ 中等
 
-## Blockquotes
+块引用
 
-### Simple Quotes
+简单引用
 
-> The best way to predict the future is to invent it.
-> — Alan Kay
+预测未来的最好方式就是创造它。
+— Alan Kay
 
-### Nested Quotes
+嵌套引用
 
-> This is a top-level quote.
-> 
-> > This is a nested quote within the first quote.
-> > 
-> > > And this is a quote nested even deeper.
-> 
-> Back to the top level.
+这是一个顶级引用。
 
-## Horizontal Rules
+这是第一个引用内的嵌套引用。
 
-You can create horizontal rules using three dashes:
+这是嵌套更深的引用。
+
+回到顶级。
+
+水平分割线
+
+您可以使用三个破折号创建水平分割线：
 
 ---
 
-Or three asterisks:
+或三个星号：
 
-***
+---
 
-Or three underscores:
+或三个下划线：
 
-___
+---
 
-## Keyboard Shortcuts
+键盘快捷键
 
-Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy and <kbd>Ctrl</kbd> + <kbd>V</kbd> to paste.
+按 <kbd>Ctrl</kbd> + <kbd>C</kbd> 复制，按 <kbd>Ctrl</kbd> + <kbd>V</kbd> 粘贴。
 
-Use <kbd>Cmd</kbd> + <kbd>K</kbd> to open the command palette.
+使用 <kbd>Cmd</kbd> + <kbd>K</kbd> 打开命令面板。
 
-## Special Characters and Symbols
+特殊字符和符号
 
-- Copyright: ©
-- Trademark: ™
-- Registered: ®
-- Arrows: ← ↑ → ↓ ↔ ↕
-- Symbols: ★ ☆ ♠ ♣ ♥ ♦
-- Currency: $ € £ ¥
+· 版权：©
+· 商标：™
+· 注册商标：®
+· 箭头：← ↑ → ↓ ↔ ↕
+· 符号：★ ☆ ♠ ♣ ♥ ♦
+· 货币：$ € £ ¥
 
+HTML 元素
 
-## HTML Elements
-
-Sometimes you need to use HTML for more complex formatting:
+有时您需要使用 HTML 进行更复杂的格式化：
 
 <details>
-<summary>Click to expand</summary>
+<summary>点击展开</summary>此内容默认隐藏，可以通过点击摘要来展开。
 
-This content is hidden by default and can be expanded by clicking the summary.
+</details><small>小号文本用于细则</small>
 
-</details>
+与 Obsidian 兼容
 
-<small>Small text for fine print</small>
+所有这些格式化选项也应该出现在 Obsidian 中，根据您使用的主题会有一些差异。
 
-## Works with Obsidian
+快速参考
 
-All of these formatting options should also appear in Obsidian, with some differences depending on the theme you use. 
+· 粗体：**文本** 或 __文本__
+· 斜体：*文本* 或 _文本_
+· 代码：`代码`
+· 高亮：==文本==
+· 链接：[文本](url) 或 [[维基链接]]
+· 图片：![替代文本](url)
+· 列表：- 或 1. 用于有序列表
+· 任务：- [ ] 和 - [x]
+· 表格：使用 | 分隔列
+· 引用：以 > 开始行
+· 标注：> [!类型]
+· 水平分割线：---
 
-### Quick Reference
-
-- **Bold**: `**text**` or `__text__`
-- **Italic**: `*text*` or `_text_`
-- **Code**: `` `code` ``
-- **Highlight:** `==text==`
-- **Links**: `[text](url)` or `[[wikilink]]`
-- **Images**: `![alt](url)`
-- **Lists**: `-` or `1.` for ordered
-- **Tasks**: `- [ ]` and `- [x]`
-- **Tables**: Use `|` to separate columns
-- **Quotes**: Start lines with `>`
-- **Callouts**: `> [!TYPE]`
-- **Horizontal rule**: `---`
-
-Happy writing! 
+祝您写作愉快！
