@@ -1,55 +1,62 @@
 ---
-title: Installing Obsidian
-description: Simple guide to install Obsidian for your Astro Modular blog
-category: Optional Software
+
+title: 安装 Obsidian
+description: 为你的 Astro Modular 博客安装 Obsidian 的简单指南
+category: 可选软件
 order: 1
 version: 1.0.0
 lastModified: 2025-09-17
 image: "[[attachments/obsidian-cover.png]]"
-imageAlt: Obsidian logo with a black background.
+imageAlt: 黑色背景上的 Obsidian 标志。
 hideCoverImage: false
 hideTOC: false
 draft: false
 featured: true
+
 ---
-This guide shows you how to install Obsidian for use with your Astro Modular blog.
 
-## Download Obsidian
+本指南将向你展示如何安装 Obsidian 以用于你的 Astro Modular 博客。
 
-1. Go to [obsidian.md](https://obsidian.md)
-2. Click "Download"
-3. Choose your operating system
+下载 Obsidian
 
-## Install
+1. 访问 obsidian.md
+2. 点击 "Download"
+3. 选择你的操作系统
 
-### Windows
-1. Run the downloaded `.exe` file
-2. Follow the installation wizard
-3. Launch Obsidian
+安装步骤
 
-### macOS
-1. Open the downloaded `.dmg` file
-2. Drag Obsidian to Applications folder
-3. Launch from Applications
+Windows
 
-### Linux
-1. Extract the downloaded `.AppImage` file
-2. Make it executable: `chmod +x Obsidian-*.AppImage`
-3. Run: `./Obsidian-*.AppImage`
+1. 运行下载的 .exe 文件
+2. 按照安装向导的提示进行操作
+3. 启动 Obsidian
 
-## First Launch
+macOS
 
-1. Open Obsidian
-2. Choose "Open folder as vault"
-3. Select your blog's `src/content` folder
-4. Click "Open"
+1. 打开下载的 .dmg 文件
+2. 将 Obsidian 拖拽到"应用程序"文件夹中
+3. 从"应用程序"中启动
 
-## Next Steps
+Linux
 
-Once Obsidian is installed and your vault is open, you can:
-- Write blog posts in markdown
-- Use wikilinks for internal linking
-- Add images and other assets
-- Publish directly to your Astro blog
+1. 解压下载的 .AppImage 文件
+2. 使其可执行：chmod +x Obsidian-*.AppImage
+3. 运行：./Obsidian-*.AppImage
 
-That's it! You're ready to start writing.
+首次启动
+
+1. 打开 Obsidian
+2. 选择 "Open folder as vault"
+3. 选择你博客的 src/content 文件夹
+4. 点击 "Open"
+
+后续步骤
+
+Obsidian 安装完成并且你的知识库已打开后，你可以：
+
+· 用 Markdown 编写博客文章
+· 使用维基链接进行内部链接
+· 添加图片和其他资源
+· 直接发布到你的 Astro 博客
+
+就是这样！你已经可以开始写作了。
