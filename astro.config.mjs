@@ -60,7 +60,12 @@ export default defineConfig({
   integrations: [
     tailwind(),
     sitemap(),
-    mdx(),
+    mdx({
+      // 添加这一行 - 为 MDX 文件自动导入 Location 组件
+      components: {
+        Location: '@/components/Location.astro'
+      }
+    }),
     swup({
       theme: false,
       animationClass: 'transition-swup-',
