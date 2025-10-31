@@ -1,41 +1,50 @@
 ---
-title: SourceTree and Git Setup
-description: Complete guide to setting up SourceTree and Git for your Astro Modular blog
-category: Optional Software
+
+title: SourceTree 与 Git 设置指南
+description: 为您的 Astro Modular 博客设置 SourceTree 和 Git 的完整指南
+category: 可选软件
 order: 2
 version: 1.0.0
 lastModified: 2024-01-15
 image: "[[sourcetree.png]]"
-imageAlt: SourceTree logo with a blue background.
+imageAlt: 蓝色背景的 SourceTree 徽标
 hideCoverImage: false
 hideTOC: false
 draft: false
 featured: false
 aliases:
-  - sourcetree-and-git
+
+· sourcetree-and-git
+· sourcetree-和-git
+
 ---
-This comprehensive guide will walk you through setting up SourceTree and Git for your Astro Modular blog, enabling seamless version control and deployment workflows.
 
-## Prerequisites
+本综合指南将引导您为 Astro Modular 博客设置 SourceTree 和 Git，实现无缝的版本控制和部署工作流程。
 
-Before starting, ensure you have:
-- A GitHub account
-- Your Astro Modular blog project ready
-- Basic understanding of version control concepts
+前提条件
 
-## Step 1: Install Git
+开始之前，请确保您拥有：
 
-### Windows
-1. Download Git from [git-scm.com](https://git-scm.com/download/win)
-2. Run the installer with default settings
-3. Verify installation: Open Command Prompt and run `git --version`
+· GitHub 账户
+· 准备好的 Astro Modular 博客项目
+· 基本的版本控制概念理解
 
-### macOS
-1. Install Xcode Command Line Tools: `xcode-select --install`
-2. Or download from [git-scm.com](https://git-scm.com/download/mac)
-3. Verify installation: Open Terminal and run `git --version`
+步骤 1：安装 Git
 
-### Linux
+Windows 系统
+
+1. 从 git-scm.com 下载 Git
+2. 使用默认设置运行安装程序
+3. 验证安装：打开命令提示符并运行 git --version
+
+macOS 系统
+
+1. 安装 Xcode 命令行工具：xcode-select --install
+2. 或从 git-scm.com 下载
+3. 验证安装：打开终端并运行 git --version
+
+Linux 系统
+
 ```bash
 # Ubuntu/Debian
 sudo apt update
@@ -44,189 +53,211 @@ sudo apt install git
 # CentOS/RHEL
 sudo yum install git
 
-# Verify installation
+# 验证安装
 git --version
 ```
 
-## Step 2: Configure Git
+步骤 2：配置 Git
 
-Set up your Git identity:
+设置您的 Git 身份信息：
 
 ```bash
-git config --global user.name "Your Name"
-git config --global user.email "your.email@example.com"
+git config --global user.name "您的姓名"
+git config --global user.email "您的邮箱@example.com"
 ```
 
-### Optional: Set up SSH keys for GitHub
-1. Generate SSH key: `ssh-keygen -t ed25519 -C "your.email@example.com"`
-2. Add to SSH agent: `ssh-add ~/.ssh/id_ed25519`
-3. Copy public key: `cat ~/.ssh/id_ed25519.pub`
-4. Add to GitHub: Settings → SSH and GPG keys → New SSH key
+可选：为 GitHub 设置 SSH 密钥
 
-## Step 3: Install SourceTree
+1. 生成 SSH 密钥：ssh-keygen -t ed25519 -C "您的邮箱@example.com"
+2. 添加到 SSH 代理：ssh-add ~/.ssh/id_ed25519
+3. 复制公钥：cat ~/.ssh/id_ed25519.pub
+4. 添加到 GitHub：设置 → SSH 和 GPG 密钥 → 新建 SSH 密钥
 
-### Download and Install
-1. Visit [sourcetreeapp.com](https://www.sourcetreeapp.com/)
-2. Download the free version
-3. Install with default settings
-4. Sign in with your Atlassian account (free)
+步骤 3：安装 SourceTree
 
-### First Launch Setup
-1. Choose "I don't have a repository yet"
-2. Connect your GitHub account
-3. Authorize SourceTree to access your repositories
+下载和安装
 
-## Step 4: Initialize Your Blog Repository
+1. 访问 sourcetreeapp.com
+2. 下载免费版本
+3. 使用默认设置安装
+4. 使用您的 Atlassian 账户登录（免费）
 
-### Option A: Create New Repository on GitHub
-1. Go to GitHub.com → New Repository
-2. Name it `your-blog-name`
-3. Make it public or private
-4. Don't initialize with README (we'll do this locally)
+首次启动设置
 
-### Option B: Use Existing Repository
-If you already have a repository, skip to Step 5.
+1. 选择"我还没有仓库"
+2. 连接您的 GitHub 账户
+3. 授权 SourceTree 访问您的仓库
 
-## Step 5: Clone Repository in SourceTree
+步骤 4：初始化博客仓库
 
-1. Open SourceTree
-2. Click "Clone" button
-3. Enter your repository URL:
-   - HTTPS: `https://github.com/username/your-blog-name.git`
-   - SSH: `git@github.com:username/your-blog-name.git`
-4. Choose local folder for your project
-5. Click "Clone"
+选项 A：在 GitHub 上创建新仓库
 
-## Step 6: Set Up Your Astro Blog
+1. 访问 GitHub.com → 新建仓库
+2. 命名为 您的博客名称
+3. 选择公开或私有
+4. 不要初始化 README（我们将在本地进行）
 
-### Copy Your Blog Files
-1. Copy all your Astro Modular files into the cloned repository folder
-2. Ensure you have:
-   - `src/` directory with your content
-   - `package.json` and `pnpm-lock.yaml`
-   - `astro.config.mjs`
-   - All other necessary files
+选项 B：使用现有仓库
 
-### Initial Commit
-1. In SourceTree, you'll see all your files listed as "Unstaged files"
-2. Click "Stage All" to add all files to staging
-3. Write a commit message: "Initial blog setup"
-4. Click "Commit"
-5. Click "Push" to upload to GitHub
+如果您已有仓库，请跳至步骤 5。
 
-## Step 7: Configure Deployment
+步骤 5：在 SourceTree 中克隆仓库
 
-### For Netlify
-1. Go to [netlify.com](https://netlify.com)
-2. Connect your GitHub account
-3. Select your blog repository
-4. Build settings:
-   - Build command: `pnpm run build`
-   - Publish directory: `dist`
-5. Deploy!
+1. 打开 SourceTree
+2. 点击"克隆"按钮
+3. 输入您的仓库 URL：
+   · HTTPS：https://github.com/用户名/您的博客名称.git
+   · SSH：git@github.com:用户名/您的博客名称.git
+4. 选择项目的本地文件夹
+5. 点击"克隆"
 
-### For Vercel
-1. Go to [vercel.com](https://vercel.com)
-2. Import your GitHub repository
-3. Framework preset: Astro
-4. Deploy!
+步骤 6：设置 Astro 博客
 
-## Step 8: Daily Workflow with SourceTree
+复制博客文件
 
-### Making Changes
-1. Edit your blog content in Obsidian or your editor
-2. Open SourceTree
-3. Review changes in the "Working Directory" tab
-4. Stage specific files or "Stage All"
-5. Write descriptive commit message
-6. Click "Commit"
-7. Click "Push" to sync with GitHub
+1. 将所有 Astro Modular 文件复制到克隆的仓库文件夹中
+2. 确保您拥有：
+   · 包含内容的 src/ 目录
+   · package.json 和 pnpm-lock.yaml
+   · astro.config.mjs
+   · 所有其他必要文件
 
-### Best Practices
-- **Commit frequently**: Small, focused commits are better
-- **Write clear messages**: "Add new blog post about X" not "Update files"
-- **Pull before pushing**: Always pull latest changes first
-- **Use branches**: Create feature branches for major changes
+初始提交
 
-## Step 9: Advanced Git Workflows
+1. 在 SourceTree 中，您将看到所有文件列为"未暂存文件"
+2. 点击"全部暂存"将所有文件添加到暂存区
+3. 编写提交信息："初始博客设置"
+4. 点击"提交"
+5. 点击"推送"上传到 GitHub
 
-### Creating Branches
-1. In SourceTree, click "Branch" → "New Branch"
-2. Name it descriptively: `feature/new-theme` or `fix/typo-correction`
-3. Make your changes
-4. Commit and push the branch
-5. Create Pull Request on GitHub
+步骤 7：配置部署
 
-### Merging Changes
-1. Switch to main branch
-2. Pull latest changes
-3. Merge your feature branch
-4. Delete the feature branch
+使用 Netlify
 
-### Resolving Conflicts
-1. SourceTree will show conflict markers
-2. Edit files to resolve conflicts
-3. Stage resolved files
-4. Commit the resolution
+1. 访问 netlify.com
+2. 连接您的 GitHub 账户
+3. 选择您的博客仓库
+4. 构建设置：
+   · 构建命令：pnpm run build
+   · 发布目录：dist
+5. 部署！
 
-## Step 10: Backup and Recovery
+使用 Vercel
 
-### Regular Backups
-- Your code is automatically backed up on GitHub
-- Consider additional backups of your content
-- Use Git's built-in history for recovery
+1. 访问 vercel.com
+2. 导入您的 GitHub 仓库
+3. 框架预设：Astro
+4. 部署！
 
-### Recovering from Mistakes
-- **Undo last commit**: Right-click commit → "Reset current branch to this commit"
-- **Revert changes**: Right-click file → "Discard changes"
-- **View history**: Click on any commit to see what changed
+步骤 8：使用 SourceTree 的日常工作流程
 
-## Troubleshooting Common Issues
+进行更改
 
-### Authentication Problems
-- **HTTPS**: Use Personal Access Token instead of password
-- **SSH**: Ensure SSH key is added to GitHub account
+1. 在 Obsidian 或您的编辑器中编辑博客内容
+2. 打开 SourceTree
+3. 在"工作目录"选项卡中查看更改
+4. 暂存特定文件或"全部暂存"
+5. 编写描述性的提交信息
+6. 点击"提交"
+7. 点击"推送"与 GitHub 同步
 
-### Merge Conflicts
-- Don't panic! Conflicts are normal
-- Read the conflict markers carefully
-- When in doubt, ask for help
+最佳实践
 
-### Large Files
-- Git isn't designed for large binary files
-- Use Git LFS for images and videos
-- Or store assets externally (CDN, etc.)
+· 频繁提交：小而专注的提交更好
+· 编写清晰的信息："添加关于 X 的新博客文章"而不是"更新文件"
+· 推送前先拉取：始终先拉取最新更改
+· 使用分支：为主要更改创建功能分支
 
-### Repository Size
-- Use `.gitignore` to exclude unnecessary files
-- Clean up history if repository becomes too large
+步骤 9：高级 Git 工作流程
 
-## Integration with Obsidian
+创建分支
 
-### Git Integration in Obsidian
-1. Install "Obsidian Git" plugin
-2. Configure auto-commit settings
-3. Your Obsidian vault changes will be automatically committed
+1. 在 SourceTree 中，点击"分支" → "新建分支"
+2. 描述性命名：feature/新主题 或 fix/拼写修正
+3. 进行您的更改
+4. 提交并推送分支
+5. 在 GitHub 上创建拉取请求
 
-### Workflow
-1. Write in Obsidian
-2. Obsidian Git auto-commits changes
-3. SourceTree pulls and pushes to GitHub
-4. Netlify/Vercel auto-deploys
+合并更改
 
-## Next Steps
+1. 切换到主分支
+2. 拉取最新更改
+3. 合并您的功能分支
+4. 删除功能分支
 
-Once you have Git and SourceTree set up:
+解决冲突
 
-1. **Explore SourceTree features**: Learn about stashing, cherry-picking, and rebasing
-2. **Set up CI/CD**: Automate your deployment pipeline
-3. **Collaborate**: Invite others to contribute to your blog
-4. **Backup strategies**: Implement additional backup solutions
+1. SourceTree 将显示冲突标记
+2. 编辑文件以解决冲突
+3. 暂存已解决的文件
+4. 提交解决方案
 
-## Getting Help
+步骤 10：备份和恢复
 
-- **SourceTree Documentation**: [confluence.atlassian.com](https://confluence.atlassian.com/sourcetreekb)
-- **Git Documentation**: [git-scm.com/doc](https://git-scm.com/doc)
-- **GitHub Help**: [docs.github.com](https://docs.github.com)
+定期备份
 
-Remember: Git and SourceTree are powerful tools that will make managing your blog much easier. Take time to learn the basics, and don't hesitate to experiment in a test repository first!
+· 您的代码自动在 GitHub 上备份
+· 考虑对您的内容进行额外备份
+· 使用 Git 的内置历史记录进行恢复
+
+从错误中恢复
+
+· 撤销上次提交：右键点击提交 → "将当前分支重置到此提交"
+· 恢复更改：右键点击文件 → "丢弃更改"
+· 查看历史记录：点击任何提交查看更改内容
+
+常见问题故障排除
+
+身份验证问题
+
+· HTTPS：使用个人访问令牌代替密码
+· SSH：确保 SSH 密钥已添加到 GitHub 账户
+
+合并冲突
+
+· 不要惊慌！冲突是正常的
+· 仔细阅读冲突标记
+· 如有疑问，请寻求帮助
+
+大文件问题
+
+· Git 不适用于大型二进制文件
+· 对图片和视频使用 Git LFS
+· 或将资源存储在外部（CDN 等）
+
+仓库大小
+
+· 使用 .gitignore 排除不必要的文件
+· 如果仓库变得太大，清理历史记录
+
+与 Obsidian 集成
+
+Obsidian 中的 Git 集成
+
+1. 安装 "Obsidian Git" 插件
+2. 配置自动提交设置
+3. 您的 Obsidian 仓库更改将自动提交
+
+工作流程
+
+1. 在 Obsidian 中写作
+2. Obsidian Git 自动提交更改
+3. SourceTree 拉取并推送到 GitHub
+4. Netlify/Vercel 自动部署
+
+后续步骤
+
+设置好 Git 和 SourceTree 后：
+
+1. 探索 SourceTree 功能：学习储藏、拣选和变基
+2. 设置 CI/CD：自动化您的部署流水线
+3. 协作：邀请他人为您的博客做出贡献
+4. 备份策略：实施额外的备份解决方案
+
+获取帮助
+
+· SourceTree 文档：confluence.atlassian.com
+· Git 文档：git-scm.com/doc
+· GitHub 帮助：docs.github.com
+
+记住：Git 和 SourceTree 是强大的工具，将使管理您的博客变得更加容易。花时间学习基础知识，不要犹豫先在测试仓库中进行实验！
