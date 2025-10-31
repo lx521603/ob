@@ -19,7 +19,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { siteConfig } from './src/config.ts';
 import swup from '@swup/astro';
-import Location from './src/components/Location.jsx'
+//import Location from './src/components/Location.jsx'
 
 // Deployment platform configuration
 const DEPLOYMENT_PLATFORM = process.env.DEPLOYMENT_PLATFORM || 'netlify';
@@ -66,7 +66,7 @@ export default defineConfig({
     mdx({
       // 添加这一行 - 为 MDX 文件自动导入 Location 组件
       components: {
-        Location,
+        Location: '@/components/Location.jsx'
       }
     }),
     swup({
