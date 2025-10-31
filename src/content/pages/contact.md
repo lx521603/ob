@@ -1,13 +1,13 @@
 ---
-title: Contact
-description: Contact me.
+title: 联系
+description: 联系我
 noIndex: false
 hideTOC: false
 aliases:
   - contact-me
   - contact-us
 ---
-Send me a message. 
+给我发消息
 
 <form   
   name="contact"   
@@ -51,7 +51,7 @@ Send me a message.
   ></textarea>  
     
   <button type="submit" class="btn btn-primary w-full">  
-    Send Message  
+     发送消息
   </button>  
 </form>
 
