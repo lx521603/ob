@@ -1,175 +1,179 @@
 ---
-title: Mermaid Diagrams
-description: Testing various Mermaid diagram types to ensure proper rendering and theme integration.
+
+title: Mermaid 图表测试
+description: 测试各种 Mermaid 图表类型，确保正确渲染和主题集成。
 date: 2025-09-07
 tags:
-  - formatting
-  - obsidian
-draft: false
-image:
-imageAlt:
-imageOG: false
-hideCoverImage: false
-hideTOC: false
-targetKeyword:
-aliases:
-  - mermaid-test
-  - mermaid-diagram-test
----
-This post tests the Mermaid diagram integration with various diagram types to ensure proper rendering and theme compatibility.
 
-## Flowchart
+· 格式化
+· obsidian
+  draft: false
+  image:
+  imageAlt:
+  imageOG: false
+  hideCoverImage: false
+  hideTOC: false
+  targetKeyword:
+  aliases:
+· mermaid-test
+· mermaid-diagram-test
+
+---
+
+本文测试 Mermaid 图表集成，使用各种图表类型确保正确渲染和主题兼容性。
+
+流程图
 
 ```mermaid
 graph TD
-    A[Start] --> B{Is it?}
-    B -->|Yes| C[OK]
-    C --> D[Rethink]
+    A[开始] --> B{是否?}
+    B -->|是| C[确定]
+    C --> D[重新思考]
     D --> B
-    B ---->|No| E[End]
+    B ---->|否| E[结束]
 ```
 
-## Sequence Diagram
+序列图
 
 ```mermaid
 sequenceDiagram
-    participant Alice
-    participant Bob
-    participant John
-    Alice->>John: Hello John, how are you?
-    loop Healthcheck
-        John->>John: Fight against hypochondria
+    participant 爱丽丝
+    participant 鲍勃
+    participant 约翰
+    爱丽丝->>约翰: 你好约翰，最近怎么样？
+    loop 健康检查
+        约翰->>约翰: 对抗疑病症
     end
-    Note right of John: Rational thoughts prevail!
-    John-->>Alice: Great!
-    John->>Bob: How about you?
-    Bob-->>John: Jolly good!
+    Note right of 约翰: 理性思维占上风！
+    约翰-->>爱丽丝: 很好！
+    约翰->>鲍勃: 你呢？
+    鲍勃-->>约翰: 非常好！
 ```
 
-## Class Diagram
+类图
 
 ```mermaid
 classDiagram
-    class Animal {
-        +String name
-        +int age
-        +makeSound()
+    class 动物 {
+        +String 名称
+        +int 年龄
+        +发出声音()
     }
-    class Dog {
-        +String breed
-        +bark()
+    class 狗 {
+        +String 品种
+        +吠叫()
     }
-    class Cat {
-        +String color
-        +meow()
+    class 猫 {
+        +String 颜色
+        +喵叫()
     }
-    Animal <|-- Dog
-    Animal <|-- Cat
+    动物 <|-- 狗
+    动物 <|-- 猫
 ```
 
-## State Diagram
+状态图
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Still
-    Still --> [*]
-    Still --> Moving
-    Moving --> Still
-    Moving --> Crash
-    Crash --> [*]
+    [*] --> 静止
+    静止 --> [*]
+    静止 --> 移动
+    移动 --> 静止
+    移动 --> 崩溃
+    崩溃 --> [*]
 ```
 
-## Entity Relationship Diagram
+实体关系图
 
 ```mermaid
 erDiagram
-    CUSTOMER ||--o{ ORDER : places
-    ORDER ||--|{ LINE-ITEM : contains
-    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
+    客户 ||--o{ 订单 : 下单
+    订单 ||--|{ 订单项 : 包含
+    客户 }|..|{ 配送地址 : 使用
 ```
 
-## User Journey
+用户旅程图
 
 ```mermaid
 journey
-    title My working day
-    section Go to work
-      Make tea: 5: Me
-      Go upstairs: 3: Me
-      Do work: 1: Me, Cat
-    section Go home
-      Go downstairs: 5: Me
-      Sit down: 5: Me
+    title 我的工作日
+    section 去上班
+      泡茶: 5: 我
+      上楼: 3: 我
+      工作: 1: 我, 猫
+    section 回家
+      下楼: 5: 我
+      坐下: 5: 我
 ```
 
-## Gantt Chart
+甘特图
 
 ```mermaid
 gantt
-    title A Gantt Diagram
+    title 甘特图示例
     dateFormat  YYYY-MM-DD
-    section Section
-    A task           :a1, 2024-01-01, 30d
-    Another task     :after a1  , 20d
-    section Another
-    Task in sec      :2024-01-12  , 12d
-    another task     : 24d
+    section 第一部分
+    任务A           :a1, 2024-01-01, 30d
+    任务B           :after a1  , 20d
+    section 第二部分
+    任务C           :2024-01-12  , 12d
+    任务D           : 24d
 ```
 
-## Pie Chart
+饼图
 
 ```mermaid
-pie title Pets adopted by volunteers
-    "Dogs" : 386
-    "Cats" : 85
-    "Rats" : 15
+pie title 志愿者领养的宠物
+    "狗" : 386
+    "猫" : 85
+    "老鼠" : 15
 ```
 
-## Git Graph
+Git 图谱
 
 ```mermaid
     gitGraph
        commit
 	   commit
-	   branch develop
-	   checkout develop
+	   branch 开发分支
+	   checkout 开发分支
 	   commit
 	   commit
-	   checkout main
-	   merge develop
+	   checkout 主分支
+	   merge 开发分支
 	   commit
 	   commit
 ```
 
-## Complex Flowchart with Styling
+带样式的复杂流程图
 
 ```mermaid
 graph TD
-    A[Christmas] -->|Get money| B(Go shopping)
-    B --> C{Let me think}
-    C -->|One| D[Laptop]
-    C -->|Two| E[iPhone]
-    C -->|Three| F[fa:fa-car Car]
-    D --> G[fa:fa-laptop fa:fa-code Laptop]
+    A[圣诞节] -->|获得资金| B(去购物)
+    B --> C{让我想想}
+    C -->|选项一| D[笔记本电脑]
+    C -->|选项二| E[iPhone]
+    C -->|选项三| F[fa:fa-car 汽车]
+    D --> G[fa:fa-laptop fa:fa-code 笔记本电脑]
     E --> H[fa:fa-mobile iPhone]
-    F --> I[fa:fa-car Car]
+    F --> I[fa:fa-car 汽车]
 ```
 
-## Error Handling Test
+错误处理测试
 
-This should show an error state:
+这应该显示错误状态：
 
 ```mermaid
 graph TD
-    A[Invalid syntax
+    A[无效语法
     B --> C
-    INVALID_COMMAND
+    无效命令
 ```
 
-## Theme Integration
+主题集成
 
-The diagrams should automatically adapt to the current theme (light/dark) and use the theme colors for better integration with the overall design.
+图表应自动适应当前主题（亮色/暗色），并使用主题颜色以更好地与整体设计集成。
 
-## Responsive Design
+响应式设计
 
-All diagrams should be responsive and work well on mobile devices, with proper scaling and overflow handling.
+所有图表都应该是响应式的，在移动设备上表现良好，具有适当的缩放和溢出处理。
