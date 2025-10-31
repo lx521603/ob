@@ -1,18 +1,17 @@
 ---
-// src/components/Location.astro
 interface Props {
   address: string;
 }
 
 const { address } = Astro.props;
 
-// 在构建时处理的工具函数
 const getStoreName = (addr: string) => {
   const cleanName = addr.split('•')[0].split(' ')[0];
   return cleanName.length > 10 ? cleanName.substring(0, 10) + '...' : cleanName;
 };
 
 const storeName = getStoreName(address);
+const isServer = typeof window === 'undefined';
 ---
 
 <div class="location-wrapper" data-address={address}>
@@ -22,69 +21,68 @@ const storeName = getStoreName(address);
   <span class="location-text">{storeName}</span>
 </div>
 
-<script>
-  // 轻量级的客户端脚本
-  document.addEventListener('DOMContentLoaded', () => {
-    const locationElements = document.querySelectorAll('.location-wrapper');
-    
-    locationElements.forEach(element => {
-      const address = element.dataset.address;
+{!isServer && (
+  <script>
+    // 客户端脚本移到这里，确保只在浏览器执行
+    document.addEventListener('DOMContentLoaded', () => {
+      const locationElements = document.querySelectorAll('.location-wrapper');
       
-      element.addEventListener('click', () => {
-        const encodedAddress = encodeURIComponent(address);
-        const userAgent = navigator.userAgent;
+      locationElements.forEach(element => {
+        const address = element.dataset.address;
         
-        let mapUrl;
-        if (/iPad|iPhone|iPod/.test(userAgent)) {
-          mapUrl = `https://maps.apple.com/?q=${encodedAddress}`;
-        } else if (navigator.platform.includes('Mac')) {
-          mapUrl = `https://maps.apple.com/?q=${encodedAddress}`;
-        } else {
-          // Android 和其他设备 - 尝试多个地图应用
-          const mapUrls = [
-            `amapuri://route/plan/?dname=${encodedAddress}`,
-            `baidumap://map/geocoder?address=${encodedAddress}`,
-            `qqmap://map/routeplan?type=drive&to=${encodedAddress}`,
-            `https://map.baidu.com/mobile/webapp/search/search/qt=s&wd=${encodedAddress}`
-          ];
+        element.addEventListener('click', () => {
+          const encodedAddress = encodeURIComponent(address);
+          const userAgent = navigator.userAgent;
           
-          // 尝试打开原生应用，失败则用网页版
-          let opened = false;
-          for (let i = 0; i < mapUrls.length - 1; i++) {
-            const newWindow = window.open(mapUrls[i], '_blank');
-            if (newWindow && !newWindow.closed) {
-              opened = true;
-              break;
+          let mapUrl;
+          if (/iPad|iPhone|iPod/.test(userAgent)) {
+            mapUrl = `https://maps.apple.com/?q=${encodedAddress}`;
+          } else if (navigator.platform.includes('Mac')) {
+            mapUrl = `https://maps.apple.com/?q=${encodedAddress}`;
+          } else {
+            const mapUrls = [
+              `amapuri://route/plan/?dname=${encodedAddress}`,
+              `baidumap://map/geocoder?address=${encodedAddress}`,
+              `qqmap://map/routeplan?type=drive&to=${encodedAddress}`,
+              `https://map.baidu.com/mobile/webapp/search/search/qt=s&wd=${encodedAddress}`
+            ];
+            
+            let opened = false;
+            for (let i = 0; i < mapUrls.length - 1; i++) {
+              const newWindow = window.open(mapUrls[i], '_blank');
+              if (newWindow && !newWindow.closed) {
+                opened = true;
+                break;
+              }
+            }
+            
+            if (!opened) {
+              mapUrl = mapUrls[mapUrls.length - 1];
             }
           }
           
-          if (!opened) {
-            mapUrl = mapUrls[mapUrls.length - 1];
+          if (mapUrl) {
+            window.open(mapUrl, '_blank');
           }
-        }
+        });
         
-        if (mapUrl) {
-          window.open(mapUrl, '_blank');
-        }
-      });
-      
-      // 悬停效果
-      element.addEventListener('mouseenter', () => {
-        element.style.backgroundColor = '#f0f9ff';
-        element.style.borderColor = '#3b82f6';
-        element.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-        element.style.transform = 'translateY(-1px)';
-      });
-      
-      element.addEventListener('mouseleave', () => {
-        element.style.backgroundColor = 'white';
-        element.style.borderColor = '#d1d5db';
-        element.style.boxShadow = '0 1px 3px rgba(0,0,0,0.05)';
-        element.style.transform = 'none';
+        element.addEventListener('mouseenter', () => {
+          element.style.backgroundColor = '#f0f9ff';
+          element.style.borderColor = '#3b82f6';
+          element.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+          element.style.transform = 'translateY(-1px)';
+        });
+        
+        element.addEventListener('mouseleave', () => {
+          element.style.backgroundColor = 'white';
+          element.style.borderColor = '#d1d5db';
+          element.style.boxShadow = '0 1px 3px rgba(0,0,0,0.05)';
+          element.style.transform = 'none';
+        });
       });
     });
-  });
-</script>
+  </script>
+)}
 
 <style>
   .location-wrapper {
