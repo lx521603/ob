@@ -18,6 +18,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { siteConfig } from './src/config.ts';
 import swup from '@swup/astro';
+import LocationBridge from './src/components/LocationBridge.astro'
 
 // Deployment platform configuration
 const DEPLOYMENT_PLATFORM = process.env.DEPLOYMENT_PLATFORM || 'netlify';
@@ -63,7 +64,7 @@ export default defineConfig({
     mdx({
       // 添加这一行 - 为 MDX 文件自动导入 Location 组件
       components: {
-        Location: './src/components/Location.astro'
+        Location: LocationBridge,
       }
     }),
     swup({
