@@ -1,5 +1,4 @@
 ---
-
 title: Obsidian Astro 套件
 description: 一套完整的 Obsidian 知识库集合，专为无缝集成到您的 Astro 网站而设计，实现流畅的写作和发布工作流程。
 date: 2025-08-25
@@ -8,16 +7,15 @@ categories:
   - Astro
   - Vault
   - Template
-  repositoryUrl:
-  projectUrl: https://github.com/davidvkimball/obsidian-astro-suite
-  status: in-progress
-  image: "[[glacier.png]]"
-  imageAlt: 蓝色的冰川和山脉
-  hideCoverImage: false
-  hideTOC: false
-  draft: false
-  featured: true
-
+repositoryUrl:
+projectUrl: https://github.com/davidvkimball/obsidian-astro-suite
+status: in-progress
+image: "[[glacier.png]]"
+imageAlt: 蓝色的冰川和山脉
+hideCoverImage: false
+hideTOC: false
+draft: false
+featured: true
 ---
 
 项目概述
