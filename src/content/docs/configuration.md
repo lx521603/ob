@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 配置指南
 description: 完整指南：设置、配置和自定义你的 Astro Modular 博客主题。
