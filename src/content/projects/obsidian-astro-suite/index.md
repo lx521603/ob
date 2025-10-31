@@ -4,11 +4,10 @@ title: Obsidian Astro 套件
 description: 一套完整的 Obsidian 知识库集合，专为无缝集成到您的 Astro 网站而设计，实现流畅的写作和发布工作流程。
 date: 2025-08-25
 categories:
-
-· Obsidian
-· Astro
-· 知识库
-· 模板
+  - Obsidian
+  - Astro
+  - Vault
+  - Template
   repositoryUrl:
   projectUrl: https://github.com/davidvkimball/obsidian-astro-suite
   status: in-progress
