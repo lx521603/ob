@@ -1,22 +1,20 @@
 ---
-
 title: Mermaid 图表测试
 description: 测试各种 Mermaid 图表类型，确保正确渲染和主题集成。
 date: 2025-09-07
 tags:
-
-· 格式化
-· obsidian
-  draft: false
-  image:
-  imageAlt:
-  imageOG: false
-  hideCoverImage: false
-  hideTOC: false
-  targetKeyword:
-  aliases:
-· mermaid-test
-· mermaid-diagram-test
+ - 格式化
+ - obsidian
+draft: false
+image:
+imageAlt:
+imageOG: false
+hideCoverImage: false
+hideTOC: false
+targetKeyword:
+aliases:
+ - mermaid-test
+ - mermaid-diagram-test
 
 ---
 
