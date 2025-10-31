@@ -1,7 +1,10 @@
 ---
-title: Thank You
-description: Thank you for your submission.
+
+title: 感谢提交
+description: 感谢您的提交。
 hideTOC: true
 noIndex: true
+
 ---
-Your submission has been sent. Expect a response soon!
+
+您的提交已发送成功。请耐心等待，我们将尽快回复您！
