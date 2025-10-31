@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
+import react from '@astrojs/react'
 import { remarkInternalLinks, remarkFolderImages, remarkImageCaptions } from './src/utils/internallinks.ts';
 import remarkCallouts from './src/utils/remark-callouts.ts';
 import remarkImageGrids from './src/utils/remark-image-grids.ts';
@@ -18,7 +19,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { siteConfig } from './src/config.ts';
 import swup from '@swup/astro';
-import LocationBridge from './src/components/LocationBridge.astro'
+import Location from './src/components/Location.jsx'
 
 // Deployment platform configuration
 const DEPLOYMENT_PLATFORM = process.env.DEPLOYMENT_PLATFORM || 'netlify';
@@ -61,10 +62,11 @@ export default defineConfig({
   integrations: [
     tailwind(),
     sitemap(),
+    react(),
     mdx({
       // 添加这一行 - 为 MDX 文件自动导入 Location 组件
       components: {
-        Location: LocationBridge,
+        Location,
       }
     }),
     swup({
