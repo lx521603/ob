@@ -1,65 +1,53 @@
 ---
-interface Props {
-  address: string;
+// src/components/Location.astro
+const { address } = Astro.props
+
+function getStoreName(addr) {
+  if (!addr || typeof addr !== 'string') return '未知地点 (Unknown Location)'
+  const cleanName = addr.split('•')[0].trim()
+  return cleanName.length > 15 ? cleanName.substring(0, 12) + '...' : cleanName
 }
 
-const { address } = Astro.props;
+const storeName = getStoreName(address)
 ---
 
-<a 
-  href={`https://maps.google.com/?q=${encodeURIComponent(address)}`}
-  target="_blank"
-  rel="noopener noreferrer"
-  class="location-wrapper"
+<button
+  type="button"
+  on:click={() => {
+    const encoded = encodeURIComponent(address)
+    const ua = navigator.userAgent
+    const isApple = /iPad|iPhone|iPod/.test(ua) || navigator.platform.includes('Mac')
+
+    if (isApple) {
+      window.open(`https://maps.apple.com/?q=${encoded}`, '_blank')
+    } else {
+      const mapUrls = [
+        `amapuri://route/plan/?dname=${encoded}`,
+        `baidumap://map/geocoder?address=${encoded}`,
+        `qqmap://map/routeplan?type=drive&to=${encoded}`,
+        `https://map.baidu.com/mobile/webapp/search/search/qt=s&wd=${encoded}`,
+      ]
+      for (let i = 0; i < mapUrls.length - 1; i++) {
+        const win = window.open(mapUrls[i], '_blank')
+        if (win && !win.closed) return
+      }
+      window.open(mapUrls[mapUrls.length - 1], '_blank')
+    }
+  }}
+  class="mr-2 inline-flex max-w-full cursor-pointer appearance-none items-center gap-1.5 rounded-full border border-blue-100 bg-blue-50 p-2 transition-all duration-200 ease-in-out select-none sm:max-w-xs dark:border-gray-700 dark:bg-gray-800 hover:border-blue-300 hover:bg-blue-100 dark:hover:bg-gray-700"
 >
-  <div class="location-icon">
-    <span>📍</span>
-  </div>
-  <span class="location-text">{address}</span>
-</a>
-
-<style>
-  .location-wrapper {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px;
-    background-color: white;
-    border: 1px solid #d1d5db;
-    border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    cursor: pointer;
-    max-width: 200px;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
-  }
-
-  .location-wrapper:hover {
-    background-color: #f0f9ff;
-    border-color: #3b82f6;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transform: translateY(-1px);
-  }
-
-  .location-icon {
-    width: 32px;
-    height: 32px;
-    background-color: #dbeafe;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .location-text {
-    font-size: 14px;
-    font-weight: 600;
-    color: #1f2937;
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-</style>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    stroke="none"
+    class="h-4 w-4 flex-shrink-0 text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors duration-200"
+  >
+    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+  </svg>
+  <span class="truncate text-sm font-medium whitespace-nowrap text-blue-600 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-200 transition-colors duration-200">
+    {storeName}
+  </span>
+</button>
