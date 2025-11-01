@@ -1,6 +1,6 @@
-// Site configuration with TypeScript types
+// 使用 TypeScript 类型的站点配置
 
-// Aspect ratio options for post cards
+// 文章卡片的长宽比选项
 export type AspectRatio = 
   | "16:9" 
   | "4:3"
@@ -11,17 +11,17 @@ export type AspectRatio =
   | "custom";
 
 export interface SiteConfig {
-  // Site Information
+  // 站点信息
   site: string;
   title: string;
   description: string;
   author: string;
   language: string;
   
-  // Global Settings
+  // 全局设置
   theme: "minimal" | "oxygen" | "atom" | "ayu" | "catppuccin" | "charcoal" | "dracula" | "everforest" | "flexoki" | "gruvbox" | "macos" | "nord" | "obsidian" | "rose-pine" | "sky" | "solarized" | "things" | "custom";
-  customThemeFile?: string; // Filename in src/themes/custom/ (e.g., "my-cool-theme" for my-cool-theme.ts)
-  availableThemes: "default" | Array<string>; // Control which themes users can select - "default" shows all built-in themes, array can include custom theme filenames
+  customThemeFile?: string; // src/themes/custom/ 中的文件名（例如："my-cool-theme" 对应 my-cool-theme.ts）
+  availableThemes: "default" | Array<string>; // 控制用户可以选择哪些主题 - "default" 显示所有内置主题，数组可以包含自定义主题文件名
   fonts: {
     source: "local" | "cdn";
     families: {
@@ -54,7 +54,7 @@ export interface SiteConfig {
     platform: "netlify" | "vercel" | "github-pages";
   };
   
-  // Command Palette
+  // 命令面板
   commandPalette: {
     enabled: boolean;
     shortcut: string;
@@ -78,7 +78,7 @@ export interface SiteConfig {
     };
   };
   
-  // Profile Picture
+  // 个人资料图片
   profilePicture: {
     enabled: boolean;
     image: string;
@@ -89,7 +89,7 @@ export interface SiteConfig {
     style: "circle" | "square" | "none";
   };
   
-  // Navigation
+  // 导航
   navigation: {
     showNavigation: boolean;
     style: "minimal" | "traditional";
@@ -98,12 +98,12 @@ export interface SiteConfig {
     social: Array<{ title: string; url: string; icon: string }>;
   };
   
-  // Home Options
+  // 首页选项
   homeOptions: {
     featuredPost: {
       enabled: boolean;
       type: "latest" | "featured";
-      slug?: string; // Only used when type is "featured"
+      slug?: string; // 仅在类型为 "featured" 时使用
     };
     recentPosts: {
       enabled: boolean;
@@ -122,7 +122,7 @@ export interface SiteConfig {
     };
   };
   
-  // Post Options
+  // 文章选项
   postOptions: {
     postsPerPage: number;
     readingTime: boolean;
@@ -160,7 +160,7 @@ export interface SiteConfig {
     };
   };
   
-  // Optional Content Types
+  // 可选内容类型
   optionalContentTypes: {
     projects: boolean;
     docs: boolean;
@@ -168,18 +168,17 @@ export interface SiteConfig {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// ASTRO MODULAR CONFIGURATION
+// ASTRO MODULAR 配置
 // ═══════════════════════════════════════════════════════════════════════════════
 // 
-// ⚠️ IMPORTANT: Comment markers like // [CONFIG:KEY] are used by the Astro Modular
-// Settings Obsidian plugin. Do not remove these markers or the plugin will not be
-// able to update your configuration automatically.
+// ⚠️ 重要：像 // [CONFIG:KEY] 这样的注释标记被 Astro Modular Settings Obsidian 插件使用。
+// 不要移除这些标记，否则插件将无法自动更新您的配置。
 // 
-// Most settings have helpful comments explaining what they do.
+// 大多数设置都有有用的注释说明它们的作用。
 // 
 // ═══════════════════════════════════════════════════════════════════════════════
 export const siteConfig: SiteConfig = {
-  // Site Information
+  // 站点信息
   // [CONFIG:SITE_URL]
   site: "https://sai.st",
   // [CONFIG:SITE_TITLE]
@@ -189,28 +188,28 @@ export const siteConfig: SiteConfig = {
   // [CONFIG:SITE_AUTHOR]
   author: "Sai",
   // [CONFIG:SITE_LANGUAGE]
-  language: "en",
+  language: "zh-CN",
 
-  // Global Settings
+  // 全局设置
   // [CONFIG:THEME]
-  theme: "oxygen", // Available themes: "minimal" | "oxygen" | "atom" | "ayu" | "catppuccin" | "charcoal" | "dracula" | "everforest" | "flexoki" | "gruvbox" | "macos" | "nord" | "obsidian" | "rose-pine" | "sky" | "solarized" | "things" | "custom"
+  theme: "oxygen", // 可用主题: "minimal" | "oxygen" | "atom" | "ayu" | "catppuccin" | "charcoal" | "dracula" | "everforest" | "flexoki" | "gruvbox" | "macos" | "nord" | "obsidian" | "rose-pine" | "sky" | "solarized" | "things" | "custom"
   // [CONFIG:CUSTOM_THEME_FILE]
-  customThemeFile: "custom", // Only used if theme is set to "custom" above. Filename in src/themes/custom/ (without .ts extension)
+  customThemeFile: "custom", // 仅当上面主题设置为 "custom" 时使用。src/themes/custom/ 中的文件名（不带 .ts 扩展名）
   // [CONFIG:AVAILABLE_THEMES]
-  availableThemes: "default", // "default" to show all built-in themes, or array of theme names like ["oxygen", "minimal", "obsidianite"] to limit choices (can include custom theme filenames)
+  availableThemes: "default", // "default" 显示所有内置主题，或主题名称数组如 ["oxygen", "minimal", "obsidianite"] 来限制选择（可以包含自定义主题文件名）
   fonts: {
     // [CONFIG:FONT_SOURCE]
-    source: "local", // "local" for self-hosted @fontsource fonts, "cdn" for Google Fonts CDN
+    source: "local", // "local" 用于自托管的 @fontsource 字体，"cdn" 用于 Google Fonts CDN
     families: {
       // [CONFIG:FONT_BODY]
-      body: "Inter",      // Body text font family
+      body: "Inter",      // 正文字体家族
       // [CONFIG:FONT_HEADING]
-      heading: "Inter",   // Heading font family  
+      heading: "Inter",   // 标题字体家族  
       // [CONFIG:FONT_MONO]
-      mono: "JetBrains Mono", // Monospace font family
+      mono: "JetBrains Mono", // 等宽字体家族
     },
     // [CONFIG:FONT_DISPLAY]
-    display: "swap", // Font display strategy: "swap" (recommended), "fallback", or "optional"
+    display: "swap", // 字体显示策略: "swap"（推荐）、"fallback" 或 "optional"
   },
   layout: {
     // [CONFIG:LAYOUT_CONTENT_WIDTH]
@@ -220,13 +219,13 @@ export const siteConfig: SiteConfig = {
     // [CONFIG:TABLE_OF_CONTENTS_ENABLED]
     enabled: true,
     // [CONFIG:TABLE_OF_CONTENTS_DEPTH]
-    depth: 4, // Maximum heading depth to include in ToC (2-6, where 2=H2, 3=H3, etc.)
+    depth: 4, // 目录中包含的最大标题深度（2-6，其中 2=H2，3=H3，等等）
   },
   footer: {
     // [CONFIG:FOOTER_ENABLED]
     enabled: true,
     // [CONFIG:FOOTER_CONTENT]
-    content: `© 2025 {author}. 使用 <a href="https://github.com/lx521603/ob" target="_blank">Astro </a> 构建.`,
+    content: `© 2025 {author}. 使用 <a href="https://github.com/lx521603/ob" target="_blank">Astro</a> 构建。`,
     // [CONFIG:FOOTER_SHOW_SOCIAL_ICONS]
     showSocialIconsInFooter: true,
   },
@@ -238,14 +237,14 @@ export const siteConfig: SiteConfig = {
   featureButton: "mode", // "mode" | "graph" | "theme" | "none"
   seo: {
     // [CONFIG:SEO_DEFAULT_OG_IMAGE_ALT]
-    defaultOgImageAlt: "Astro Modular logo.", // Alt text for the default Open Graph image, public/open-graph.png
+    defaultOgImageAlt: "Sai 博客", // 默认 Open Graph 图片的替代文本，public/open-graph.png
   },
   deployment: {
     // [CONFIG:DEPLOYMENT_PLATFORM]
-    platform: "netlify", // "netlify" | "vercel" | "github-pages" - sets redirect configuration for the chosen platform
+    platform: "netlify", // "netlify" | "vercel" | "github-pages" - 为所选平台设置重定向配置
   },
 
-  // Command Palette
+  // 命令面板
   commandPalette: {
     // [CONFIG:COMMAND_PALETTE_ENABLED]
     enabled: true,
@@ -283,30 +282,30 @@ export const siteConfig: SiteConfig = {
     },
   },
 
-  // Profile Picture
+  // 个人资料图片
   profilePicture: {
     // [CONFIG:PROFILE_PICTURE_ENABLED]
     enabled: false, 
     // [CONFIG:PROFILE_PICTURE_IMAGE]
-    image: "/profile.jpg", // Path to your profile image (place in public/ directory)
+    image: "/profile.jpg", // 个人资料图片路径（放在 public/ 目录中）
     // [CONFIG:PROFILE_PICTURE_ALT]
-    alt: "Profile picture",
+    alt: "个人资料图片",
     // [CONFIG:PROFILE_PICTURE_SIZE]
-    size: "md", // "sm" (32px), "md" (48px), or "lg" (64px) - only affects footer placement
+    size: "md", // "sm" (32px), "md" (48px), 或 "lg" (64px) - 仅影响页脚位置
     // [CONFIG:PROFILE_PICTURE_URL]
-    url: "/about", // Optional
+    url: "/about", // 可选
     // [CONFIG:PROFILE_PICTURE_PLACEMENT]
-    placement: "footer", // "footer" or "header"
+    placement: "footer", // "footer" 或 "header"
     // [CONFIG:PROFILE_PICTURE_STYLE]
-    style: "circle", // "circle", "square", or "none"
+    style: "circle", // "circle", "square", 或 "none"
   },
 
-  // Navigation
+  // 导航
   navigation: {
     // [CONFIG:NAVIGATION_SHOW_NAVIGATION]
     showNavigation: true,
     // [CONFIG:NAVIGATION_STYLE]
-    style: "traditional", // 'minimal' or 'traditional'
+    style: "traditional", // 'minimal' 或 'traditional'
     // [CONFIG:NAVIGATION_SHOW_MOBILE_MENU]
     showMobileMenu: true,
     // [CONFIG:NAVIGATION_PAGES]
@@ -315,7 +314,7 @@ export const siteConfig: SiteConfig = {
       { title: "项目", url: "/projects" },
       { title: "文档", url: "/docs" },
       { title: "关于", url: "/about" },
-      { title: "GitHub", url: "https://github.com/davidvkimball/astro-modular" },
+      { title: "GitHub", url: "https://github.com/lx521603" },
     ],
     // [CONFIG:NAVIGATION_SOCIAL]
     social: [
@@ -332,49 +331,49 @@ export const siteConfig: SiteConfig = {
     ],
   },
 
-  // Optional Content Types - Enable/disable optional content sections (takes priority over homeOptions)
+  // 可选内容类型 - 启用/禁用可选内容部分（优先于 homeOptions）
   optionalContentTypes: {
     // [CONFIG:OPTIONAL_CONTENT_TYPES_PROJECTS]
-    projects: true, // Enable projects section
+    projects: true, // 启用项目部分
     // [CONFIG:OPTIONAL_CONTENT_TYPES_DOCS]
-    docs: true, // Enable documentation section
+    docs: true, // 启用文档部分
   },
 
-  // Home Options
+  // 首页选项
   homeOptions: {
     featuredPost: {
       // [CONFIG:HOME_OPTIONS_FEATURED_POST_ENABLED]
-      enabled: true, // Show featured post on homepage
+      enabled: true, // 在首页显示特色文章
       // [CONFIG:HOME_OPTIONS_FEATURED_POST_TYPE]
-      type: "latest", // "latest" or "featured"
+      type: "latest", // "latest" 或 "featured"
       // [CONFIG:HOME_OPTIONS_FEATURED_POST_SLUG]
-      slug: "getting-started", // Slug of post after '/posts/' to be featured (e.g. "post-title"). Only used when type is "featured"
+      slug: "getting-started", // 特色文章的 slug（例如 "post-title"）。仅在类型为 "featured" 时使用
     },
     recentPosts: {
       // [CONFIG:HOME_OPTIONS_RECENT_POSTS_ENABLED]
-      enabled: true, // Show recent posts on homepage
+      enabled: true, // 在首页显示最近文章
       // [CONFIG:HOME_OPTIONS_RECENT_POSTS_COUNT]
-      count: 7, // Number of recent posts to show
+      count: 7, // 显示的最近文章数量
     },
     projects: {
       // [CONFIG:HOME_OPTIONS_PROJECTS_ENABLED]
-      enabled: true, // Show featured projects on homepage
+      enabled: true, // 在首页显示特色项目
       // [CONFIG:HOME_OPTIONS_PROJECTS_COUNT]
-      count: 2, // Number of projects to show
+      count: 2, // 显示的项目数量
     },
     docs: {
       // [CONFIG:HOME_OPTIONS_DOCS_ENABLED]
-      enabled: true, // Show featured docs on homepage
+      enabled: true, // 在首页显示特色文档
       // [CONFIG:HOME_OPTIONS_DOCS_COUNT]
-      count: 3, // Number of docs to show
+      count: 3, // 显示的文档数量
     },
     blurb: {
       // [CONFIG:HOME_OPTIONS_BLURB_PLACEMENT]
-      placement: "below", // 'above' (at the top), 'below' (after content), or 'none' (disabled)
+      placement: "below", // 'above'（在顶部）、'below'（在内容之后）或 'none'（禁用）
     },
   },
 
-  // Post Options
+  // 文章选项
   postOptions: {
     // [CONFIG:POST_OPTIONS_POSTS_PER_PAGE]
     postsPerPage: 6,
@@ -407,20 +406,20 @@ export const siteConfig: SiteConfig = {
     // [CONFIG:POST_OPTIONS_POST_CARD_ASPECT_RATIO]
     postCardAspectRatio: "og", // "16:9" | "4:3" | "3:2" | "og" | "square" | "golden" | "custom"
     // [CONFIG:POST_OPTIONS_CUSTOM_POST_CARD_ASPECT_RATIO]
-    customPostCardAspectRatio: "2.5/1", // Only used when postCardAspectRatio is "custom" (e.g., "2.5/1")
+    customPostCardAspectRatio: "2.5/1", // 仅当 postCardAspectRatio 为 "custom" 时使用（例如："2.5/1"）
     comments: {
       // [CONFIG:POST_OPTIONS_COMMENTS_ENABLED]
       enabled: false,
       // [CONFIG:POST_OPTIONS_COMMENTS_PROVIDER]
       provider: "giscus",
       // [CONFIG:POST_OPTIONS_COMMENTS_REPO]
-      repo: "davidvkimball/astro-modular",
+      repo: "lx521603/ob",
       // [CONFIG:POST_OPTIONS_COMMENTS_REPO_ID]
-      repoId: "R_kgDOPllfKw",
+      repoId: "",
       // [CONFIG:POST_OPTIONS_COMMENTS_CATEGORY]
       category: "General",
       // [CONFIG:POST_OPTIONS_COMMENTS_CATEGORY_ID]
-      categoryId: "DIC_kwDOPllfK84CvUpx",
+      categoryId: "",
       // [CONFIG:POST_OPTIONS_COMMENTS_MAPPING]
       mapping: "pathname",
       // [CONFIG:POST_OPTIONS_COMMENTS_STRICT]
@@ -434,14 +433,14 @@ export const siteConfig: SiteConfig = {
       // [CONFIG:POST_OPTIONS_COMMENTS_THEME]
       theme: "preferred_color_scheme",
       // [CONFIG:POST_OPTIONS_COMMENTS_LANG]
-      lang: "en",
+      lang: "zh-CN",
       // [CONFIG:POST_OPTIONS_COMMENTS_LOADING]
       loading: "lazy",
     },
   },
 };
 
-// Utility functions
+// 工具函数
 export function getFeature(feature: keyof Omit<SiteConfig["postOptions"], "postsPerPage" | "showPostCardCoverImages" | "postCardAspectRatio" | "customPostCardAspectRatio" | "linkedMentions" | "graphView" | "comments">): boolean {
   return siteConfig.postOptions[feature];
 }
@@ -475,9 +474,9 @@ export function getPostCardAspectRatio(): string {
     case "golden":
       return "1.618 / 1";
     case "custom":
-      return customPostCardAspectRatio || "1.91 / 1"; // Fallback to OpenGraph if custom not provided
+      return customPostCardAspectRatio || "1.91 / 1"; // 如果未提供自定义值，则回退到 OpenGraph
     default:
-      return "1.91 / 1"; // Default to OpenGraph
+      return "1.91 / 1"; // 默认使用 OpenGraph
   }
 }
 
@@ -498,7 +497,7 @@ export function getTableOfContentsEnabled(): boolean {
 }
 
 export function getFontFamily(fontName: string): string {
-  // Convert font name to CSS font-family with fallbacks
+  // 将字体名称转换为 CSS font-family 并添加后备字体
   const fontMap: Record<string, string> = {
     'Inter': "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     'Roboto': "'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
@@ -525,7 +524,7 @@ export function getFontFamily(fontName: string): string {
 }
 
 export function getGoogleFontsUrl(headingFont: string, bodyFont: string): string {
-  // Google Fonts that are commonly used and available
+  // 常用且可用的 Google Fonts
   const googleFonts = [
     'Inter', 'Roboto', 'Open Sans', 'Lato', 'Poppins', 'Source Sans Pro', 
     'Nunito', 'Montserrat', 'Playfair Display', 'Merriweather', 'Lora', 
@@ -535,7 +534,7 @@ export function getGoogleFontsUrl(headingFont: string, bodyFont: string): string
   
   const fonts = new Set<string>();
   
-  // Add fonts if they're Google Fonts
+  // 如果是 Google Fonts 则添加
   if (googleFonts.includes(headingFont)) {
     fonts.add(headingFont);
   }
@@ -543,14 +542,14 @@ export function getGoogleFontsUrl(headingFont: string, bodyFont: string): string
     fonts.add(bodyFont);
   }
   
-  // If no Google Fonts are needed, return empty string
+  // 如果不需要 Google Fonts，返回空字符串
   if (fonts.size === 0) {
     return '';
   }
   
-  // Generate Google Fonts URL
+  // 生成 Google Fonts URL
   const fontList = Array.from(fonts).map(font => {
-    // Add common weights for each font
+    // 为每种字体添加常用字重
     const weights = font.includes('Mono') ? '300;400;500;600;700' : '300;400;500;600;700';
     return `${font.replace(/\s+/g, '+')}:wght@${weights}`;
   }).join('&family=');
@@ -558,7 +557,7 @@ export function getGoogleFontsUrl(headingFont: string, bodyFont: string): string
   return `https://fonts.googleapis.com/css2?family=${fontList}&display=swap`;
 }
 
-// Font loading utilities
+// 字体加载工具函数
 export function getFontSource(): "local" | "cdn" {
   return siteConfig.fonts.source;
 }
@@ -567,20 +566,20 @@ export function getFontDisplay(): "swap" | "fallback" | "optional" {
   return siteConfig.fonts.display;
 }
 
-// Theme display name utility for UI formatting
+// 主题显示名称工具函数，用于 UI 格式化
 export function getThemeDisplayName(themeName: string): string {
-  // Special cases for proper formatting
+  // 特殊情况的正确格式化
   const specialCases: Record<string, string> = {
     'rose-pine': 'Rosé Pine',
     'macos': 'macOS'
   };
   
-  // Return special case if it exists
+  // 如果存在特殊情况则返回
   if (specialCases[themeName]) {
     return specialCases[themeName];
   }
   
-  // General formatting: capitalize first letter and replace hyphens with spaces
+  // 通用格式化：首字母大写并用空格替换连字符
   return themeName
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -599,163 +598,163 @@ export function shouldLoadCdnFonts(): boolean {
   return siteConfig.fonts.source === "cdn";
 }
 
-// Validation function for siteConfig
+// siteConfig 的验证函数
 function validateSiteConfig(config: SiteConfig): { isValid: boolean; errors: string[] } {
   const errors: string[] = [];
 
-  // Required fields
+  // 必填字段
   if (!config.site || !config.site.startsWith('http')) {
-    errors.push('Site URL is missing or invalid. Please set a complete URL like "https://yourdomain.com" in the site field.');
+    errors.push('站点 URL 缺失或无效。请在 site 字段中设置完整的 URL，如 "https://yourdomain.com"。');
   }
   if (!config.title || config.title.trim() === '') {
-    errors.push('Site title is required and cannot be empty. Set a descriptive title for your blog.');
+    errors.push('站点标题是必需的，不能为空。为您的博客设置一个描述性标题。');
   }
   if (!config.description || config.description.trim() === '') {
-    errors.push('Site description is required and cannot be empty. Set a brief description of your blog.');
+    errors.push('站点描述是必需的，不能为空。为您的博客设置一个简要描述。');
   }
   if (!config.author || config.author.trim() === '') {
-    errors.push('Author name is required and cannot be empty. Set your name or the blog author.');
+    errors.push('作者名称是必需的，不能为空。设置您的姓名或博客作者。');
   }
 
-  // Theme validation
+  // 主题验证
   const validThemes = ['minimal', 'oxygen', 'atom', 'ayu', 'catppuccin', 'charcoal', 'dracula', 'everforest', 'flexoki', 'gruvbox', 'macos', 'nord', 'obsidian', 'rose-pine', 'sky', 'solarized', 'things', 'custom'];
   if (!validThemes.includes(config.theme)) {
-    errors.push(`Invalid theme selected: "${config.theme}". Choose from: Minimal, Oxygen, Atom, Ayu, Catppuccin, Charcoal, Dracula, Everforest, Flexoki, Gruvbox, macOS, Nord, Obsidian, Rose Pine, Sky, Solarized, or Things. For custom themes, use "custom" and set customThemeFile.`);
+    errors.push(`选择的主题无效："${config.theme}"。请从以下选项中选择：Minimal、Oxygen、Atom、Ayu、Catppuccin、Charcoal、Dracula、Everforest、Flexoki、Gruvbox、macOS、Nord、Obsidian、Rose Pine、Sky、Solarized 或 Things。对于自定义主题，请使用 "custom" 并设置 customThemeFile。`);
   }
   if (config.theme === 'custom') {
     if (!config.customThemeFile || config.customThemeFile.trim() === '') {
-      errors.push('Custom theme file is required when theme is set to "custom". Set customThemeFile to the filename (without .ts extension) in src/themes/custom/');
+      errors.push('当主题设置为 "custom" 时，需要自定义主题文件。将 customThemeFile 设置为 src/themes/custom/ 中的文件名（不带 .ts 扩展名）。');
     }
   }
 
-  // Available themes validation
+  // 可用主题验证
   if (config.availableThemes !== 'default' && !Array.isArray(config.availableThemes)) {
-    errors.push('availableThemes must be either "default" or an array of theme names.');
+    errors.push('availableThemes 必须是 "default" 或主题名称数组。');
   }
   if (Array.isArray(config.availableThemes)) {
     if (config.availableThemes.length === 0) {
-      errors.push('availableThemes array cannot be empty. Use "default" to show all built-in themes or specify theme names in the array.');
+      errors.push('availableThemes 数组不能为空。使用 "default" 显示所有内置主题或在数组中指定主题名称。');
     }
-    // Note: We can't validate custom theme files exist at build time since they're dynamic
-    // The runtime will handle missing custom theme files gracefully
+    // 注意：我们无法在构建时验证自定义主题文件是否存在，因为它们是动态的
+    // 运行时将优雅地处理缺失的自定义主题文件
   }
 
-  // Font configuration validation
+  // 字体配置验证
   if (!['local', 'cdn'].includes(config.fonts.source)) {
-    errors.push(`Font source must be either "local" (self-hosted fonts) or "cdn" (Google Fonts). Current value "${config.fonts.source}" is invalid.`);
+    errors.push(`字体源必须是 "local"（自托管字体）或 "cdn"（Google Fonts）。当前值 "${config.fonts.source}" 无效。`);
   }
   if (!config.fonts.families.body || config.fonts.families.body.trim() === '') {
-    errors.push('Body font family is required. Set fonts.families.body to a valid font name like "Inter", "Roboto", or "Open Sans".');
+    errors.push('正文字体家族是必需的。将 fonts.families.body 设置为有效的字体名称，如 "Inter"、"Roboto" 或 "Open Sans"。');
   }
   if (!config.fonts.families.heading || config.fonts.families.heading.trim() === '') {
-    errors.push('Heading font family is required. Set fonts.families.heading to a valid font name like "Inter", "Roboto", or "Playfair Display".');
+    errors.push('标题字体家族是必需的。将 fonts.families.heading 设置为有效的字体名称，如 "Inter"、"Roboto" 或 "Playfair Display"。');
   }
   if (!config.fonts.families.mono || config.fonts.families.mono.trim() === '') {
-    errors.push('Monospace font family is required. Set fonts.families.mono to a valid font name like "JetBrains Mono", "Fira Code", or "Source Code Pro".');
+    errors.push('等宽字体家族是必需的。将 fonts.families.mono 设置为有效的字体名称，如 "JetBrains Mono"、"Fira Code" 或 "Source Code Pro"。');
   }
   if (!['swap', 'fallback', 'optional'].includes(config.fonts.display)) {
-    errors.push('Font display strategy must be one of: "swap", "fallback", or "optional". Current value is invalid.');
+    errors.push('字体显示策略必须是以下之一："swap"、"fallback" 或 "optional"。当前值无效。');
   }
 
-  // Numeric validations
+  // 数值验证
   if (config.postOptions.postsPerPage < 1 || config.postOptions.postsPerPage > 50) {
-    errors.push(`Posts per page must be between 1 and 50. Current value is ${config.postOptions.postsPerPage}. Adjust postOptions.postsPerPage.`);
+    errors.push(`每页文章数必须在 1 到 50 之间。当前值为 ${config.postOptions.postsPerPage}。调整 postOptions.postsPerPage。`);
   }
   if (config.tableOfContents.depth < 2 || config.tableOfContents.depth > 6) {
-    errors.push(`Table of contents depth must be between 2 and 6 (where 2=H2, 3=H3, etc.). Current value is ${config.tableOfContents.depth}. Adjust tableOfContents.depth.`);
+    errors.push(`目录深度必须在 2 到 6 之间（其中 2=H2，3=H3，等等）。当前值为 ${config.tableOfContents.depth}。调整 tableOfContents.depth。`);
   }
   if (config.homeOptions.recentPosts.count < 1) {
-    errors.push('Recent posts count must be at least 1. Adjust homeOptions.recentPosts.count.');
+    errors.push('最近文章数量必须至少为 1。调整 homeOptions.recentPosts.count。');
   }
   if (config.homeOptions.projects.count < 1) {
-    errors.push('Projects count must be at least 1. Adjust homeOptions.projects.count.');
+    errors.push('项目数量必须至少为 1。调整 homeOptions.projects.count。');
   }
   if (config.homeOptions.docs.count < 1) {
-    errors.push('Documentation count must be at least 1. Adjust homeOptions.docs.count.');
+    errors.push('文档数量必须至少为 1。调整 homeOptions.docs.count。');
   }
 
-  // Content width validation
+  // 内容宽度验证
   if (!config.layout.contentWidth || !config.layout.contentWidth.match(/^\d+(\.\d+)?(rem|px|em)$/)) {
-    errors.push(`Content width must be a valid CSS length value like "45rem", "800px", or "90em". Current value "${config.layout.contentWidth}" is invalid.`);
+    errors.push(`内容宽度必须是有效的 CSS 长度值，如 "45rem"、"800px" 或 "90em"。当前值 "${config.layout.contentWidth}" 无效。`);
   }
 
-  // Navigation style validation
+  // 导航样式验证
   if (!['minimal', 'traditional'].includes(config.navigation.style)) {
-    errors.push(`Navigation style must be either "minimal" or "traditional". Current value "${config.navigation.style}" is invalid.`);
+    errors.push(`导航样式必须是 "minimal" 或 "traditional"。当前值 "${config.navigation.style}" 无效。`);
   }
 
-  // Cover image options validation
+  // 封面图片选项验证
   const validCoverImageOptions = ['all', 'featured', 'home', 'posts', 'featured-and-posts', 'none'];
   if (!validCoverImageOptions.includes(config.postOptions.showPostCardCoverImages)) {
-    errors.push(`Show post card cover images must be one of: "all", "featured", "home", "posts", "featured-and-posts", or "none". Current value "${config.postOptions.showPostCardCoverImages}" is invalid.`);
+    errors.push(`显示文章卡片封面图片必须是以下之一："all"、"featured"、"home"、"posts"、"featured-and-posts" 或 "none"。当前值 "${config.postOptions.showPostCardCoverImages}" 无效。`);
   }
 
-  // Aspect ratio validation
+  // 长宽比验证
   const validAspectRatios = ['16:9', '4:3', '3:2', 'og', 'square', 'golden', 'custom'];
   if (!validAspectRatios.includes(config.postOptions.postCardAspectRatio)) {
-    errors.push(`Post card aspect ratio must be one of: "16:9", "4:3", "3:2", "og", "square", "golden", or "custom". Current value "${config.postOptions.postCardAspectRatio}" is invalid.`);
+    errors.push(`文章卡片长宽比必须是以下之一："16:9"、"4:3"、"3:2"、"og"、"square"、"golden" 或 "custom"。当前值 "${config.postOptions.postCardAspectRatio}" 无效。`);
   }
 
-  // Custom aspect ratio validation
+  // 自定义长宽比验证
   if (config.postOptions.postCardAspectRatio === 'custom') {
     if (!config.postOptions.customPostCardAspectRatio || !config.postOptions.customPostCardAspectRatio.match(/^\d+(\.\d+)?\s*\/\s*\d+(\.\d+)?$/)) {
-      errors.push(`Custom aspect ratio must be provided in format "width / height" (e.g., "2.5 / 1") when postCardAspectRatio is "custom". Current value "${config.postOptions.customPostCardAspectRatio}" is invalid.`);
+      errors.push(`当 postCardAspectRatio 为 "custom" 时，必须提供格式为 "width / height" 的自定义长宽比（例如："2.5 / 1"）。当前值 "${config.postOptions.customPostCardAspectRatio}" 无效。`);
     }
   }
 
-  // Home options validation
+  // 首页选项验证
   if (!['above', 'below', 'none'].includes(config.homeOptions.blurb.placement)) {
-    errors.push(`Home blurb placement must be "above", "below", or "none". Current value "${config.homeOptions.blurb.placement}" is invalid.`);
+    errors.push(`首页简介位置必须是 "above"、"below" 或 "none"。当前值 "${config.homeOptions.blurb.placement}" 无效。`);
   }
   
-  // Featured post validation
+  // 特色文章验证
   if (!['latest', 'featured'].includes(config.homeOptions.featuredPost.type)) {
-    errors.push(`Featured post type must be either "latest" or "featured". Current value "${config.homeOptions.featuredPost.type}" is invalid.`);
+    errors.push(`特色文章类型必须是 "latest" 或 "featured"。当前值 "${config.homeOptions.featuredPost.type}" 无效。`);
   }
   
-  // Only validate slug when type is "featured" - slug is optional when type is "latest"
+  // 仅在类型为 "featured" 时验证 slug - 当类型为 "latest" 时 slug 是可选的
   if (config.homeOptions.featuredPost.type === 'featured' && (!config.homeOptions.featuredPost.slug || config.homeOptions.featuredPost.slug.trim() === '')) {
-    errors.push('Featured post slug is required when type is "featured". Set homeOptions.featuredPost.slug to the post slug (the part after /posts/ in the URL).');
+    errors.push('当类型为 "featured" 时，特色文章 slug 是必需的。将 homeOptions.featuredPost.slug 设置为文章 slug（URL 中 /posts/ 之后的部分）。');
   }
 
-  // Language validation
+  // 语言验证
   if (!config.language || !config.language.match(/^[a-z]{2}(-[A-Z]{2})?$/)) {
-    errors.push('Language must be a valid language code like "en" or "en-US". Current value is invalid.');
+    errors.push('语言必须是有效的语言代码，如 "en" 或 "en-US"。当前值无效。');
   }
 
-  // Footer validation
+  // 页脚验证
   if (typeof config.footer.enabled !== 'boolean') {
-    errors.push('Footer enabled setting must be a boolean value (true or false).');
+    errors.push('页脚启用设置必须是布尔值（true 或 false）。');
   }
   if (config.footer.enabled && (!config.footer.content || config.footer.content.trim() === '')) {
-    errors.push('Footer content is required when footer is enabled. Set footer.content to your footer text.');
+    errors.push('启用页脚时，页脚内容是必需的。将 footer.content 设置为您的页脚文本。');
   }
   if (typeof config.footer.showSocialIconsInFooter !== 'boolean') {
-    errors.push('Footer social icons setting must be a boolean value (true or false).');
+    errors.push('页脚社交图标设置必须是布尔值（true 或 false）。');
   }
 
-  // Profile picture validation
+  // 个人资料图片验证
   if (config.profilePicture.enabled) {
     if (!config.profilePicture.image || config.profilePicture.image.trim() === '') {
-      errors.push('Profile picture image path is required when profilePicture.enabled is true. Set profilePicture.image to the path of your image (e.g., "/profile.jpg" in the public/ directory).');
+      errors.push('启用 profilePicture.enabled 时，个人资料图片路径是必需的。将 profilePicture.image 设置为您的图片路径（例如，public/ 目录中的 "/profile.jpg"）。');
     }
     if (!config.profilePicture.alt || config.profilePicture.alt.trim() === '') {
-      errors.push('Profile picture alt text is required when profilePicture.enabled is true. Set profilePicture.alt to describe your profile picture for accessibility.');
+      errors.push('启用 profilePicture.enabled 时，个人资料图片替代文本是必需的。将 profilePicture.alt 设置为描述您的个人资料图片以提供无障碍访问。');
     }
     if (!['sm', 'md', 'lg'].includes(config.profilePicture.size)) {
-      errors.push(`Profile picture size must be "sm" (32px), "md" (48px), or "lg" (64px). Current value "${config.profilePicture.size}" is invalid.`);
+      errors.push(`个人资料图片大小必须是 "sm" (32px)、"md" (48px) 或 "lg" (64px)。当前值 "${config.profilePicture.size}" 无效。`);
     }
     if (!['footer', 'header'].includes(config.profilePicture.placement)) {
-      errors.push(`Profile picture placement must be "footer" or "header". Current value "${config.profilePicture.placement}" is invalid.`);
+      errors.push(`个人资料图片位置必须是 "footer" 或 "header"。当前值 "${config.profilePicture.placement}" 无效。`);
     }
     if (!['circle', 'square', 'none'].includes(config.profilePicture.style)) {
-      errors.push(`Profile picture style must be "circle", "square", or "none". Current value "${config.profilePicture.style}" is invalid.`);
+      errors.push(`个人资料图片样式必须是 "circle"、"square" 或 "none"。当前值 "${config.profilePicture.style}" 无效。`);
     }
         if (config.profilePicture.url && !config.profilePicture.url.startsWith('/') && !config.profilePicture.url.startsWith('http')) {
-          errors.push(`Profile picture URL must be a valid path starting with "/" or "http". Current value "${config.profilePicture.url}" is invalid.`);
+          errors.push(`个人资料图片 URL 必须是以前缀 "/" 或 "http" 开头的有效路径。当前值 "${config.profilePicture.url}" 无效。`);
         }
         if (config.profilePicture.url && config.profilePicture.url.trim() === '') {
-          errors.push('Profile picture URL cannot be empty if provided.');
+          errors.push('如果提供了个人资料图片 URL，则不能为空。');
         }
   }
 
@@ -765,11 +764,11 @@ function validateSiteConfig(config: SiteConfig): { isValid: boolean; errors: str
   };
 }
 
-// Validate configuration on import
+// 导入时验证配置
 const validation = validateSiteConfig(siteConfig);
 if (!validation.isValid) {
-  throw new Error(`Site configuration is invalid. Please fix the following issues:\n${validation.errors.join('\n')}`);
+  throw new Error(`站点配置无效。请修复以下问题：\n${validation.errors.join('\n')}`);
 }
 
-// Export the configuration as default
+// 将配置导出为默认值
 export default siteConfig;
