@@ -2,7 +2,6 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
-import react from '@astrojs/react'
 import { remarkInternalLinks, remarkFolderImages, remarkImageCaptions } from './src/utils/internallinks.ts';
 import remarkCallouts from './src/utils/remark-callouts.ts';
 import remarkImageGrids from './src/utils/remark-image-grids.ts';
@@ -12,6 +11,7 @@ import remarkBases from './src/utils/remark-bases.ts';
 import remarkMath from 'remark-math';
 import remarkReadingTime from 'remark-reading-time';
 import remarkToc from 'remark-toc';
+import remarkBreaks from 'remark-breaks';
 import rehypeKatex from 'rehype-katex';
 import rehypeMark from './src/utils/rehype-mark.ts';
 import rehypeOptimizeImages from './src/utils/rehype-optimize-images.ts';
@@ -19,7 +19,6 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { siteConfig } from './src/config.ts';
 import swup from '@swup/astro';
-//import Location from './src/components/Location.jsx'
 
 // Deployment platform configuration
 const DEPLOYMENT_PLATFORM = process.env.DEPLOYMENT_PLATFORM || 'netlify';
@@ -62,7 +61,6 @@ export default defineConfig({
   integrations: [
     tailwind(),
     sitemap(),
-    react(),
     mdx(),
     swup({
       theme: false,
@@ -86,8 +84,9 @@ export default defineConfig({
     })
   ],
   markdown: {
-        remarkPlugins: [
-          remarkInternalLinks,
+      remarkPlugins: [
+      remarkInternalLinks,
+      remarkBreaks,
       remarkFolderImages,
       remarkObsidianEmbeds,
       // Bases directive (table-only v1)
@@ -142,20 +141,19 @@ export default defineConfig({
       port: 5000,
       allowedHosts: [],
       middlewareMode: false,
-      hmr: false,
+      hmr: true,
+      watch: {
+        usePolling: process.platform === 'win32', // Use polling on Windows for better file watching
+        interval: 1000
+      },
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate'
+        // CSP headers are handled by src/middleware.ts for all routes
       }
     },
     define: {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.ASTRO_CONTENT_COLLECTION_CACHE': 'false'
-    },
-    server: {
-      watch: {
-        usePolling: process.platform === 'win32', // Use polling on Windows for better file watching
-        interval: 1000
-      }
     },
     optimizeDeps: {
       exclude: ['astro:content']
