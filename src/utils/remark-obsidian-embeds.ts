@@ -198,7 +198,7 @@ export const remarkObsidianEmbeds: Plugin<[], Root> = () => {
 
         // Read the .base file and map a single view to config (no try/catch to satisfy older parser)
         const baseName = raw.split('/').pop()?.replace(/\.base$/i, '') || 'home';
-        const basePath = path.join(process.cwd(), 'src', 'content', '_bases', `${baseName}.base`);
+        const basePath = path.join(process.cwd(), 'src', 'content', 'bases', `${baseName}.base`);
         if (fs.existsSync(basePath)) {
           const text = fs.readFileSync(basePath, 'utf8');
           // Global filter hint: detect file.ext == "md" to require md
@@ -379,6 +379,7 @@ export const remarkObsidianEmbeds: Plugin<[], Root> = () => {
   <iframe 
     src="https://www.youtube.com/embed/${youtubeVideoId}?rel=0&modestbranding=1" 
     title="${alt || 'YouTube video player'}" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
     allowfullscreen 
     loading="lazy"
     class="w-full h-full"
@@ -478,6 +479,7 @@ export const remarkObsidianEmbeds: Plugin<[], Root> = () => {
   <iframe 
     src="https://www.youtube.com/embed/${youtubeVideoId}?rel=0&modestbranding=1" 
     title="${title || 'YouTube video player'}" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
     allowfullscreen 
     loading="lazy"
     class="w-full h-full"
