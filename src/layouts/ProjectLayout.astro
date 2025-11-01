@@ -1,5 +1,6 @@
 ---
-import type { Project, Heading } from '@/types';
+import type { CollectionEntry } from 'astro:content';
+import type { Heading } from '@/types';
 import { siteConfig } from '@/config';
 import { generateProjectSEO } from '@/utils/seo';
 import { optimizePostImagePath, optimizeContentImagePath } from '@/utils/images';
@@ -19,7 +20,7 @@ import { devConfig } from '@/config/dev';
 import ImageWrapper from '@/components/ImageWrapper.astro';
 
 export interface Props {
-  project: 项目;
+  project: CollectionEntry<'projects'>;
 }
 
 const { project } = Astro.props;
@@ -30,9 +31,9 @@ const status = normalizeStatus(project.data.status);
 // Smart repository icon detection
 const getRepositoryIcon = (repositoryUrl: string) => {
   if (!repositoryUrl) return 'folder-git-2';
-  
+
   const url = repositoryUrl.toLowerCase();
-  
+
   if (url.includes('github.com') || url.includes('github.io')) {
     return 'github';
   } else if (url.includes('gitlab.com')) {
@@ -46,7 +47,7 @@ const getRepositoryIcon = (repositoryUrl: string) => {
 const isDev = import.meta.env.DEV;
 
 // Generate SEO data
-const seoData = generateProjectSEO(project, Astro.site ? Astro.site.toString() : '');
+const seoData = generateProjectSEO(project, import.meta.env.SITE || '');
 
 // Image handling is now done by ImageWrapper component
 
@@ -96,7 +97,7 @@ const shouldShowTOC = siteConfig.tableOfContents.enabled && !hideTOC && headings
 const toc = shouldShowTOC ? await generateTOC(headings) : [];
 
 // Get adjacent projects for navigation
-const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProjectsForCategories as any, project.slug);
+const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProjectsForCategories as any, project.id);
 ---
 
 <BaseLayout seoData={seoData}>
@@ -107,16 +108,16 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
     <!-- Preload project cover image - only for projects that will definitely show the image immediately -->
     {(() => {
       if (!project.data.image || project.data.hideCoverImage === true) return false;
-      
+
       // Projects always show images when available, so always preload
       const shouldPreload = true;
-      
+
       return shouldPreload;
     })() && (
-      <link 
-        rel="preload" 
-        as="image" 
-        href={project.data.image && typeof project.data.image === 'string' && project.data.image.startsWith('http') ? project.data.image : (project.data.image ? optimizeContentImagePath(project.data.image, 'projects', project.slug, project.id) : '')}
+      <link
+        rel="preload"
+        as="image"
+        href={project.data.image && typeof project.data.image === 'string' && project.data.image.startsWith('http') ? project.data.image : (project.data.image ? optimizeContentImagePath(project.data.image, 'projects', project.id, project.id) : '')}
         fetchpriority="high"
       />
     )}
@@ -156,10 +157,10 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
                   
                   if (cleanImagePath.startsWith('attachments/')) {
                     // The sync script removes the attachments/ prefix, so the image is directly in the project folder
-                    return `/projects/${project.slug}/`;
+                    return `/projects/${project.id}/`;
                   }
                   // Image in same folder as index.md
-                  return `/projects/${project.slug}/`;
+                  return `/projects/${project.id}/`;
                 }
                 
                 // 3. Single-file projects - use global images directory
@@ -187,7 +188,7 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
             <h1 class="text-xl font-bold text-primary-900 dark:text-primary-50 mb-6 leading-tight pr-20">
               {project.data.title}
             </h1>
-            
+
             <!-- Floating Action Buttons -->
             <div class="absolute top-0 right-0 flex gap-2">
               {project.data.repositoryUrl && (
@@ -196,7 +197,7 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
                   target="_blank"
                   rel="noopener noreferrer"
                   class="inline-flex items-center justify-center px-2 py-2 text-sm text-primary-600 dark:text-primary-300 bg-primary-50 dark:bg-primary-800 rounded-lg border border-primary-200 dark:border-primary-700 hover:bg-highlight-100 dark:hover:bg-highlight-800 hover:text-highlight-700 dark:hover:text-highlight-300 transition-all duration-200 hover:shadow-md"
-                  title="查看仓库"
+                  title="View Repository"
                 >
                   <Icon name={getRepositoryIcon(project.data.repositoryUrl)} class="w-4 h-4" />
                 </a>
@@ -208,10 +209,10 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
                   rel="noopener noreferrer"
                   class="inline-flex items-center gap-1.5 px-3 py-2 text-sm bg-highlight-600 dark:bg-highlight-400 text-white border-highlight-600 dark:border-highlight-400 rounded-lg hover:opacity-90 transition-all duration-200"
                   style="color: white !important;"
-                  title="查看项目"
+                  title="View Project"
                 >
-                  <span class="hidden sm:inline">查看</span>
-                  <span class="sm:hidden">查看</span>
+                  <span class="hidden sm:inline">View</span>
+                  <span class="sm:hidden">View</span>
                   <Icon name="external-link" class="w-4 h-4" />
                 </a>
               )}
@@ -235,7 +236,7 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
                   <span class="text-primary-300 dark:text-primary-600 sm:hidden">•</span>
                 </>
               )}
-              
+
               {status && (
                 <span class={`px-2 py-1 rounded-full text-xs font-medium ${getStatusClasses(status)}`}>
                   {getStatusDisplayText(status)}
@@ -244,10 +245,10 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
 
             </div>
 
-            <!-- 分类 -->
+            <!-- Categories -->
             {projectsHaveCategories && project.data.categories && project.data.categories.length > 0 && (
               <div class="flex flex-wrap gap-2 mb-8">
-                {project.data.categories.map(category => (
+                {project.data.categories.map((category: string) => (
                   <span
                     class="text-xs text-primary-600 dark:text-primary-300 bg-primary-100 dark:bg-primary-800 px-2.5 py-1 rounded-full border border-primary-200 dark:border-primary-700"
                   >
@@ -265,7 +266,7 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
           </div>
 
           {siteConfig.postOptions.linkedMentions.enabled && (
-            <LinkedMentions currentSlug={project.slug} />
+            <LinkedMentions currentSlug={project.id} />
           )}
 
           <!-- Project navigation -->
@@ -275,7 +276,7 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
                 {prevProject && (
                   <div class="text-left">
                     <a
-                      href={`/projects/${prevProject.slug}`}
+                      href={`/projects/${prevProject.id}`}
                       class="group block p-4 rounded-lg border border-primary-200 dark:border-primary-700 hover:border-highlight-300 dark:hover:border-highlight-600 transition-all duration-200 hover:shadow-md"
                     >
                       <h3 class="font-semibold text-primary-900 dark:text-primary-50 group-hover:text-highlight-600 dark:group-hover:text-highlight-400 transition-colors">
@@ -291,7 +292,7 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
                 {nextProject && (
                   <div class={`text-right ${!prevProject ? 'md:col-start-2' : ''}`}>
                     <a
-                      href={`/projects/${nextProject.slug}`}
+                      href={`/projects/${nextProject.id}`}
                       class="group block p-4 rounded-lg border border-primary-200 dark:border-primary-700 hover:border-highlight-300 dark:hover:border-highlight-600 transition-all duration-200 hover:shadow-md"
                     >
                       <h3 class="font-semibold text-primary-900 dark:text-primary-50 group-hover:text-highlight-600 dark:group-hover:text-highlight-400 transition-colors">
@@ -312,7 +313,7 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
             <div class="mt-16">
               <GiscusComments
                 postTitle={project.data.title}
-                postSlug={project.slug}
+                postSlug={project.id}
                 postUrl={Astro.url.href}
               />
             </div>
@@ -333,7 +334,7 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
   </div>
 
   <Fragment slot="scripts">
-    <script define:vars={{ posts: visiblePosts, commentsEnabled: siteConfig.postOptions.comments.enabled, postTitle: project.data.title, postSlug: project.slug }}>
+    <script define:vars={{ posts: visiblePosts, commentsEnabled: siteConfig.postOptions.comments.enabled, postTitle: project.data.title, postSlug: project.id }}>
       // Remove duplicate H1 from project content (since we render it in header)
       document.addEventListener('DOMContentLoaded', function() {
         const projectContent = document.getElementById('project-content');
@@ -351,7 +352,7 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
         function initializeImageGrids() {
           // Check if browser supports :has() selector
           const supportsHas = CSS.supports('selector(:has(img))');
-          
+
           if (supportsHas) {
             // Browser supports :has(), CSS will handle it automatically
             return;
@@ -362,10 +363,10 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
 
           paragraphs.forEach(p => {
             const images = p.querySelectorAll('img, picture');
-            const textNodes = Array.from(p.childNodes).filter(node => 
+            const textNodes = Array.from(p.childNodes).filter(node =>
               node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== ''
             );
-            const otherElements = Array.from(p.childNodes).filter(node => 
+            const otherElements = Array.from(p.childNodes).filter(node =>
               node.nodeType === Node.ELEMENT_NODE && !['IMG', 'PICTURE', 'BR'].includes(node.tagName)
             );
 
@@ -383,7 +384,7 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
 
         // Initialize image grids
         initializeImageGrids();
-        
+
         // Process all external links in content to open in new tabs (including reference links)
         const allLinks = document.querySelectorAll('.prose a[href]');
         allLinks.forEach(link => {
@@ -396,36 +397,52 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
             }
           }
         });
-        
+
         // Make initializeImageGrids globally accessible
         window.initializeImageGrids = initializeImageGrids;
 
         // Process wikilinks - unified logic for all wikilink types
-        const wikilinks = document.querySelectorAll('.wikilink[data-wikilink]');
+        function initializeWikilinks() {
+          const wikilinks = document.querySelectorAll('.wikilink[data-wikilink]');
 
-        wikilinks.forEach(link => {
-          const linkText = link.dataset.wikilink;
-          const displayOverride = link.dataset.displayOverride;
-          const currentDisplayText = link.textContent;
+          wikilinks.forEach(link => {
+            const linkText = link.dataset.wikilink;
+            const displayOverride = link.dataset.displayOverride;
+            const currentDisplayText = link.textContent;
 
-          // Find the matching post
-          const slug = linkText.toLowerCase()
-            .replace(/[^a-z0-9\s-]/g, '')
-            .replace(/\s+/g, '-')
-            .replace(/-+/g, '-')
-            .replace(/^-+|-+$/g, '');
+            // Find the matching post - use id (not slug, which is deprecated in Astro v6)
+            const slug = linkText.toLowerCase()
+              .replace(/[^a-z0-9\s-]/g, '')
+              .replace(/\s+/g, '-')
+              .replace(/-+/g, '-')
+              .replace(/^-+|-+$/g, '');
 
-          const post = posts.find(p => p.slug === slug);
-          
+            // Helper function to create slug from title (same as resolveWikilink logic)
+            const createSlugFromTitle = (title: string) => {
+              return title.toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .replace(/^-+|-+$/g, '');
+            };
+
+            // First try exact id match (Astro v6 uses id, not slug)
+            let post = posts.find(p => p.id === slug);
+            
+            // If not found, try title match (for wikilinks that use post titles)
+            if (!post) {
+              post = posts.find(p => createSlugFromTitle(p.data.title) === slug);
+            }
+
           if (post) {
             // Update href
-            link.href = `/posts/${post.slug}`;
-            
-            // Simple logic: 
+            link.href = `/posts/${post.id}`;
+
+            // Simple logic:
             // - If displayOverride exists and is not null, it's a wikilink with custom text [[link|display]] - use it
             // - If displayOverride is null/undefined, it's a standard markdown link [text](url) - NEVER change the text
             // - If displayOverride is empty string, it's a naked wikilink [[link]] - use post title
-            
+
             if (displayOverride && displayOverride !== 'null' && displayOverride !== 'undefined') {
               // Wikilink with custom display: [[link|display]]
               link.textContent = displayOverride;
@@ -442,43 +459,16 @@ const { prev: prevProject, next: nextProject } = getAdjacentPosts(visibleProject
             link.title = 'Link not found';
           }
         });
+      }
+
+      // Make function globally available for Swup re-initialization
+      window.initializeWikilinks = initializeWikilinks;
+
+      // Initialize wikilinks on initial load
+      initializeWikilinks();
       });
 
-      // Handle Swup page transitions for comments
-      document.addEventListener('swup:contentReplaced', () => {
-        // Re-initialize image grids after content replacement
-        setTimeout(() => {
-          if (window.initializeImageGrids) {
-            window.initializeImageGrids();
-          }
-
-          // Comments are now handled globally by BaseLayout Swup hooks
-        }, 100);
-
-        // Initialize lightbox functionality for images
-        function initializeLightbox() {
-          const images = document.querySelectorAll('img');
-          images.forEach((img, index) => {
-            // Skip images that are already clickable (like in galleries)
-            if (img.closest('a') || img.closest('.image-grid')) {
-              return;
-            }
-
-            // Make image clickable
-            img.style.cursor = 'pointer';
-            img.addEventListener('click', () => {
-              // Dispatch custom event to open lightbox
-              window.dispatchEvent(new CustomEvent('openLightbox', {
-                detail: { index }
-              }));
-            });
-          });
-        }
-
-        // Initialize lightbox after a short delay to ensure images are loaded
-        setTimeout(initializeLightbox, 200);
-
-      });
+      // Image grids, lightbox, and external links are now handled globally by BaseLayout Swup hooks
 
     </script>
   </Fragment>
