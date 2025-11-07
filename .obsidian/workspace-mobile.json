@@ -55,30 +55,44 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/docs/文档图片.md",
+                "file": "src/content/projects/astro-composer.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
-              "title": "文档图片"
+              "title": "astro-composer"
             }
           },
           {
-            "id": "68751bb52de8b511",
+            "id": "0359fde2bfcf867b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/posts/测试图片.md",
+                "file": "src/content/posts/测试 同步.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
-              "title": "测试图片"
+              "title": "测试 同步"
+            }
+          },
+          {
+            "id": "78d2537f47603531",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/posts/测试 同步.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "测试 同步"
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 5
       }
     ],
     "direction": "vertical"
@@ -212,53 +226,53 @@
       "bases:创建新数据库": false
     }
   },
-  "active": "68751bb52de8b511",
+  "active": "78d2537f47603531",
   "lastOpenFiles": [
-    "src/content/posts/测试插入图片.md",
-    "src/content/posts/测试图片.md",
-    "().md",
-    "src/content/docs/文档图片.md",
-    "src/content/docs/api.md",
-    "/src/layouts/DocumentationLayout.astro",
-    "/src/layouts",
-    "/src/pages/docs/[slug].astro",
-    "/src/pages/docs",
-    "/src/pages",
-    "/src/components/ImageWrapper.astro",
-    "/src/components",
-    "/src",
-    "src/content/docs/configuration.md",
-    "src/content/docs/插入图片用法.md",
+    "src/content/projects/astro-composer.md",
+    "src/content/posts/测试 同步.md",
     "src/content/docs/installing-obsidian.md",
-    "src/content/posts/formatting-reference.md",
-    "src/content/special/404.md",
-    "src/content/special/docs.md",
-    "src/content/special/posts.md",
-    "src/content/special/home.md",
-    "测试.md",
-    "src/pages/posts/tag/[...tag]/[page].astro",
-    "src/pages/posts/tag/[...tag].astro",
+    "src/content/posts/测试图片.md",
+    "src/content/docs/panel.mdx",
+    "src/utils/remark-bases.ts",
+    "src/content/docs/publicdns.mdx",
+    "src/content/posts/testlocation.mdx",
+    "src/content/posts/芒市芒杏村.mdx",
+    "src/content/posts/昆明玉溪小吃店.mdx",
+    "src/content/posts/芒市品滇边境食堂.mdx",
+    "src/components/Location.jsx",
+    "src/content/posts/芒市一禾酒店.mdx",
+    "src/content/docs/immortalwrt.mdx",
+    "/src/content/special/projects.md",
+    "/src/content/special/posts.md",
+    "/src/content/special/home.md",
+    "/src/content/special/docs.md",
+    "/src/content/special/404.md",
+    "/src/content/projects/obsidian-astro-suite/index.md",
+    "/src/content/projects/astro-composer.md",
+    "/src/content/posts/sample-folder-based-post/index.md",
+    "/src/content/posts/obsidian-vault-guide.md",
+    "/src/content/posts/mermaid-diagrams.md",
+    "/src/content/posts/getting-started.md",
+    "/src/content/posts/formatting-reference.md",
+    "/src/content/pages/thank-you.md",
+    "/src/content/pages/contact.md",
+    "/src/content/pages/about.md",
+    "/src/content/docs/sourcetree-and-git-setup/index.md",
+    "/src/content/docs/installing-obsidian.md",
+    "/src/content/docs/configuration.md",
+    "/src/content/docs/api.md",
+    "/README.md",
+    "/AGENTS.md",
+    "src/content/posts/测试插入图片.md",
     "src/content/pages/attachments/water.png",
     "src/content/docs/attachments/astro-modular-configuration.png",
     "src/content/docs/attachments/obsidian-cover.png",
-    "src/content/docs/sourcetree-and-git-setup/index.md",
     "src/content/docs/sourcetree-and-git-setup/sourcetree.png",
     "src/content/projects/attachments/rock.png",
     "src/content/projects/obsidian-astro-suite/glacier.png",
-    "src/content/projects/obsidian-astro-suite/index.md",
     "src/content/posts/attachments/sunset.jpg",
     "src/content/posts/attachments/astro-composer-suite-for-obsidian.png",
     "src/content/posts/attachments/mountains.png",
-    "src/content/posts/attachments/mountains-clouds.png",
-    "src/content/posts/sample-folder-based-post/index.md",
-    "src/themes/custom/README.md",
-    "src/content/pages/about.md",
-    "src/content/pages/contact.md",
-    "src/content/pages/privacy-policy.md",
-    "src/content/pages/thank-you.md",
-    "src/content/special/projects.md",
-    "src/content/projects/astro-composer.md",
-    "src/content/posts/obsidian-vault-guide.md",
-    "src/content/posts/getting-started.md"
+    "src/content/posts/attachments/mountains-clouds.png"
   ]
 }
